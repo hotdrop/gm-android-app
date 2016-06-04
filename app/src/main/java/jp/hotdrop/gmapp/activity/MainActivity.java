@@ -1,20 +1,33 @@
-package jp.hotdrop.gmapp;
+package jp.hotdrop.gmapp.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity
+import jp.hotdrop.gmapp.R;
+
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String EXTRA_IS_REFRESH = "isRefresh";
+
+    static void start(@NonNull Activity activity, boolean isRefresh) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.putExtra(EXTRA_IS_REFRESH, isRefresh);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
