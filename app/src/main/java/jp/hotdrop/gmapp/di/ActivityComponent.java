@@ -9,4 +9,6 @@ import jp.hotdrop.gmapp.di.scope.ActivityScope;
 public interface ActivityComponent {
 
     void inject(MainActivity activity);
+
+    FragmentComponent plus(FragmentModule module);
 }

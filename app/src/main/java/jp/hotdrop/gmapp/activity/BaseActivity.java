@@ -1,5 +1,6 @@
 package jp.hotdrop.gmapp.activity;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import jp.hotdrop.gmapp.MainApplication;
@@ -10,6 +11,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ActivityComponent activityComponent;
 
+    @NonNull
     public ActivityComponent getComponent() {
         if(activityComponent == null) {
             MainApplication mainApplication = (MainApplication)getApplication();

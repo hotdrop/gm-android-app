@@ -33,4 +33,7 @@
     <string name="label_stock_price">仕入れ価格：</string>
     <string name="label_stock_num">仕入れ数：</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
