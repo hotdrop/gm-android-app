@@ -2,6 +2,11 @@
     <string name="app_name">GMApp</string>
     <string name="app_title">在庫管理アプリ</string>
 
+    <string name="open">ひらく</string>
+    <string name="close">とじる</string>
+    <string name="ok">OK</string>
+    <string name="cancel">キャンセル</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
