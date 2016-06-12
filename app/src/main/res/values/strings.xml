@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GMApp</string>
+    <string name="app_name">在庫管理アプリ</string>
     <string name="app_title">在庫管理アプリ</string>
 
     <string name="tag_line">アプリのメニューです。</string>
@@ -9,38 +9,9 @@
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="goods_list">商品一覧</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">設定</string>
     <string name="about">このアプリについて</string>
-
     <string name="search">検索</string>
-
-    <string name="title_activity_goods_view">GoodsView</string>
-    <string name="title_activity_goods_table_row">GoodsTableRow</string>
-    <string name="title_activity_goods_register">GoodsRegister</string>
-    <string name="title_activity_goods_update">GoodsUpdate</string>
-
-    <string name="menu_title_goods_register">商品情報登録</string>
-    <string name="menu_title_goods_update">商品情報修正</string>
-
-    <string name="spinner_prompt_goods_category">選択してください</string>
-
-    <string name="goods_list_no">No</string>
-    <string name="goods_list_type">種類</string>
-    <string name="goods_list_name">商品名</string>
-    <string name="goods_list_last_stock_date">前回仕入日</string>
-    <string name="goods_list_amount">残量</string>
-
-    <string name="label_goods_type">種類：</string>
-    <string name="label_goods_name">商品名：</string>
-    <string name="label_stock_date">仕入れ日：</string>
-    <string name="label_stock_price">仕入れ価格：</string>
-    <string name="label_stock_num">仕入れ数：</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

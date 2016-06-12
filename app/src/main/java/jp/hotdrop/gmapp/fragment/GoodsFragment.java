@@ -214,7 +214,7 @@ public class GoodsFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO 右上の検索アイコン選択時の動作を書く
+        // TODO 検索アイコン選択時の動作を書く
         return super.onOptionsItemSelected(item);
     }
 
