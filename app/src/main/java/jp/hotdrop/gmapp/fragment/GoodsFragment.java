@@ -127,9 +127,8 @@ public class GoodsFragment extends BaseFragment {
     protected Subscription loadData() {
         showLoadingView();
         Observable<List<Goods>> cachedGoodsList = dao.selectAll();
-        return cachedGoodsList.flatMap(goodsList -> {
-            return Observable.just(goodsList);
-        }).subscribeOn(Schedulers.io())
+        return cachedGoodsList.flatMap(goodsList -> Observable.just(goodsList))
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         this::onLoadDataSuccess,
@@ -219,6 +218,10 @@ public class GoodsFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * アダプタークラス
+     *
+     */
     private class GoodsPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<GoodsTabFragment> fragments = new ArrayList<>();

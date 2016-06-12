@@ -1,6 +1,5 @@
 package jp.hotdrop.gmapp.util;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,32 +9,30 @@ import java.util.Date;
 public class DateUtil {
 
     /**
-     * yyyy/MM/dd 形式の文字列日付を、UNIXエポック表現で取得します。
-     *
-     * @param argTextDate yyyy/MM/dd形式の文字列
-     * @return UNIXエポック
+     * Unixエポック（long型）を日付形式に変換して取得します。
+     * @param argEpoch
+     * @return
      */
-    public static Long stringToLong(String argTextDate) {
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-            Date date = sdf.parse(argTextDate);
-            return date.getTime();
-        } catch(ParseException pe) {
-            throw new IllegalStateException("yyyy/MM/ddの形式に変換できない文字列が渡されました。textDate=" + argTextDate, pe);
-        }
+    public static Date longToDate(long argEpoch) {
+        return new Date(argEpoch);
     }
 
     /**
-     * UNIXエポックを、yyyy/MM/dd 形式の文字列表現で取得します。
-     * @param argEpochDate UNIXエポック
-     * @return 引数が1以上であればyyyy/MM/ddの文字列表現、0以下であれば空
+     * 日付形式のデータをUnixエポックに変換して取得します。
+     * @param argDate
+     * @return
      */
-    public static String longToString(long argEpochDate) {
-        if(argEpochDate <= 0L) {
-            return "";
-        }
+    public static long dateToLong(Date argDate) {
+        return argDate.getTime();
+    }
+
+    /**
+     * 日付型データを yyyy/MM/dd 形式の文字列表現で取得します。
+     * @param argDate
+     * @return
+     */
+    public static String dateToString(Date argDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = new Date(argEpochDate);
-        return sdf.format(date);
+        return sdf.format(argDate);
     }
 }

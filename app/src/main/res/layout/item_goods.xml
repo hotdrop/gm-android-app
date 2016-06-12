@@ -91,7 +91,7 @@
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text_small"
                     android:gravity="center_vertical"
-                    android:text="@{DateUtil.longToString(goods.lastStockingDateUnixEpoch)}" />
+                    android:text="@{DateUtil.dateToString(goods.lastStockDate)}" />
 
             </RelativeLayout>
 

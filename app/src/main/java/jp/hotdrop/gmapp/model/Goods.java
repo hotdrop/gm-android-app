@@ -1,5 +1,10 @@
 package jp.hotdrop.gmapp.model;
 
+import java.util.Date;
+
+/**
+ * 商品情報を保持するモデルクラス
+ */
 public class Goods {
 
     private String id;
@@ -8,23 +13,16 @@ public class Goods {
     private String categoryName;
     private int amount = 0;
     private int stockNum = 0;
-    private long lastStockingDateUnixEpoch = 0L;
-    private long lastStockingPrice = 0L;
-    private long lastUpdateDateUnixEpoch = 0L;
+    private Date lastStockDate;
+    private long lastStockPrice = 0L;
+    private Date lastUpdateDate;
 
-    /**
-     * 商品名とカテゴリーIDを基に商品情報を生成します。
-     * @param argName 商品名
-     * @param argCategoryId カテゴリーID
-     */
-    public Goods(String argName, int argCategoryId) {
-        name = argName;
-        categoryId = argCategoryId;
+    public Goods() {
     }
 
     /**
      * 商品IDを設定します。
-     * @param argId 商品ID
+     * @param argId
      */
     public void setId(String argId) {
         id = argId;
@@ -32,32 +30,38 @@ public class Goods {
 
     /**
      * 商品IDを取得します。
-     * @return 商品ID
+     * @return
      */
     public String getId() {
         return id;
     }
 
+    /**
+     * 商品名を設定します。
+     * @param argName
+     */
     public void setName(String argName) {
         name = argName;
     }
 
     /**
      * 商品名を取得します。
-     * 商品名はコンストラクタで設定するためセッターは存在しません。
-     * @return 商品名
+     * @return
      */
     public String getName() {
         return name;
     }
 
+    /**
+     * 商品のカテゴリーIDを設定します。
+     * @param argCategoryId
+     */
     public void setCategoryId(int argCategoryId) {
         categoryId = argCategoryId;
     }
     /**
      * 商品のカテゴリーIDを取得します。
-     * カテゴリーIDはコンストラクタで設定するためセッターは存在しません。
-     * @return カテゴリーID
+     * @return
      */
     public int getCategoryId() {
         return categoryId;
@@ -65,7 +69,7 @@ public class Goods {
 
     /**
      * 商品のカテゴリー名を設定します。
-     * @param argCategoryName 商品のカテゴリー名
+     * @param argCategoryName
      */
     public void setCategoryName(String argCategoryName) {
         categoryName = argCategoryName;
@@ -73,7 +77,7 @@ public class Goods {
 
     /**
      * 商品のカテゴリー名を取得します。
-     * @return 商品のカテゴリー名
+     * @return
      */
     public String getCategoryName() {
         return categoryName;
@@ -82,7 +86,7 @@ public class Goods {
     /**
      * 現商品の残量情報を設定します。
      * 必ず本クラスのstaticフィールド（AMOUNT_FULL等）を使用して設定してください。
-     * @param argAmount 現商品の残量
+     * @param argAmount
      */
     public void setAmount(int argAmount) {
         amount = argAmount;
@@ -90,7 +94,7 @@ public class Goods {
 
     /**
      * 現商品の残量情報を取得します。
-     * @return 現商品の残量
+     * @return
      */
     public int getAmount() {
         return amount;
@@ -98,7 +102,7 @@ public class Goods {
 
     /**
      * 商品の在庫数を設定します。
-     * @param argStockNum 商品の在庫数
+     * @param argStockNum
      */
     public void setStockNum(int argStockNum) {
         stockNum = argStockNum;
@@ -106,57 +110,57 @@ public class Goods {
 
     /**
      * 商品の在庫数を取得します。
-     * @return 商品の在庫数
+     * @return
      */
     public Integer getStockNum() {
         return stockNum;
     }
 
     /**
-     * 前回仕入れ日のUNIXエポックを設定します。
-     * @param argUnixEpoch 前回仕入れ日のUNIXエポック
+     * 前回仕入れ日を設定します。
+     * @param argDate
      */
-    public void setLastStockingDateUnixEpoch(long argUnixEpoch) {
-        lastStockingDateUnixEpoch = argUnixEpoch;
+    public void setLastStockDate(Date argDate) {
+        lastStockDate = argDate;
     }
 
     /**
-     * 前回仕入れ日のUNIXエポックを取得します。
-     * @return 前回仕入れ日のUNIXエポック
+     * 前回仕入れ日を取得します。
+     * @return
      */
-    public long getLastStockingDateUnixEpoch() {
-        return lastStockingDateUnixEpoch;
+    public Date getLastStockDate() {
+        return lastStockDate;
     }
 
     /**
      * 前回仕入れ価格を設定します。
-     * @param argLastStockingPrice 前回仕入れ価格
+     * @param argLastStockingPrice
      */
-    public void setLastStockingPrice(long argLastStockingPrice) {
-        lastStockingPrice = argLastStockingPrice;
+    public void setLastStockPrice(long argLastStockingPrice) {
+        lastStockPrice = argLastStockingPrice;
     }
 
     /**
      * 前回仕入れ価格を取得します。
-     * @return 前回仕入れ価格
+     * @return
      */
-    public long getLastStockingPrice() {
-        return lastStockingPrice;
+    public long getLastStockPrice() {
+        return lastStockPrice;
     }
 
     /**
-     * 最終更新日のUNIXエポックを設定します。
-     * @param argUnixEpoch 最終更新日のUNIXエポック
+     * 最終更新日を設定します。
+     * @param argDate
      */
-    public void setLastUpdateDateUnixEpoch(long argUnixEpoch) {
-        lastUpdateDateUnixEpoch = argUnixEpoch;
+    public void setLastUpdateDate(Date argDate) {
+        lastUpdateDate = argDate;
     }
 
     /**
-     * 最終更新日のUNIXエポックを取得します。
-     * @return 最終更新日のUNIXエポック
+     * 最終更新日を取得します。
+     * @return
      */
-    public long getLastUpdateDateUnixEpoch() {
-        return lastUpdateDateUnixEpoch;
+    public Date getLastUpdateDate() {
+        return lastUpdateDate;
     }
 }

@@ -17,7 +17,6 @@ import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.activity.ActivityNavigator;
-import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsTabBinding;
 import jp.hotdrop.gmapp.databinding.ItemGoodsBinding;
 import jp.hotdrop.gmapp.model.Goods;
@@ -28,7 +27,6 @@ public class GoodsTabFragment extends BaseFragment {
 
     protected static final String ARG_GOODS = "goods";
 
-    GoodsDao dao;
     @Inject
     ActivityNavigator activityNavigator;
 
@@ -74,8 +72,6 @@ public class GoodsTabFragment extends BaseFragment {
 
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //int spacing = getResources().getDimensionPixelSize(R.dimen.spacing_small);
-        //binding.recyclerView.addItemDecoration(new SpaceItemDecoration(spacing));
         adapter.addAll(goodsList);
     }
 
@@ -86,7 +82,6 @@ public class GoodsTabFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // TODO
     }
 
     public void scrollUpToTop() {
@@ -121,7 +116,6 @@ public class GoodsTabFragment extends BaseFragment {
             binding.setGoods(goods);
 
             // TODO
-
             // GONEにすると表示されない
             //binding.txtName.setVisibility(View.GONE);
 

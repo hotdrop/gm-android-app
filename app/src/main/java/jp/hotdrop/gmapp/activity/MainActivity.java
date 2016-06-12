@@ -43,11 +43,6 @@ public class MainActivity extends BaseActivity
 
     private ActivityMainBinding binding;
 
-    /**
-     *
-     * @param activity
-     * @param isRefresh
-     */
     static void start(@NonNull Activity activity, boolean isRefresh) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.putExtra(EXTRA_IS_REFRESH, isRefresh);
@@ -164,7 +159,6 @@ public class MainActivity extends BaseActivity
         FragmentManager fm = getSupportFragmentManager();
         Fragment current = fm.findFragmentById(R.id.content_view);
         if (current == null) {
-            // no more fragments in the stack. finish.
             finish();
             return;
         }

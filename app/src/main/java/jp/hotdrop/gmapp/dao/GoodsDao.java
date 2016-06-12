@@ -6,11 +6,26 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 import jp.hotdrop.gmapp.model.Goods;
+import jp.hotdrop.gmapp.util.DateUtil;
 import rx.Observable;
 
 public class GoodsDao {
+
+    private static final String SQL_SELECT_FROM = "SELECT " +
+            "        gs.id AS id, " +
+            "        gs.name AS name, " +
+            "        category_id, " +
+            "        gc.name AS category_name, " +
+            "        amount," +
+            "        stock_num, " +
+            "        last_stock_date, " +
+            "        last_stock_price, " +
+            "        last_update_date" +
+            " FROM t_goods gs " +
+            "    LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
 
     private DatabaseHelper dbHelper;
     private SQLiteDatabase db;
@@ -25,28 +40,22 @@ public class GoodsDao {
         dbHelper = new DatabaseHelper(context);
     }
 
+    /**
+     * 全商品を取得します。
+     * @return
+     */
     public Observable<List<Goods>> selectAll() {
 
         if(db == null) {
             db = dbHelper.getReadableDatabase();
         }
 
-        String sql = "SELECT gs.id AS id, gs.name AS name, category_id, gc.name AS category_name, amount, stock_num, " +
-                "last_stocking_date, last_stocking_price, last_update_date" +
-                " FROM t_goods gs LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
+        String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, gs.id";
 
         List<Goods> goodsList = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
-            Goods goods = new Goods(cursor.getString(cursor.getColumnIndex("name")),
-                    cursor.getInt(cursor.getColumnIndex("category_id")));
-            goods.setId(cursor.getString(cursor.getColumnIndex("id")));
-            goods.setCategoryName(cursor.getString(cursor.getColumnIndex("category_name")));
-            goods.setAmount(cursor.getInt(cursor.getColumnIndex("amount")));
-            goods.setStockNum(cursor.getInt(cursor.getColumnIndex("stock_num")));
-            goods.setLastStockingDateUnixEpoch(cursor.getLong(cursor.getColumnIndex("last_stocking_date")));
-            goods.setLastStockingPrice(cursor.getInt(cursor.getColumnIndex("last_stocking_price")));
-            goods.setLastUpdateDateUnixEpoch(cursor.getLong(cursor.getColumnIndex("last_update_date")));
+            Goods goods = createGoods(cursor);
             goodsList.add(goods);
         }
 
@@ -54,9 +63,9 @@ public class GoodsDao {
     }
 
     /**
-     * 指定したIDの商品情報を取得します。
-     * @param id Goodsテーブルのid
-     * @return Goodsテーブルから取得した１レコード分のデータオブジェクト
+     * 指定したIDの商品を取得します。
+     * @param id
+     * @return
      */
     public Goods select(String id) {
 
@@ -66,114 +75,103 @@ public class GoodsDao {
             db = dbHelper.getReadableDatabase();
         }
 
-        String sql = "SELECT gs.name AS name, category_id, gc.name AS category_name, amount, stock_num, " +
-                "last_stocking_date, last_stocking_price, last_update_date" +
-                " FROM t_goods gs LEFT JOIN m_goods_category gc ON gs.category_id = gc.id" +
-                " WHERE gs.id = ?";
+        String sql = SQL_SELECT_FROM + " WHERE gs.id = ?";
         String[] bind = {id};
 
         Cursor cursor = db.rawQuery(sql, bind);
         if (cursor.moveToNext()) {
-            goods = new Goods(cursor.getString(cursor.getColumnIndex("name")),
-                    cursor.getInt(cursor.getColumnIndex("category_id")));
-            goods.setCategoryName(cursor.getString(cursor.getColumnIndex("category_name")));
-            goods.setAmount(cursor.getInt(cursor.getColumnIndex("amount")));
-            goods.setStockNum(cursor.getInt(cursor.getColumnIndex("stock_num")));
-            goods.setLastStockingDateUnixEpoch(cursor.getLong(cursor.getColumnIndex("last_stocking_date")));
-            goods.setLastStockingPrice(cursor.getInt(cursor.getColumnIndex("last_stocking_price")));
-            goods.setLastUpdateDateUnixEpoch(cursor.getLong(cursor.getColumnIndex("last_update_date")));
-            goods.setId(id);
+            goods = createGoods(cursor);
         }
 
         return goods;
     }
 
+
     /**
-     * 商品をデータベースに登録する。
-     * @param data 商品情報
+     * 商品をデータベースに登録します。
+     * @param goods 商品情報
      */
-    public void insert(Goods data) {
+    public void insert(Goods goods) {
 
         if(db == null) {
-            //プログラムエラー。beginTranを実行せずにinsertを実行
+            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにinsertを実行しています。");
         }
-
-        long lastUpdateDate = System.currentTimeMillis();
 
         String sql = "INSERT INTO t_goods" +
                 "  (name, category_id, stock_num, last_stocking_date, last_stocking_price, last_update_date) " +
-                "VALUES" +
+                " VALUES " +
                 "  (?, ?, ?, ?, ?, ?)";
-        String[] bind = {data.getName(),
-                String.valueOf(data.getCategoryId()),
-                String.valueOf(data.getStockNum()),
-                String.valueOf(data.getLastStockingDateUnixEpoch()),
-                String.valueOf(data.getLastStockingPrice()),
-                String.valueOf(lastUpdateDate)};
+
+        String[] bind = {goods.getName(),
+                String.valueOf(goods.getCategoryId()),
+                String.valueOf(goods.getStockNum()),
+                String.valueOf(DateUtil.dateToLong(goods.getLastStockDate())),
+                String.valueOf(goods.getLastStockPrice()),
+                String.valueOf(System.currentTimeMillis())};
 
         db.execSQL(sql, bind);
     }
 
     /**
-     * 既に登録されている商品情報を更新する。
-     * ただしamountはこのメソッドでは更新せず、専用のメソッドでのみ更新する。
-     * @param data 商品情報
+     * 商品情報を更新します。
+     * ただし、amountは別途更新用の処理があるため、ここでは更新しません。
+     * @param goods 商品情報
      */
-    public void update(Goods data) {
+    public void update(Goods goods) {
 
         if(db == null) {
-            //プログラムエラー。beginTranを実行せずにupdateを実行
+            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateを実行しています。");
         }
-        long lastUpdateDate = System.currentTimeMillis();
 
         String sql = "UPDATE t_goods SET" +
                 " name = ?, category_id = ?, stock_num = ?, last_stocking_date = ?, " +
                 " last_stocking_price = ?, last_update_date = ? " +
-                "WHERE id = ? ";
-        String[] bind = {data.getName(),
-                String.valueOf(data.getCategoryId()),
-                String.valueOf(data.getStockNum()),
-                String.valueOf(data.getLastStockingDateUnixEpoch()),
-                String.valueOf(data.getLastStockingPrice()),
-                String.valueOf(lastUpdateDate),
-                data.getId()};
+                " WHERE id = ? ";
+        String[] bind = {goods.getName(),
+                String.valueOf(goods.getCategoryId()),
+                String.valueOf(goods.getStockNum()),
+                String.valueOf(DateUtil.dateToLong(goods.getLastStockDate())),
+                String.valueOf(goods.getLastStockPrice()),
+                String.valueOf(System.currentTimeMillis()),
+                goods.getId()};
 
         db.execSQL(sql, bind);
     }
 
     /**
      * 残量（amount）を更新します。
-     * @param goodsId 商品ID
+     * @param id 商品ID
      * @param amount 残量
      */
-    public void updateAmount(String goodsId, int amount) {
+    public void updateAmount(String id, int amount) {
 
         if(db == null) {
-            // プログラムエラー。beginTranを実行せずにupdateAmountを実行
+            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateAmountを実行しています。");
         }
-
-        long lastUpdateDate = System.currentTimeMillis();
 
         String sql = "UPDATE t_goods SET" +
                 " amount = ?, last_update_date = ? " +
                 "WHERE id = ? ";
-        String[] bind = {String.valueOf(amount), String.valueOf(lastUpdateDate), goodsId};
+
+        String[] bind = {String.valueOf(amount),
+                String.valueOf(System.currentTimeMillis()),
+                id};
 
         db.execSQL(sql, bind);
     }
 
     /**
      * 商品情報を削除します。
-     * @param goodsId 商品ID
+     * @param id 商品ID
      */
-    public void delete(String goodsId) {
+    public void delete(String id) {
 
         if(db == null) {
-            // プログラムエラー。beginTranを実行せずにdeleteを実行
+            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにdeleteを実行しています。");
         }
 
         String sql = "DELETE FROM t_goods WHERE id = ? ";
-        String[] bind = {goodsId};
+        String[] bind = {id};
 
         db.execSQL(sql, bind);
     }
@@ -203,4 +201,35 @@ public class GoodsDao {
         db.close();
     }
 
+    /**
+     * カーソルから各値を取得し商品情報を生成する。
+     * @param cursor
+     * @return
+     */
+    private Goods createGoods(Cursor cursor) {
+        Goods goods = new Goods();
+        goods.setId(getCursorString(cursor, "id"));
+        goods.setName(getCursorString(cursor, "name"));
+        goods.setCategoryId(getCursorInt(cursor, "category_id"));
+        goods.setCategoryName(getCursorString(cursor, "category_name"));
+        goods.setAmount(getCursorInt(cursor, "amount"));
+        goods.setStockNum(getCursorInt(cursor, "stock_num"));
+        goods.setLastStockDate(getCursorDate(cursor, "last_stock_date"));
+        goods.setLastStockPrice(getCursorInt(cursor, "last_stock_price"));
+        goods.setLastUpdateDate(getCursorDate(cursor, "last_update_date"));
+        return goods;
+    }
+
+    private String getCursorString(Cursor cursor, String itemName) {
+        return cursor.getString(cursor.getColumnIndex(itemName));
+    }
+
+    private int getCursorInt(Cursor cursor, String itemName) {
+        return cursor.getInt(cursor.getColumnIndex(itemName));
+    }
+
+    private Date getCursorDate(Cursor cursor, String itemName) {
+        long unixEpoch = cursor.getLong(cursor.getColumnIndex(itemName));
+        return DateUtil.longToDate(unixEpoch);
+    }
 }
