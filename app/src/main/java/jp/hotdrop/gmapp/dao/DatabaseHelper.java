@@ -13,13 +13,11 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    /** DB名 */
-    private static final String DB_FILE_NAME = "InventoryDB.db";
-    /** DBバージョン。sqlファイルを更新した際にカウントアップします */
-    private static final int DB_VERSION = 4;
+    private static final String DB_FILE_NAME = "GMApp.db";
+    private static final int DB_VERSION = 1;
+
     /** 複数SQL文が書かれたファイルを読み込んだ際の、各SQL文の区切りを示す文字 */
     private static final String DELIMITER_OF_SQL_STATEMENT = ";";
-    /** コンテキスト */
     private Context myContext;
 
     public DatabaseHelper(Context context) {

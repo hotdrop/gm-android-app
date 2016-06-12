@@ -2,6 +2,8 @@
     <string name="app_name">GMApp</string>
     <string name="app_title">在庫管理アプリ</string>
 
+    <string name="tag_line">アプリのメニューです。</string>
+
     <string name="open">ひらく</string>
     <string name="close">とじる</string>
     <string name="ok">OK</string>

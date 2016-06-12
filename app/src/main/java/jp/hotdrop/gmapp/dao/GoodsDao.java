@@ -27,6 +27,10 @@ public class GoodsDao {
 
     public Observable<List<Goods>> selectAll() {
 
+        if(db == null) {
+            db = dbHelper.getReadableDatabase();
+        }
+
         String sql = "SELECT gs.id AS id, gs.name AS name, category_id, gc.name AS category_name, amount, stock_num, " +
                 "last_stocking_date, last_stocking_price, last_update_date" +
                 " FROM t_goods gs LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";

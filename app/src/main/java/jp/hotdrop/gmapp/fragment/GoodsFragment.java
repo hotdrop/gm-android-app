@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +22,7 @@ import java.util.TreeMap;
 
 import javax.inject.Inject;
 
+import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsListBinding;
 import jp.hotdrop.gmapp.model.Goods;
@@ -91,6 +94,8 @@ public class GoodsFragment extends BaseFragment {
         if (getArguments() != null) {
             this.isRefresh = getArguments().getBoolean(ARG_IS_REFRESH);
         }
+
+        dao = new GoodsDao(this.getActivity());
     }
 
     /**
@@ -200,7 +205,12 @@ public class GoodsFragment extends BaseFragment {
 
     private void addFragment(String title, List<Goods> goodsList) {
         GoodsTabFragment fragment = createTabFragment(goodsList);
-        // TODO
+        adapter.add(title, fragment);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_goods_list, menu);
     }
 
     private class GoodsPagerAdapter extends FragmentStatePagerAdapter {
