@@ -122,7 +122,8 @@ public class GoodsTabFragment extends BaseFragment {
 
             // TODO
 
-            binding.txtGoodsName.setVisibility(View.GONE);
+            // GONEにすると表示されない
+            //binding.txtName.setVisibility(View.GONE);
 
             // TODO 量のクリックイベントを実装する
 
