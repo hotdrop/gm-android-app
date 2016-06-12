@@ -37,7 +37,7 @@ public class GoodsDao {
 
         List<Goods> goodsList = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             Goods goods = new Goods(cursor.getString(cursor.getColumnIndex("name")),
                     cursor.getInt(cursor.getColumnIndex("category_id")));
             goods.setId(cursor.getString(cursor.getColumnIndex("id")));

@@ -108,7 +108,7 @@ public class Goods {
      * 商品の在庫数を取得します。
      * @return 商品の在庫数
      */
-    public int getStockNum() {
+    public Integer getStockNum() {
         return stockNum;
     }
 

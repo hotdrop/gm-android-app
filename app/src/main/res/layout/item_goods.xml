@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="jp.hotdrop.gmapp.util.DateUtil" />
         <variable name="goods" type="jp.hotdrop.gmapp.model.Goods" />
     </data>
 
@@ -38,19 +39,59 @@
                     android:text="@{goods.name}" />
 
                 <TextView
-                    android:id="@+id/txt_category"
-                    android:layout_width="match_parent"
+                    android:id="@+id/label_stock_num"
+                    style="@style/TextSub"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_name"
-                    android:layout_marginTop="@dimen/spacing_small"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:text="在庫数：" />
+
+                <TextView
+                    android:id="@+id/txt_stock_num"
+                    style="@style/TextSub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/label_stock_num"
+                    android:layout_alignTop="@id/label_stock_num"
+                    android:layout_below="@id/txt_name"
+                    android:layout_toRightOf="@id/label_stock_num"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:text="@{goods.stockNum.toString()}" />
+
+                <TextView
+                    android:id="@+id/label_last_stock_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_stock_num"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:text="前回仕入れ日：" />
+
+                <TextView
+                    android:id="@+id/txt_last_stock_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_stock_num"
+                    android:layout_toRightOf="@id/label_last_stock_date"
+                    android:layout_alignBottom="@id/label_last_stock_date"
+                    android:layout_alignTop="@id/label_last_stock_date"
+
                     android:drawableLeft="@drawable/ic_access_time_grey_500_12dp_vector_state"
-                    android:drawablePadding="@dimen/icon_spacing_small"
+
                     android:drawableStart="@drawable/ic_access_time_grey_500_12dp_vector_state"
                     android:ellipsize="end"
                     android:lines="1"
                     android:textColor="@color/gray"
                     android:textSize="@dimen/text_small"
-                    android:text="@{goods.categoryName}" />
+                    android:gravity="center_vertical"
+                    android:text="@{DateUtil.longToString(goods.lastStockingDateUnixEpoch)}" />
 
             </RelativeLayout>
 

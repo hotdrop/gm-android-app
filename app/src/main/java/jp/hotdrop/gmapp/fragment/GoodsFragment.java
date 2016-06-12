@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -140,7 +141,6 @@ public class GoodsFragment extends BaseFragment {
         if(isRefresh) {
             goodsList = dao.selectAll().toBlocking().single();
         }
-        // TODO
         groupByCategoryGoods(goodsList);
     }
 
@@ -211,6 +211,12 @@ public class GoodsFragment extends BaseFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.menu_goods_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // TODO 右上の検索アイコン選択時の動作を書く
+        return super.onOptionsItemSelected(item);
     }
 
     private class GoodsPagerAdapter extends FragmentStatePagerAdapter {

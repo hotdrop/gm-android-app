@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity
 
     /**
      * 戻る操作をした時の挙動
-     * バックスタックに積んだ画面（フラグメント）があればそれを取り出す（popする）
+     * バックスタックに積んだ画面（フラグメント）があればそれを取り出す
      */
     @Override
     public void onBackPressed() {
