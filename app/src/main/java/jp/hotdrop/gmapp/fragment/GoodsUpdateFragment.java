@@ -8,15 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+import android.widget.Spinner;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsUpdateBinding;
 import jp.hotdrop.gmapp.model.Goods;
+import jp.hotdrop.gmapp.model.GoodsCategory;
 
 public class GoodsUpdateFragment extends BaseFragment {
 
@@ -44,14 +46,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         setHasOptionsMenu(false);
         binding.setGoods(goods);
 
-        // TODO Spinner等のリスナーイベントはここで設定する
-        GoodsCategoryDao dao = new GoodsCategoryDao(this.getActivity());
-        String[] categoryList = dao.getStrList();
-        System.out.println(categoryList);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), android.R.layout.simple_dropdown_item_1line, categoryList);
-        MaterialBetterSpinner categorySpinner = binding.spinnerCategory;
-        categorySpinner.setAdapter(adapter);
-
+        createSpinner(binding.spinnerCategory, goods.getCategoryName());
         return binding.getRoot();
     }
 
@@ -61,11 +56,31 @@ public class GoodsUpdateFragment extends BaseFragment {
         getComponent().inject(this);
     }
 
-
     private void setResult() {
-        // 更新ボタンや数量変更時に呼ぶ予定。DBアクセスに行く
+        // TODO 更新ボタンや数量変更時に呼ぶ予定。DBアクセスに行く
         Intent intent = new Intent();
         intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         getActivity().setResult(Activity.RESULT_OK, intent);
+    }
+
+    private void createSpinner(Spinner spinner, String selectedCategoryName) {
+        GoodsCategoryDao dao = new GoodsCategoryDao(this.getActivity());
+        String[] categoryList = toArrayStr(dao.selectAll());
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, categoryList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setSelection(adapter.getPosition(selectedCategoryName));
+    }
+
+    private String[] toArrayStr(List<GoodsCategory> categoryList) {
+        String[] strList = new String[categoryList.size()];
+        int idx = 0;
+        for(GoodsCategory category : categoryList) {
+            strList[idx] = category.getName();
+            idx++;
+        }
+        return strList;
     }
 }

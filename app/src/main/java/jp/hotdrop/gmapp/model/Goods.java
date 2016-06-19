@@ -4,7 +4,7 @@ import org.parceler.Parcel;
 
 import java.util.Date;
 
-@Parcel(Parcel.Serialization.BEAN)
+@Parcel
 public class Goods {
 
     public static final int AMOUNT_FULL = 100;
@@ -13,15 +13,15 @@ public class Goods {
     public static final int AMOUNT_A_LITTLE = 25;
     public static final int AMOUNT_EMPTY = 0;
 
-    private String id;
-    private String name;
-    private int categoryId;
-    private String categoryName;
-    private int amount = 0;
-    private int stockNum = 0;
-    private Date lastStockDate;
-    private long lastStockPrice = 0L;
-    private Date lastUpdateDate;
+    protected String id;
+    protected String name;
+    protected int categoryId;
+    protected String categoryName;
+    protected int amount = 0;
+    protected int stockNum = 0;
+    protected Date lastStockDate;
+    protected long lastStockPrice = 0L;
+    protected Date lastUpdateDate;
 
     public Goods() {
     }

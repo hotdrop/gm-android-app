@@ -17,14 +17,8 @@ public class GoodsCategoryDao extends AbstractDao {
             "        view_order " +
             " FROM m_goods_category ";
 
-    private boolean isListUpdate = false;
-    private static List<GoodsCategory> goodsCategoryList;
-
     public GoodsCategoryDao(Context context) {
         super(context);
-        if(goodsCategoryList == null) {
-            goodsCategoryList = selectAll();
-        }
     }
 
     public List<GoodsCategory> selectAll() {
@@ -43,16 +37,6 @@ public class GoodsCategoryDao extends AbstractDao {
         return categoryList;
     }
 
-    public String[] getStrList() {
-        if(isListUpdate || goodsCategoryList == null) {
-            goodsCategoryList = selectAll();
-        }
-        // TODO これダメ
-        String[] strList = new String[goodsCategoryList.size()];
-        goodsCategoryList.toArray(strList);
-        return strList;
-    }
-
     /**
      * カーソルから各値を取得し商品情報を生成する。
      * @param cursor
@@ -65,4 +49,5 @@ public class GoodsCategoryDao extends AbstractDao {
         category.setViewOrder(getCursorInt(cursor, "view_order"));
         return category;
     }
+
 }
