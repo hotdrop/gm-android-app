@@ -26,13 +26,13 @@ import jp.hotdrop.gmapp.widget.BindingHolder;
 public class GoodsTabFragment extends BaseFragment {
 
     protected static final String ARG_GOODS = "goods";
+    private static final int REQ_DETAIL = 1;
 
     @Inject
     ActivityNavigator activityNavigator;
 
     private GoodsAdapter adapter;
     private FragmentGoodsTabBinding binding;
-
     private List<Goods> goodsList;
 
     private GoodsFragment.OnChangeGoodsListener onChangeGoodsListener = goodsList -> {};
@@ -121,7 +121,7 @@ public class GoodsTabFragment extends BaseFragment {
 
             // TODO 量のクリックイベントを実装する
 
-            //binding.cardView.setOnClickListener(v -> activityNavigator);
+            binding.cardView.setOnClickListener(v -> activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQ_DETAIL));
         }
     }
 }

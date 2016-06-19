@@ -2,17 +2,15 @@ package jp.hotdrop.gmapp.dao;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.util.DateUtil;
 import rx.Observable;
 
-public class GoodsDao {
+public class GoodsDao extends AbstractDao {
 
     private static final String SQL_SELECT_FROM = "SELECT " +
             "        gs.id AS id, " +
@@ -27,9 +25,6 @@ public class GoodsDao {
             " FROM t_goods gs " +
             "    LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
 
-    private DatabaseHelper dbHelper;
-    private SQLiteDatabase db;
-
     /**
      * GoodsテーブルのDAOを生成します。
      * update,insert,deleteを使う場合、beginTranメソッドでトランザクション開始し
@@ -37,23 +32,17 @@ public class GoodsDao {
      * @param context コンテキスト
      */
     public GoodsDao(Context context) {
-        dbHelper = new DatabaseHelper(context);
+        super(context);
     }
 
-    /**
-     * 全商品を取得します。
-     * @return
-     */
     public Observable<List<Goods>> selectAll() {
 
-        if(db == null) {
-            db = dbHelper.getReadableDatabase();
-        }
+        readableDatabase();
 
         String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, gs.id";
 
         List<Goods> goodsList = new ArrayList<>();
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = execSelect(sql, null);
         while (cursor.moveToNext()) {
             Goods goods = createGoods(cursor);
             goodsList.add(goods);
@@ -62,23 +51,15 @@ public class GoodsDao {
         return Observable.just(goodsList);
     }
 
-    /**
-     * 指定したIDの商品を取得します。
-     * @param id
-     * @return
-     */
     public Goods select(String id) {
 
+        readableDatabase();
+
         Goods goods = null;
-
-        if(db == null) {
-            db = dbHelper.getReadableDatabase();
-        }
-
         String sql = SQL_SELECT_FROM + " WHERE gs.id = ?";
         String[] bind = {id};
 
-        Cursor cursor = db.rawQuery(sql, bind);
+        Cursor cursor = execSelect(sql, bind);
         if (cursor.moveToNext()) {
             goods = createGoods(cursor);
         }
@@ -86,14 +67,9 @@ public class GoodsDao {
         return goods;
     }
 
-
-    /**
-     * 商品をデータベースに登録します。
-     * @param goods 商品情報
-     */
     public void insert(Goods goods) {
 
-        if(db == null) {
+        if(!isBeginTransaction()) {
             throw new IllegalStateException("プログラムエラー。beginTranを実行せずにinsertを実行しています。");
         }
 
@@ -109,17 +85,12 @@ public class GoodsDao {
                 String.valueOf(goods.getLastStockPrice()),
                 String.valueOf(System.currentTimeMillis())};
 
-        db.execSQL(sql, bind);
+        execInsert(sql, bind);
     }
 
-    /**
-     * 商品情報を更新します。
-     * ただし、amountは別途更新用の処理があるため、ここでは更新しません。
-     * @param goods 商品情報
-     */
     public void update(Goods goods) {
 
-        if(db == null) {
+        if(!isBeginTransaction()) {
             throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateを実行しています。");
         }
 
@@ -135,17 +106,12 @@ public class GoodsDao {
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
-        db.execSQL(sql, bind);
+        execUpdate(sql, bind);
     }
 
-    /**
-     * 残量（amount）を更新します。
-     * @param id 商品ID
-     * @param amount 残量
-     */
     public void updateAmount(String id, int amount) {
 
-        if(db == null) {
+        if(!isBeginTransaction()) {
             throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateAmountを実行しています。");
         }
 
@@ -157,48 +123,19 @@ public class GoodsDao {
                 String.valueOf(System.currentTimeMillis()),
                 id};
 
-        db.execSQL(sql, bind);
+        execUpdate(sql, bind);
     }
 
-    /**
-     * 商品情報を削除します。
-     * @param id 商品ID
-     */
     public void delete(String id) {
 
-        if(db == null) {
+        if(!isBeginTransaction()) {
             throw new IllegalStateException("プログラムエラー。beginTranを実行せずにdeleteを実行しています。");
         }
 
         String sql = "DELETE FROM t_goods WHERE id = ? ";
         String[] bind = {id};
 
-        db.execSQL(sql, bind);
-    }
-
-    /**
-     * トランザクションを開始します。
-     */
-    public void beginTran() {
-        db = dbHelper.getWritableDatabase();
-        db.beginTransaction();
-    }
-
-    /**
-     * トランザクションをコミットします。
-     */
-    public void commit() {
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-    }
-
-    /**
-     * トランザクションをロールバックします。
-     */
-    public void rollback() {
-        db.endTransaction();
-        db.close();
+        execDelete(sql, bind);
     }
 
     /**
@@ -218,18 +155,5 @@ public class GoodsDao {
         goods.setLastStockPrice(getCursorInt(cursor, "last_stock_price"));
         goods.setLastUpdateDate(getCursorDate(cursor, "last_update_date"));
         return goods;
-    }
-
-    private String getCursorString(Cursor cursor, String itemName) {
-        return cursor.getString(cursor.getColumnIndex(itemName));
-    }
-
-    private int getCursorInt(Cursor cursor, String itemName) {
-        return cursor.getInt(cursor.getColumnIndex(itemName));
-    }
-
-    private Date getCursorDate(Cursor cursor, String itemName) {
-        long unixEpoch = cursor.getLong(cursor.getColumnIndex(itemName));
-        return DateUtil.longToDate(unixEpoch);
     }
 }

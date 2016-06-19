@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">在庫管理アプリ</string>
     <string name="app_title">在庫管理アプリ</string>
+    <string name="goods_update">商品更新</string>
 
     <string name="tag_line">アプリのメニューです。</string>
 
@@ -13,5 +14,8 @@
     <string name="action_settings">設定</string>
     <string name="about">このアプリについて</string>
     <string name="search">検索</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

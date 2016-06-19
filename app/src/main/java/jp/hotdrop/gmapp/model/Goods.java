@@ -1,21 +1,16 @@
 package jp.hotdrop.gmapp.model;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
-/**
- * 商品情報を保持するモデルクラス
- */
+@Parcel(Parcel.Serialization.BEAN)
 public class Goods {
 
-    /** 現在の開封商品の量が満タンであることを示す値 */
     public static final int AMOUNT_FULL = 100;
-    /** 現在の開封商品の量が７割程度であることを示します。 */
     public static final int AMOUNT_MANY = 75;
-    /** 現在の開封商品の量が半分であることを示します。 */
     public static final int AMOUNT_HALF = 50;
-    /** 現在の開封商品の量が残りわずかであることを示します。 */
     public static final int AMOUNT_A_LITTLE = 25;
-    /** 現在の開封商品の量が0になったことを示します。 */
     public static final int AMOUNT_EMPTY = 0;
 
     private String id;

@@ -24,7 +24,6 @@ import jp.hotdrop.gmapp.fragment.GoodsFragment;
 import jp.hotdrop.gmapp.fragment.StackedPageListener;
 import jp.hotdrop.gmapp.model.MainContentStateBrokerProvider;
 import jp.hotdrop.gmapp.model.Page;
-import jp.hotdrop.gmapp.util.AppUtil;
 import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends BaseActivity
@@ -70,7 +69,6 @@ public class MainActivity extends BaseActivity
         initView();
 
         if(savedInstanceState == null) {
-            AppUtil.setTaskDescription(this, getString(R.string.goods_list), AppUtil.getThemeColorPrimary(this));
             replaceFragment(GoodsFragment.newInstance(isRefresh));
         } else if(savedInstanceState.getInt(EXTRA_MENU) != 0) {
             Page page = Page.forMenuId(savedInstanceState.getInt(EXTRA_MENU));
@@ -193,7 +191,6 @@ public class MainActivity extends BaseActivity
     private void changePage(@StringRes int titleRes, @NonNull Fragment fragment) {
         new Handler().postDelayed(() -> {
             binding.toolbar.setTitle(titleRes);
-            AppUtil.setTaskDescription(this, getString(titleRes), AppUtil.getThemeColorPrimary(this));
             replaceFragment(fragment);
         }, DRAWER_CLOSE_DELAY_MILLS);
     }
