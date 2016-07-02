@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:text="@{goods.name}"
+            android:text="@={goods.name}"
             android:ems="10" />
 
         <TextView
@@ -51,11 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:text="@{goods.stockNum.toString()}"
+            android:text="@={goods.stockNum}"
             android:ems="5" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/update_button"
             style="@style/GoodsButton"
             android:layout_gravity="center_horizontal"
             android:text="更新" />

@@ -35,20 +35,14 @@ import rx.subscriptions.CompositeSubscription;
 
 public class GoodsFragment extends BaseFragment {
 
-    private static final String ARG_IS_REFRESH = "isRefresh";
-
     GoodsDao dao;
     @Inject
     CompositeSubscription compositeSubscription;
 
-    /** アダプター */
     private GoodsPagerAdapter adapter;
-    /** 商品リスト画面のバインドオブジェクト */
     private FragmentGoodsListBinding binding;
-    /** 他画面からの引数。リフレッシュするかどうか */
-    private boolean isRefresh;
-    /** 一覧変更リスナー */
-    private OnChangeGoodsListener onChangeGoodsListener = session -> {};
+    private int refreshMode;
+    private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
 
     /**
      * コンストラクタ
@@ -65,7 +59,7 @@ public class GoodsFragment extends BaseFragment {
     public static GoodsFragment newInstance(boolean isRefresh) {
         GoodsFragment fragment = new GoodsFragment();
         Bundle args = new Bundle();
-        args.putBoolean(ARG_IS_REFRESH, isRefresh);
+        args.putInt(AGE_REFRESH_MODE, REFRESH_NONE);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,7 +87,7 @@ public class GoodsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            this.isRefresh = getArguments().getBoolean(ARG_IS_REFRESH);
+            this.refreshMode = getArguments().getInt(AGE_REFRESH_MODE);
         }
 
         dao = new GoodsDao(this.getActivity());
@@ -137,7 +131,7 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void onLoadDataSuccess(List<Goods> goodsList) {
-        if(isRefresh) {
+        if(refreshMode != REFRESH_NONE) {
             goodsList = dao.selectAll().toBlocking().single();
         }
         groupByCategoryGoods(goodsList);

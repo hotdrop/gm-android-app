@@ -1,5 +1,6 @@
 package jp.hotdrop.gmapp.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,7 +28,7 @@ import jp.hotdrop.gmapp.widget.BindingHolder;
 public class GoodsTabFragment extends BaseFragment {
 
     protected static final String ARG_GOODS = "goods";
-    private static final int REQ_DETAIL = 1;
+    private static final int REQUEST_CODE = 1;
 
     @Inject
     ActivityNavigator activityNavigator;
@@ -35,7 +37,7 @@ public class GoodsTabFragment extends BaseFragment {
     private FragmentGoodsTabBinding binding;
     private List<Goods> goodsList;
 
-    private GoodsFragment.OnChangeGoodsListener onChangeGoodsListener = goodsList -> {};
+    private GoodsFragment.OnChangeGoodsListener onChangeGoodsListener = goodsList -> {/* no operation */};
 
     public static GoodsTabFragment newInstance(List<Goods> goodsList) {
         GoodsTabFragment fragment = new GoodsTabFragment();
@@ -79,9 +81,30 @@ public class GoodsTabFragment extends BaseFragment {
         return new GoodsAdapter(getContext());
     }
 
+    /**
+     * startActivityForResultで起動させたFragmentが
+     * finish()により破棄された時に呼ばれる
+     * @param requestCode startActivityForResultの第二引数で指定した値
+     * @param resultCode 起動先ActivityのsetResultの第一引数
+     * @param data intentの値
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        switch (requestCode) {
+            case REQUEST_CODE:
+                Goods goods = Parcels.unwrap(data.getParcelableExtra(Goods.class.getSimpleName()));
+                if (goods != null) {
+                    adapter.refresh(goods);
+                    onChangeGoodsListener.onChangeGoods(Collections.singletonList(goods));
+                }
+                break;
+        }
     }
 
     public void scrollUpToTop() {
@@ -94,11 +117,11 @@ public class GoodsTabFragment extends BaseFragment {
             super(context);
         }
 
-        protected void refresh(@NonNull Goods goods) {
-            for (int i = 0, count = adapter.getItemCount(); i < count; i++) {
-                Goods g = adapter.getItem(i);
+        private void refresh(Goods goods) {
+            for(int i = 0; i < adapter.getItemCount(); i++) {
+                Goods g = getItem(i);
                 if(goods.equals(g)) {
-                    // g.checked = goods.checked;
+                    g.change(goods);
                     adapter.notifyItemChanged(i);
                 }
             }
@@ -115,13 +138,9 @@ public class GoodsTabFragment extends BaseFragment {
             ItemGoodsBinding binding = holder.binding;
             binding.setGoods(goods);
 
-            // TODO
-            // GONEにすると表示されない
-            //binding.txtName.setVisibility(View.GONE);
-
             // TODO 量のクリックイベントを実装する
 
-            binding.cardView.setOnClickListener(v -> activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQ_DETAIL));
+            binding.cardView.setOnClickListener(v -> activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQUEST_CODE));
         }
     }
 }

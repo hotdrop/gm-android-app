@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
+import java.util.HashMap;
 import java.util.List;
 
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
@@ -22,9 +22,9 @@ import jp.hotdrop.gmapp.model.GoodsCategory;
 
 public class GoodsUpdateFragment extends BaseFragment {
 
-    private GoodsDao dao;
     private Goods goods;
     private FragmentGoodsUpdateBinding binding;
+    private HashMap<String, Integer> categoryMap = new HashMap<>();
 
     public static GoodsUpdateFragment create(Goods goods) {
         GoodsUpdateFragment fragment = new GoodsUpdateFragment();
@@ -46,7 +46,9 @@ public class GoodsUpdateFragment extends BaseFragment {
         setHasOptionsMenu(false);
         binding.setGoods(goods);
 
-        createSpinner(binding.spinnerCategory, goods.getCategoryName());
+        setCategorySpinner();
+        setButtonListener();
+
         return binding.getRoot();
     }
 
@@ -56,22 +58,20 @@ public class GoodsUpdateFragment extends BaseFragment {
         getComponent().inject(this);
     }
 
-    private void setResult() {
-        // TODO 更新ボタンや数量変更時に呼ぶ予定。DBアクセスに行く
-        Intent intent = new Intent();
-        intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
-        getActivity().setResult(Activity.RESULT_OK, intent);
-    }
+    private void setCategorySpinner() {
+        GoodsCategoryDao categoryDao = new GoodsCategoryDao(this.getActivity());
+        List<GoodsCategory> categoryList = categoryDao.selectAll();
+        // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
+        for(GoodsCategory goodsCategory : categoryList) {
+            categoryMap.put(goodsCategory.getName(), goodsCategory.getId());
+        }
+        String[] strList = toArrayStr(categoryList);
 
-    private void createSpinner(Spinner spinner, String selectedCategoryName) {
-        GoodsCategoryDao dao = new GoodsCategoryDao(this.getActivity());
-        String[] categoryList = toArrayStr(dao.selectAll());
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line, categoryList);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, strList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinner.setAdapter(adapter);
-        spinner.setSelection(adapter.getPosition(selectedCategoryName));
+        binding.spinnerCategory.setAdapter(adapter);
+        binding.spinnerCategory.setSelection(adapter.getPosition(goods.getCategoryName()));
     }
 
     private String[] toArrayStr(List<GoodsCategory> categoryList) {
@@ -82,5 +82,43 @@ public class GoodsUpdateFragment extends BaseFragment {
             idx++;
         }
         return strList;
+    }
+
+    private void setButtonListener() {
+        binding.updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickUpdate(v);
+            }
+        });
+    }
+
+    private void onClickUpdate(View v) {
+
+        String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
+        int refreshMode = REFRESH_ONE;
+
+        if(!selectedCategoryName.equals(goods.getCategoryName())) {
+            // カテゴリーを変更した場合
+            goods.setCategoryId(categoryMap.get(selectedCategoryName));
+            goods.setCategoryName(selectedCategoryName);
+            refreshMode = REFRESH_ALL;
+        }
+
+        GoodsDao dao = new GoodsDao(this.getActivity());
+        dao.beginTran();
+        dao.update(goods);
+        dao.commit();
+        setResult(refreshMode);
+
+        if(isResumed()) {
+            getActivity().onBackPressed();
+        }
+    }
+
+    private void setResult(int refreshMode) {
+        Intent intent = new Intent();
+        intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
+        getActivity().setResult(Activity.RESULT_OK, intent);
     }
 }
