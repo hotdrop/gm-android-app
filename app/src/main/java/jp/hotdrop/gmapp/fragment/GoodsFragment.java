@@ -43,7 +43,6 @@ public class GoodsFragment extends BaseFragment {
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
 
-    private int refreshMode;
     private String activeTabName;
 
     private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
@@ -53,9 +52,6 @@ public class GoodsFragment extends BaseFragment {
      */
     public static GoodsFragment newInstance() {
         GoodsFragment fragment = new GoodsFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_REFRESH_MODE, REFRESH_NONE);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -95,9 +91,6 @@ public class GoodsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            this.refreshMode = getArguments().getInt(ARG_REFRESH_MODE);
-        }
     }
 
     /**
@@ -128,9 +121,6 @@ public class GoodsFragment extends BaseFragment {
     }
 
     private void onLoadDataSuccess(List<Goods> goodsList) {
-        if(refreshMode != REFRESH_NONE) {
-            goodsList = dao.selectAll().toBlocking().single();
-        }
         groupByCategoryGoods(goodsList);
     }
 

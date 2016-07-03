@@ -100,7 +100,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/txt_last_stock_date"
                     android:layout_toRightOf="@id/txt_last_stock_date"
-                    app:amountImageUrl="@{goods.amount}" />
+                    app:amountImageUrl="@{goods.amount}"
+                    android:layout_marginLeft="70dp" />
 
             </RelativeLayout>
 
