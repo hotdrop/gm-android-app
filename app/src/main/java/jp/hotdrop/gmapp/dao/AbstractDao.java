@@ -15,32 +15,24 @@ public abstract class AbstractDao {
 
     public AbstractDao(Context context) {
         dbHelper = new DatabaseHelper(context);
+        db = dbHelper.getWritableDatabase();
     }
 
     public void beginTran() {
-        db = dbHelper.getWritableDatabase();
         db.beginTransaction();
     }
 
     public void commit() {
         db.setTransactionSuccessful();
         db.endTransaction();
-        db.close();
     }
 
     public void rollback() {
         db.endTransaction();
+    }
+
+    public void close() {
         db.close();
-    }
-
-    protected boolean isBeginTransaction() {
-        return (db != null)? true : false;
-    }
-
-    protected void readableDatabase() {
-        if(db == null) {
-            db = dbHelper.getReadableDatabase();
-        }
     }
 
     protected Cursor execSelect(String sql, String[] selectionArgs) {
@@ -71,6 +63,4 @@ public abstract class AbstractDao {
         long unixEpoch = cursor.getLong(cursor.getColumnIndex(itemName));
         return DateUtil.longToDate(unixEpoch);
     }
-
-
 }

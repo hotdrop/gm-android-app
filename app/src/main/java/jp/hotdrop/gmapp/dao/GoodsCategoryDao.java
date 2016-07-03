@@ -17,16 +17,30 @@ public class GoodsCategoryDao extends AbstractDao {
             "        view_order " +
             " FROM m_goods_category ";
 
-    public GoodsCategoryDao(Context context) {
+    private static GoodsCategoryDao dao;
+
+    private GoodsCategoryDao(Context context) {
         super(context);
     }
 
+    public static synchronized GoodsCategoryDao getInstance(Context context) {
+        if(dao == null) {
+            dao = new GoodsCategoryDao(context);
+        }
+        return dao;
+    }
+
+    public static GoodsCategoryDao getInstance() {
+        if(dao == null) {
+            throw new IllegalStateException("プログラムエラー。最上位のActivityで引数付きgetInstanceを実行してください。");
+        }
+        return dao;
+    }
+
+
     public List<GoodsCategory> selectAll() {
 
-        readableDatabase();
-
         String sql = SQL_SELECT_FROM + " ORDER BY view_order";
-
         List<GoodsCategory> categoryList = new ArrayList<>();
         Cursor cursor = execSelect(sql, null);
         while (cursor.moveToNext()) {

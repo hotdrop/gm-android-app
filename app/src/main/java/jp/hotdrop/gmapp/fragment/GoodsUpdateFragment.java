@@ -60,7 +60,7 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     private void setCategorySpinner() {
-        GoodsCategoryDao categoryDao = new GoodsCategoryDao(this.getActivity());
+        GoodsCategoryDao categoryDao = GoodsCategoryDao.getInstance();
         List<GoodsCategory> categoryList = categoryDao.selectAll();
         // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
         for(GoodsCategory goodsCategory : categoryList) {
@@ -103,7 +103,7 @@ public class GoodsUpdateFragment extends BaseFragment {
             refreshMode = REFRESH_ALL;
         }
 
-        GoodsDao dao = new GoodsDao(this.getActivity());
+        GoodsDao dao = GoodsDao.getInstance();
         dao.beginTran();
         dao.update(goods);
         dao.commit();

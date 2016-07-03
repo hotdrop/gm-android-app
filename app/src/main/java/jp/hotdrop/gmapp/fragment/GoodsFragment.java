@@ -24,6 +24,7 @@ import java.util.TreeMap;
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.R;
+import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsListBinding;
 import jp.hotdrop.gmapp.model.Goods;
@@ -97,7 +98,9 @@ public class GoodsFragment extends BaseFragment {
         if (getArguments() != null) {
             this.refreshMode = getArguments().getInt(ARG_REFRESH_MODE);
         }
-        dao = new GoodsDao(this.getActivity());
+        // TODO 今はクローズしていない・・
+        dao = GoodsDao.getInstance(getActivity());
+        GoodsCategoryDao dao2 = GoodsCategoryDao.getInstance(getActivity());
     }
 
     /**
@@ -122,8 +125,8 @@ public class GoodsFragment extends BaseFragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        this::onLoadDataSuccess,
-                        this::onLoadDataFailure
+                    this::onLoadDataSuccess,
+                    this::onLoadDataFailure
                 );
     }
 
@@ -176,6 +179,7 @@ public class GoodsFragment extends BaseFragment {
         if(activeTabName != null) {
             int idx = adapter.getPagePosition(activeTabName);
             binding.viewPager.setCurrentItem(idx);
+            activeTabName = null;
         }
 
         hideLoadingView();

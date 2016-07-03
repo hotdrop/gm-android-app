@@ -11,8 +11,8 @@ import jp.hotdrop.gmapp.model.Goods;
 @Singleton
 public class ActivityNavigator {
 
-    public void showMain(@NonNull Activity activity, boolean isRefresh) {
-        MainActivity.start(activity, isRefresh);
+    public void showMain(@NonNull Activity activity) {
+        MainActivity.start(activity);
     }
 
     public void showGoodsUpdate(Fragment fragment, Goods goods, int requestCode) {

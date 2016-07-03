@@ -29,7 +29,6 @@ import rx.subscriptions.CompositeSubscription;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
 
-    private static final String EXTRA_IS_REFRESH = "isRefresh";
     private static final String EXTRA_MENU = "menu";
 
     private static final long DRAWER_CLOSE_DELAY_MILLS = 300L;
@@ -42,11 +41,8 @@ public class MainActivity extends BaseActivity
 
     private ActivityMainBinding binding;
 
-    private int refreshMode;
-
-    static void start(@NonNull Activity activity, boolean isRefresh) {
+    static void start(@NonNull Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
-        intent.putExtra(EXTRA_IS_REFRESH, isRefresh);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
     }
@@ -54,9 +50,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 未使用
-        //boolean isRefresh = getIntent().getBooleanExtra(EXTRA_IS_REFRESH, false);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         DataBindingUtil.bind(binding.navView.getHeaderView(0));

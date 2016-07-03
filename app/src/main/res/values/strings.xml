@@ -5,8 +5,8 @@
 
     <string name="tag_line">アプリのメニューです。</string>
 
-    <string name="open">ひらく</string>
-    <string name="close">とじる</string>
+    <string name="open">開く</string>
+    <string name="close">閉じる</string>
     <string name="ok">OK</string>
     <string name="cancel">キャンセル</string>
 

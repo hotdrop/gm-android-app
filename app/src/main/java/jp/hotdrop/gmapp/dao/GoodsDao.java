@@ -25,19 +25,27 @@ public class GoodsDao extends AbstractDao {
             " FROM t_goods gs " +
             "    LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
 
-    /**
-     * GoodsテーブルのDAOを生成します。
-     * update,insert,deleteを使う場合、beginTranメソッドでトランザクション開始し
-     * 必ずcommitメソッドまたはrollbackメソッドを実行してください。
-     * @param context コンテキスト
-     */
-    public GoodsDao(Context context) {
+    private static GoodsDao dao;
+
+    private GoodsDao(Context context) {
         super(context);
     }
 
-    public Observable<List<Goods>> selectAll() {
+    public static synchronized GoodsDao getInstance(Context context) {
+        if(dao == null) {
+            dao = new GoodsDao(context);
+        }
+        return dao;
+    }
 
-        readableDatabase();
+    public static GoodsDao getInstance() {
+        if(dao == null) {
+            throw new IllegalStateException("プログラムエラー。最上位のActivityで引数付きgetInstanceを実行してください。");
+        }
+        return dao;
+    }
+
+    public Observable<List<Goods>> selectAll() {
 
         String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, gs.id";
 
@@ -53,8 +61,6 @@ public class GoodsDao extends AbstractDao {
 
     public Goods select(String id) {
 
-        readableDatabase();
-
         Goods goods = null;
         String sql = SQL_SELECT_FROM + " WHERE gs.id = ?";
         String[] bind = {id};
@@ -68,10 +74,6 @@ public class GoodsDao extends AbstractDao {
     }
 
     public void insert(Goods goods) {
-
-        if(!isBeginTransaction()) {
-            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにinsertを実行しています。");
-        }
 
         String sql = "INSERT INTO t_goods" +
                 "  (name, category_id, stock_num, last_stock_date, last_stock_price, update_date) " +
@@ -90,10 +92,6 @@ public class GoodsDao extends AbstractDao {
 
     public void update(Goods goods) {
 
-        if(!isBeginTransaction()) {
-            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateを実行しています。");
-        }
-
         String sql = "UPDATE t_goods SET" +
                 " name = ?, category_id = ?, stock_num = ?, last_stock_date = ?, " +
                 " last_stock_price = ?, update_date = ? " +
@@ -110,31 +108,14 @@ public class GoodsDao extends AbstractDao {
     }
 
     public void updateAmount(String id, int amount) {
-
-        if(!isBeginTransaction()) {
-            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにupdateAmountを実行しています。");
-        }
-
-        String sql = "UPDATE t_goods SET" +
-                " amount = ?, update_date = ? " +
-                "WHERE id = ? ";
-
-        String[] bind = {String.valueOf(amount),
-                String.valueOf(System.currentTimeMillis()),
-                id};
-
+        String sql = "UPDATE t_goods SET amount = ?, update_date = ? WHERE id = ? ";
+        String[] bind = {String.valueOf(amount), String.valueOf(System.currentTimeMillis()), id};
         execUpdate(sql, bind);
     }
 
     public void delete(String id) {
-
-        if(!isBeginTransaction()) {
-            throw new IllegalStateException("プログラムエラー。beginTranを実行せずにdeleteを実行しています。");
-        }
-
         String sql = "DELETE FROM t_goods WHERE id = ? ";
         String[] bind = {id};
-
         execDelete(sql, bind);
     }
 
