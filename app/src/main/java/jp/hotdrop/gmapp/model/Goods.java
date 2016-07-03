@@ -20,8 +20,8 @@ public class Goods {
     protected String categoryName;
 
     protected int amount = 0;
-    // 画面で在庫数をEditTextで自由入力にしているためintだとデータバインドが面倒
-    // 在庫数はEditTextじゃないほうがいいかも
+    // bindingを使用しておりかつEditTextにしているためintではなくStringで表現する
+    // なお、空が設定された場合は0を保持する。（setterにて）
     protected String stockNum;
     protected Date lastStockDate;
     protected String lastStockPrice;
@@ -71,7 +71,7 @@ public class Goods {
     }
 
     public void setStockNum(String stockNum) {
-        this.stockNum = stockNum;
+        this.stockNum = (stockNum == null || stockNum.trim().equals(""))? "0" : stockNum;
     }
 
     public String getStockNum() {

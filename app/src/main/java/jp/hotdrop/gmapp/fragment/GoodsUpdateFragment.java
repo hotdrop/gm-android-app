@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -87,9 +88,14 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private void onClickUpdate(View v) {
 
-        String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
+        if(goods.getName().trim().equals("")) {
+            Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         int refreshMode = REFRESH_ONE;
 
+        String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         if(!selectedCategoryName.equals(goods.getCategoryName())) {
             // カテゴリーを変更した場合は全リフレッシュモードにする
             goods.setCategoryId(categoryMap.get(selectedCategoryName));
@@ -102,10 +108,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         dao.update(goods);
         dao.commit();
         setResult(refreshMode);
-
-        if(isResumed()) {
-            getActivity().onBackPressed();
-        }
+        exit();
     }
 
     private void setResult(int refreshMode) {
@@ -113,5 +116,11 @@ public class GoodsUpdateFragment extends BaseFragment {
         intent.putExtra(ARG_REFRESH_MODE, refreshMode);
         intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         getActivity().setResult(Activity.RESULT_OK, intent);
+    }
+
+    private void exit() {
+        if(isResumed()) {
+            getActivity().onBackPressed();
+        }
     }
 }
