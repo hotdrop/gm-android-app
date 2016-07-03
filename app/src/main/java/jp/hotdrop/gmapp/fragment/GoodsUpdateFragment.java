@@ -15,6 +15,8 @@ import org.parceler.Parcels;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsUpdateBinding;
@@ -22,6 +24,11 @@ import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.model.GoodsCategory;
 
 public class GoodsUpdateFragment extends BaseFragment {
+
+    @Inject
+    protected GoodsDao goodsDao;
+    @Inject
+    protected GoodsCategoryDao categoryDao;
 
     private Goods goods;
     private FragmentGoodsUpdateBinding binding;
@@ -60,7 +67,6 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     private void setCategorySpinner() {
-        GoodsCategoryDao categoryDao = GoodsCategoryDao.getInstance();
         List<GoodsCategory> categoryList = categoryDao.selectAll();
         // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
         for(GoodsCategory goodsCategory : categoryList) {
@@ -103,10 +109,9 @@ public class GoodsUpdateFragment extends BaseFragment {
             refreshMode = REFRESH_ALL;
         }
 
-        GoodsDao dao = GoodsDao.getInstance();
-        dao.beginTran();
-        dao.update(goods);
-        dao.commit();
+        goodsDao.beginTran();
+        goodsDao.update(goods);
+        goodsDao.commit();
         setResult(refreshMode);
         exit();
     }

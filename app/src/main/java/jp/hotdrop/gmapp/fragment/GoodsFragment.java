@@ -24,7 +24,6 @@ import java.util.TreeMap;
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.R;
-import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsListBinding;
 import jp.hotdrop.gmapp.model.Goods;
@@ -37,9 +36,10 @@ import rx.subscriptions.CompositeSubscription;
 public class GoodsFragment extends BaseFragment {
 
     @Inject
-    CompositeSubscription compositeSubscription;
+    protected CompositeSubscription compositeSubscription;
+    @Inject
+    protected GoodsDao dao;
 
-    private GoodsDao dao;
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
 
@@ -98,9 +98,6 @@ public class GoodsFragment extends BaseFragment {
         if (getArguments() != null) {
             this.refreshMode = getArguments().getInt(ARG_REFRESH_MODE);
         }
-        // TODO 今はクローズしていない・・
-        dao = GoodsDao.getInstance(getActivity());
-        GoodsCategoryDao dao2 = GoodsCategoryDao.getInstance(getActivity());
     }
 
     /**

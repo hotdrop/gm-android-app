@@ -6,8 +6,12 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import jp.hotdrop.gmapp.model.GoodsCategory;
 
+@Singleton
 public class GoodsCategoryDao extends AbstractDao {
 
     private static final String SQL_SELECT_FROM =
@@ -17,26 +21,10 @@ public class GoodsCategoryDao extends AbstractDao {
             "        view_order " +
             " FROM m_goods_category ";
 
-    private static GoodsCategoryDao dao;
-
-    private GoodsCategoryDao(Context context) {
+    @Inject
+    public GoodsCategoryDao(Context context) {
         super(context);
     }
-
-    public static synchronized GoodsCategoryDao getInstance(Context context) {
-        if(dao == null) {
-            dao = new GoodsCategoryDao(context);
-        }
-        return dao;
-    }
-
-    public static GoodsCategoryDao getInstance() {
-        if(dao == null) {
-            throw new IllegalStateException("プログラムエラー。最上位のActivityで引数付きgetInstanceを実行してください。");
-        }
-        return dao;
-    }
-
 
     public List<GoodsCategory> selectAll() {
 

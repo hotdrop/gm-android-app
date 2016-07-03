@@ -6,10 +6,14 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.util.DateUtil;
 import rx.Observable;
 
+@Singleton
 public class GoodsDao extends AbstractDao {
 
     private static final String SQL_SELECT_FROM = "SELECT " +
@@ -25,24 +29,9 @@ public class GoodsDao extends AbstractDao {
             " FROM t_goods gs " +
             "    LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
 
-    private static GoodsDao dao;
-
-    private GoodsDao(Context context) {
+    @Inject
+    public GoodsDao(Context context) {
         super(context);
-    }
-
-    public static synchronized GoodsDao getInstance(Context context) {
-        if(dao == null) {
-            dao = new GoodsDao(context);
-        }
-        return dao;
-    }
-
-    public static GoodsDao getInstance() {
-        if(dao == null) {
-            throw new IllegalStateException("プログラムエラー。最上位のActivityで引数付きgetInstanceを実行してください。");
-        }
-        return dao;
     }
 
     public Observable<List<Goods>> selectAll() {
