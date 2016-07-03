@@ -42,6 +42,8 @@ public class MainActivity extends BaseActivity
 
     private ActivityMainBinding binding;
 
+    private int refreshMode;
+
     static void start(@NonNull Activity activity, boolean isRefresh) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.putExtra(EXTRA_IS_REFRESH, isRefresh);
@@ -53,7 +55,8 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean isRefresh = getIntent().getBooleanExtra(EXTRA_IS_REFRESH, false);
+        // 未使用
+        //boolean isRefresh = getIntent().getBooleanExtra(EXTRA_IS_REFRESH, false);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         DataBindingUtil.bind(binding.navView.getHeaderView(0));
@@ -69,7 +72,7 @@ public class MainActivity extends BaseActivity
         initView();
 
         if(savedInstanceState == null) {
-            replaceFragment(GoodsFragment.newInstance(isRefresh));
+            replaceFragment(GoodsFragment.newInstance());
         } else if(savedInstanceState.getInt(EXTRA_MENU) != 0) {
             Page page = Page.forMenuId(savedInstanceState.getInt(EXTRA_MENU));
             binding.toolbar.setTitle(page.getTitleResId());

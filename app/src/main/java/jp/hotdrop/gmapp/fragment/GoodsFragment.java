@@ -35,31 +35,25 @@ import rx.subscriptions.CompositeSubscription;
 
 public class GoodsFragment extends BaseFragment {
 
-    GoodsDao dao;
     @Inject
     CompositeSubscription compositeSubscription;
 
+    private GoodsDao dao;
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
+
     private int refreshMode;
+    private String activeTabName;
+
     private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
 
     /**
      * コンストラクタ
      */
     public static GoodsFragment newInstance() {
-        return newInstance(false);
-    }
-
-    /**
-     * 引数付きコンストラクタ
-     * @param isRefresh
-     * @return
-     */
-    public static GoodsFragment newInstance(boolean isRefresh) {
         GoodsFragment fragment = new GoodsFragment();
         Bundle args = new Bundle();
-        args.putInt(AGE_REFRESH_MODE, REFRESH_NONE);
+        args.putInt(ARG_REFRESH_MODE, REFRESH_NONE);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,6 +72,21 @@ public class GoodsFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
+
+        if(refreshMode == REFRESH_ALL) {
+            int idx = binding.viewPager.getCurrentItem();
+            if(idx != 0) {
+                activeTabName = adapter.getPageTitle(idx).toString();
+            }
+            compositeSubscription.add(loadData());
+            getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
+        }
+    }
+
     /**
      * フラグメントの初期化処理を行う。
      * @param savedInstanceState
@@ -85,11 +94,9 @@ public class GoodsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
-            this.refreshMode = getArguments().getInt(AGE_REFRESH_MODE);
+            this.refreshMode = getArguments().getInt(ARG_REFRESH_MODE);
         }
-
         dao = new GoodsDao(this.getActivity());
     }
 
@@ -102,20 +109,10 @@ public class GoodsFragment extends BaseFragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentGoodsListBinding.inflate(inflater, container, false);
         setHasOptionsMenu(true);
-
-        initEmptyView();
-
         compositeSubscription.add(loadData());
         return binding.getRoot();
-    }
-
-    /**
-     * ビューの初期化 TODO
-     */
-    private void initEmptyView() {
     }
 
     protected Subscription loadData() {
@@ -139,14 +136,6 @@ public class GoodsFragment extends BaseFragment {
 
     private void onLoadDataFailure(Throwable throwable) {
         Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
-    }
-
-    protected void showEmptyView() {
-        //binding.emptyView.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideEmptyView() {
-        // TODO
     }
 
     protected void showLoadingView() {
@@ -183,22 +172,22 @@ public class GoodsFragment extends BaseFragment {
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
+        
+        if(activeTabName != null) {
+            int idx = adapter.getPagePosition(activeTabName);
+            binding.viewPager.setCurrentItem(idx);
+        }
 
         hideLoadingView();
-        if(goodsList.isEmpty()) {
-            showEmptyView();
-        } else {
-            hideEmptyView();
-        }
-    }
-
-    protected GoodsTabFragment createTabFragment(List<Goods> goodsList) {
-        return GoodsTabFragment.newInstance(goodsList);
     }
 
     private void addFragment(String title, List<Goods> goodsList) {
         GoodsTabFragment fragment = createTabFragment(goodsList);
         adapter.add(title, fragment);
+    }
+
+    protected GoodsTabFragment createTabFragment(List<Goods> goodsList) {
+        return GoodsTabFragment.newInstance(goodsList);
     }
 
     @Override
@@ -214,7 +203,6 @@ public class GoodsFragment extends BaseFragment {
 
     /**
      * アダプタークラス
-     *
      */
     private class GoodsPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -249,8 +237,22 @@ public class GoodsFragment extends BaseFragment {
             titles.add(title);
             notifyDataSetChanged();
         }
+
+        public int getPagePosition(String argTitle) {
+            int idx = 0;
+            for(String title : titles) {
+                if(title.equals(argTitle)) {
+                    break;
+                }
+                idx++;
+            }
+            return idx;
+        }
     }
 
+    /**
+     * タブ選択時のカスタムリスナークラス
+     */
     private class CustomViewPagerOnTabSelectedListener extends TabLayout.ViewPagerOnTabSelectedListener {
 
         public CustomViewPagerOnTabSelectedListener(ViewPager viewPager) {

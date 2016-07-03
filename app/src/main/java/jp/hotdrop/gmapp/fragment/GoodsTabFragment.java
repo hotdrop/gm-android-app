@@ -28,7 +28,7 @@ import jp.hotdrop.gmapp.widget.BindingHolder;
 public class GoodsTabFragment extends BaseFragment {
 
     protected static final String ARG_GOODS = "goods";
-    private static final int REQUEST_CODE = 1;
+    private static final int REQ_CODE_UPDATE = 1;
 
     @Inject
     ActivityNavigator activityNavigator;
@@ -71,7 +71,6 @@ public class GoodsTabFragment extends BaseFragment {
 
     private void bindData() {
         adapter = createAdapter();
-
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.addAll(goodsList);
@@ -90,20 +89,28 @@ public class GoodsTabFragment extends BaseFragment {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode != REQUEST_CODE || resultCode != Activity.RESULT_OK) {
+        if(resultCode != Activity.RESULT_OK) {
             return;
         }
 
-        switch (requestCode) {
-            case REQUEST_CODE:
-                Goods goods = Parcels.unwrap(data.getParcelableExtra(Goods.class.getSimpleName()));
-                if (goods != null) {
+        int refreshMode = data.getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
+        Goods goods = Parcels.unwrap(data.getParcelableExtra(Goods.class.getSimpleName()));
+
+        if(requestCode == REQ_CODE_UPDATE && goods != null) {
+            switch(refreshMode) {
+                case REFRESH_ONE:
                     adapter.refresh(goods);
                     onChangeGoodsListener.onChangeGoods(Collections.singletonList(goods));
-                }
-                break;
+                    break;
+                case REFRESH_ALL:
+                    // カテゴリー変更は全リフレッシュ
+                    getActivity().setIntent(data);
+                    break;
+                case REFRESH_NONE:
+                default:
+                    break;
+            }
         }
     }
 
@@ -140,7 +147,8 @@ public class GoodsTabFragment extends BaseFragment {
 
             // TODO 量のクリックイベントを実装する
 
-            binding.cardView.setOnClickListener(v -> activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQUEST_CODE));
+            binding.cardView.setOnClickListener(v ->
+                    activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQ_CODE_UPDATE));
         }
     }
 }

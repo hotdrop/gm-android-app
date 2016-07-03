@@ -10,10 +10,10 @@ import jp.hotdrop.gmapp.di.FragmentModule;
 
 public abstract class BaseFragment extends Fragment {
 
-    public static final String AGE_REFRESH_MODE = "isRefresh";
-    public static final int REFRESH_NONE = 0;
-    public static final int REFRESH_ONE = 1;
-    public static final int REFRESH_ALL = 2;
+    protected static final String ARG_REFRESH_MODE = "refreshMode";
+    protected static final int REFRESH_NONE = 0;
+    protected static final int REFRESH_ONE = 1;
+    protected static final int REFRESH_ALL = 2;
 
     private FragmentComponent fragmentComponent;
 

@@ -47,7 +47,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         binding.setGoods(goods);
 
         setCategorySpinner();
-        setButtonListener();
+        binding.updateButton.setOnClickListener((View v) -> onClickUpdate(v));
 
         return binding.getRoot();
     }
@@ -76,6 +76,7 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private String[] toArrayStr(List<GoodsCategory> categoryList) {
         String[] strList = new String[categoryList.size()];
+
         int idx = 0;
         for(GoodsCategory category : categoryList) {
             strList[idx] = category.getName();
@@ -84,22 +85,13 @@ public class GoodsUpdateFragment extends BaseFragment {
         return strList;
     }
 
-    private void setButtonListener() {
-        binding.updateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickUpdate(v);
-            }
-        });
-    }
-
     private void onClickUpdate(View v) {
 
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         int refreshMode = REFRESH_ONE;
 
         if(!selectedCategoryName.equals(goods.getCategoryName())) {
-            // カテゴリーを変更した場合
+            // カテゴリーを変更した場合は全リフレッシュモードにする
             goods.setCategoryId(categoryMap.get(selectedCategoryName));
             goods.setCategoryName(selectedCategoryName);
             refreshMode = REFRESH_ALL;
@@ -118,6 +110,7 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private void setResult(int refreshMode) {
         Intent intent = new Intent();
+        intent.putExtra(ARG_REFRESH_MODE, refreshMode);
         intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
