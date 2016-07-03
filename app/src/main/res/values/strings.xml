@@ -15,7 +15,12 @@
     <string name="about">このアプリについて</string>
     <string name="search">検索</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- 商品詳細画面 -->
+    <string name="label_goods_name">商品名</string>
+    <string name="label_goods_category">商品のカテゴリー</string>
+    <string name="label_stock_num">在庫数</string>
+
+    <string name="button_register">登録</string>
+    <string name="button_update">更新</string>
 
 </resources>

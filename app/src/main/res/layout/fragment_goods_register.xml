@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jp.hotdrop.gmapp.fragment.GoodsUpdateFragment">
+    tools:context="jp.hotdrop.gmapp.fragment.GoodsRegisterFragment">
 
     <data>
         <variable name="goods" type="jp.hotdrop.gmapp.model.Goods" />
@@ -55,11 +55,10 @@
             android:ems="5" />
 
         <Button
-            android:id="@+id/update_button"
+            android:id="@+id/register_button"
             style="@style/GoodsButton"
             android:layout_gravity="center_horizontal"
-            android:text="@string/button_update" />
+            android:text="@string/button_register" />
 
     </LinearLayout>
-
 </layout>

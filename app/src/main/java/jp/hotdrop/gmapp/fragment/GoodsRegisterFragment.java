@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import org.parceler.Parcels;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,12 +17,13 @@ import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
-import jp.hotdrop.gmapp.databinding.FragmentGoodsUpdateBinding;
+import jp.hotdrop.gmapp.databinding.FragmentGoodsRegisterBinding;
 import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.model.GoodsCategory;
 import jp.hotdrop.gmapp.util.ArrayUtil;
+import jp.hotdrop.gmapp.util.DateUtil;
 
-public class GoodsUpdateFragment extends BaseFragment {
+public class GoodsRegisterFragment extends BaseFragment {
 
     @Inject
     protected GoodsDao goodsDao;
@@ -32,36 +31,32 @@ public class GoodsUpdateFragment extends BaseFragment {
     protected GoodsCategoryDao categoryDao;
 
     private Goods goods;
-    private FragmentGoodsUpdateBinding binding;
+    private FragmentGoodsRegisterBinding binding;
     private HashMap<String, Integer> categoryMap = new HashMap<>();
 
     /**
      * フラグメント生成
-     * @param goods
      * @return
      */
-    public static GoodsUpdateFragment create(Goods goods) {
-        GoodsUpdateFragment fragment = new GoodsUpdateFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(Goods.class.getSimpleName(), Parcels.wrap(goods));
-        fragment.setArguments(args);
+    public static GoodsRegisterFragment create() {
+        GoodsRegisterFragment fragment = new GoodsRegisterFragment();
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        goods = Parcels.unwrap(getArguments().getParcelable(Goods.class.getSimpleName()));
+        goods = new Goods();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentGoodsUpdateBinding.inflate(inflater, container, false);
+        binding = FragmentGoodsRegisterBinding.inflate(inflater, container, false);
         setHasOptionsMenu(false);
-        binding.setGoods(goods);
 
         setCategorySpinner();
-        binding.updateButton.setOnClickListener((View v) -> onClickUpdate(v));
+        binding.registerButton.setOnClickListener((View v) -> onClickRegister(v));
+        binding.setGoods(goods);
 
         return binding.getRoot();
     }
@@ -73,7 +68,6 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     private void setCategorySpinner() {
-
         List<GoodsCategory> categoryList = categoryDao.selectAll();
         // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
         for(GoodsCategory goodsCategory : categoryList) {
@@ -85,37 +79,32 @@ public class GoodsUpdateFragment extends BaseFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerCategory.setAdapter(adapter);
-        binding.spinnerCategory.setSelection(adapter.getPosition(goods.getCategoryName()));
     }
 
-    private void onClickUpdate(View v) {
+    private void onClickRegister(View v) {
 
         if(goods.getName().trim().equals("")) {
             Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int refreshMode = REFRESH_ONE;
-
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
-        if(!selectedCategoryName.equals(goods.getCategoryName())) {
-            // カテゴリーを変更した場合は全リフレッシュモードにする
-            goods.setCategoryId(categoryMap.get(selectedCategoryName));
-            goods.setCategoryName(selectedCategoryName);
-            refreshMode = REFRESH_ALL;
-        }
+
+        goods.setCategoryId(categoryMap.get(selectedCategoryName));
+        goods.setCategoryName(selectedCategoryName);
+        goods.setLastStockDate(DateUtil.longToDate(System.currentTimeMillis()));
 
         goodsDao.beginTran();
-        goodsDao.update(goods);
+        goodsDao.insert(goods);
         goodsDao.commit();
-        setResult(refreshMode);
+        setResult();
         exit();
     }
 
-    private void setResult(int refreshMode) {
+    private void setResult() {
         Intent intent = new Intent();
-        intent.putExtra(ARG_REFRESH_MODE, refreshMode);
-        intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
+        intent.putExtra(ARG_REFRESH_MODE, REFRESH_ALL);
+        //intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 

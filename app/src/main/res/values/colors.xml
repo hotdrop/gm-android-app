@@ -16,9 +16,13 @@
     <color name="black">#000000</color>
     <color name="black_alpha_30">#4D000000</color>
     <color name="red">#ff0000</color>
+    <color name="light_blue">#00c4ff</color>
     <color name="gray">#6f7071</color>
     <color name="blackGreen">#00BCD4</color>
     <color name="yellow">#FFFF8D</color>
+
+    <color name="ColorPrimary">#FF5722</color>
+    <color name="ColorPrimaryDark">#E64A19</color>
 
     <color name="background">#020202</color>
     <color name="title_background">#07086f</color>

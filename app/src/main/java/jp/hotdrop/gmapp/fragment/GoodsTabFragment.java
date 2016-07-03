@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -27,11 +28,10 @@ import jp.hotdrop.gmapp.widget.BindingHolder;
 
 public class GoodsTabFragment extends BaseFragment {
 
-    protected static final String ARG_GOODS = "goods";
-    private static final int REQ_CODE_UPDATE = 1;
+    private static final String ARG_GOODS = "goods";
 
     @Inject
-    ActivityNavigator activityNavigator;
+    protected ActivityNavigator activityNavigator;
 
     private GoodsAdapter adapter;
     private FragmentGoodsTabBinding binding;
@@ -118,6 +118,9 @@ public class GoodsTabFragment extends BaseFragment {
         binding.recyclerView.smoothScrollToPosition(0);
     }
 
+    /**
+     * アダプター
+     */
     protected class GoodsAdapter extends ArrayRecyclerAdapter<Goods, BindingHolder<ItemGoodsBinding>> {
 
         public GoodsAdapter(@NonNull Context context) {
@@ -146,6 +149,9 @@ public class GoodsTabFragment extends BaseFragment {
             binding.setGoods(goods);
 
             // TODO 量のクリックイベントを実装する
+            binding.imgAmount.setOnClickListener(v ->
+                    Toast.makeText(getActivity(), "画像が押下されました。", Toast.LENGTH_LONG).show()
+            );
 
             binding.cardView.setOnClickListener(v ->
                     activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQ_CODE_UPDATE));

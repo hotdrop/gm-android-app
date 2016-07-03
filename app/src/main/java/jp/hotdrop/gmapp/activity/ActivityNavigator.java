@@ -18,4 +18,8 @@ public class ActivityNavigator {
     public void showGoodsUpdate(Fragment fragment, Goods goods, int requestCode) {
         GoodsUpdateActivity.startForResult(fragment, goods, requestCode);
     }
+
+    public void showGoodsRegister(Fragment fragment, int requestCode) {
+        GoodsRegisterActivity.startForResult(fragment, requestCode);
+    }
 }

@@ -21,7 +21,8 @@
         </activity>
         <activity
             android:name=".activity.GoodsUpdateActivity"
-            android:label="@string/goods_update"/>
+            android:label="@string/goods_update" />
+        <activity android:name=".activity.GoodsRegisterActivity"></activity>
     </application>
 
 </manifest>

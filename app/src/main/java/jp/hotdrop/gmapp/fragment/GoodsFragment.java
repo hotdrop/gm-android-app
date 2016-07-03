@@ -1,6 +1,7 @@
 package jp.hotdrop.gmapp.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -24,6 +25,7 @@ import java.util.TreeMap;
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.R;
+import jp.hotdrop.gmapp.activity.ActivityNavigator;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsListBinding;
 import jp.hotdrop.gmapp.model.Goods;
@@ -39,11 +41,12 @@ public class GoodsFragment extends BaseFragment {
     protected CompositeSubscription compositeSubscription;
     @Inject
     protected GoodsDao dao;
+    @Inject
+    protected ActivityNavigator activityNavigator;
 
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
-
-    private String activeTabName;
+    private boolean isRefresh = false;
 
     private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
 
@@ -72,13 +75,10 @@ public class GoodsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
 
+        int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
         if(refreshMode == REFRESH_ALL) {
-            int idx = binding.viewPager.getCurrentItem();
-            if(idx != 0) {
-                activeTabName = adapter.getPageTitle(idx).toString();
-            }
+            isRefresh = true;
             compositeSubscription.add(loadData());
             getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
         }
@@ -128,13 +128,6 @@ public class GoodsFragment extends BaseFragment {
         Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
     }
 
-    protected void showLoadingView() {
-        binding.progressBarContainer.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideLoadingView() {
-        binding.progressBarContainer.setVisibility(View.GONE);
-    }
 
     public interface OnChangeGoodsListener {
         void onChangeGoods(List<Goods> goodsList);
@@ -162,14 +155,24 @@ public class GoodsFragment extends BaseFragment {
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
+        binding.fabAddButton.setOnClickListener(v ->
+                activityNavigator.showGoodsRegister(GoodsFragment.this, REQ_CODE_REGISTER));
         
-        if(activeTabName != null) {
-            int idx = adapter.getPagePosition(activeTabName);
-            binding.viewPager.setCurrentItem(idx);
-            activeTabName = null;
+        if(isRefresh) {
+            String tabName = adapter.getPageTitle(binding.viewPager.getCurrentItem()).toString();
+            binding.viewPager.setCurrentItem(adapter.getPagePosition(tabName));
+            isRefresh = false;
         }
 
         hideLoadingView();
+    }
+
+    protected void showLoadingView() {
+        binding.progressBarContainer.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideLoadingView() {
+        binding.progressBarContainer.setVisibility(View.GONE);
     }
 
     private void addFragment(String title, List<Goods> goodsList) {
@@ -177,8 +180,17 @@ public class GoodsFragment extends BaseFragment {
         adapter.add(title, fragment);
     }
 
-    protected GoodsTabFragment createTabFragment(List<Goods> goodsList) {
+    private GoodsTabFragment createTabFragment(List<Goods> goodsList) {
         return GoodsTabFragment.newInstance(goodsList);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // TODO ここがうまくいっていない
+        // GoodsRegisterFragmentから戻ってきた際に呼ばれる
+        // このFragmentで登録処理が行われればintentにREFRESH_ALLが設定されるので
+        // この後呼ばれるonResumeがリフレッシュしてくれる。従ってここでは何もしない。
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Goods {
     protected int amount = 0;
     // bindingを使用しておりかつEditTextにしているためintではなくStringで表現する
     // なお、空が設定された場合は0を保持する。（setterにて）
-    protected String stockNum;
+    protected String stockNum = "0";
     protected Date lastStockDate;
     protected String lastStockPrice;
     protected Date updateDate;
