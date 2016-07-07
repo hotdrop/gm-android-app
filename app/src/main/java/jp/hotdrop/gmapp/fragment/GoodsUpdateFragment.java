@@ -94,6 +94,7 @@ public class GoodsUpdateFragment extends BaseFragment {
             Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
             return;
         }
+        // TODO 同名は禁止
 
         int refreshMode = REFRESH_ONE;
 

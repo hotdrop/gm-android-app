@@ -88,6 +88,8 @@ public class GoodsRegisterFragment extends BaseFragment {
             return;
         }
 
+        // TODO 同名は禁止
+
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
 
         goods.setCategoryId(categoryMap.get(selectedCategoryName));
@@ -104,7 +106,6 @@ public class GoodsRegisterFragment extends BaseFragment {
     private void setResult() {
         Intent intent = new Intent();
         intent.putExtra(ARG_REFRESH_MODE, REFRESH_ALL);
-        //intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 

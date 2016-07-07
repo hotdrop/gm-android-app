@@ -72,10 +72,13 @@ public class GoodsFragment extends BaseFragment {
         }
     }
 
+    /**
+     * Tabの切り替えとupdateFragmentでの更新時に無条件で呼ばれる。
+     * そのため、商品のカテゴリーを修正した場合はここで検知してリフレッシュする。
+     */
     @Override
     public void onResume() {
         super.onResume();
-
         int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
         if(refreshMode == REFRESH_ALL) {
             isRefresh = true;
@@ -159,7 +162,12 @@ public class GoodsFragment extends BaseFragment {
                 activityNavigator.showGoodsRegister(GoodsFragment.this, REQ_CODE_REGISTER));
         
         if(isRefresh) {
-            String tabName = adapter.getPageTitle(binding.viewPager.getCurrentItem()).toString();
+            // TODO UpdateFragmentから戻ってくるとgetCurrentItemは0になる
+            // TODO そのため、カスタムタブリスナーで常に自身のタブ名を保持しておき、
+            // TODO そのタブと同じ名称のタイトルがあるか探す。
+            // TODO あればそのポジションを設定し、なければポジション0を指定する
+            int currentItem = binding.viewPager.getCurrentItem();
+            String tabName = adapter.getPageTitle(currentItem).toString();
             binding.viewPager.setCurrentItem(adapter.getPagePosition(tabName));
             isRefresh = false;
         }
@@ -184,13 +192,22 @@ public class GoodsFragment extends BaseFragment {
         return GoodsTabFragment.newInstance(goodsList);
     }
 
+    /**
+     * 今の所RegisterFragmentからの復帰時に呼ばれる。
+     * （Updateとは別タイミング）
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // TODO ここがうまくいっていない
-        // GoodsRegisterFragmentから戻ってきた際に呼ばれる
-        // このFragmentで登録処理が行われればintentにREFRESH_ALLが設定されるので
-        // この後呼ばれるonResumeがリフレッシュしてくれる。従ってここでは何もしない。
+        int refreshMode = data.getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
+        if(refreshMode == REFRESH_ALL) {
+            isRefresh = true;
+            compositeSubscription.add(loadData());
+            getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
+        }
     }
 
     @Override
