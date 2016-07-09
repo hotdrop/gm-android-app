@@ -15,11 +15,11 @@ public class ActivityNavigator {
         MainActivity.start(activity);
     }
 
-    public void showGoodsUpdate(Fragment fragment, Goods goods, int requestCode) {
+    public void showGoodsUpdate(@NonNull Fragment fragment, @NonNull Goods goods, int requestCode) {
         GoodsUpdateActivity.startForResult(fragment, goods, requestCode);
     }
 
-    public void showGoodsRegister(Fragment fragment, int requestCode) {
-        GoodsRegisterActivity.startForResult(fragment, requestCode);
+    public void showGoodsRegister(@NonNull Fragment fragment, @NonNull String tabName, int requestCode) {
+        GoodsRegisterActivity.startForResult(fragment, tabName, requestCode);
     }
 }

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,15 +34,17 @@ public class GoodsUpdateFragment extends BaseFragment {
     protected GoodsCategoryDao categoryDao;
 
     private Goods goods;
+    private String originGoodsName;
     private FragmentGoodsUpdateBinding binding;
     private HashMap<String, Integer> categoryMap = new HashMap<>();
+    private AlertDialog.Builder deleteConfirmDlg;
 
     /**
      * フラグメント生成
      * @param goods
      * @return
      */
-    public static GoodsUpdateFragment create(Goods goods) {
+    public static GoodsUpdateFragment create(@NonNull Goods goods) {
         GoodsUpdateFragment fragment = new GoodsUpdateFragment();
         Bundle args = new Bundle();
         args.putParcelable(Goods.class.getSimpleName(), Parcels.wrap(goods));
@@ -61,7 +65,11 @@ public class GoodsUpdateFragment extends BaseFragment {
         binding.setGoods(goods);
 
         setCategorySpinner();
+        setDeleteConfirmDlg();
+
         binding.updateButton.setOnClickListener((View v) -> onClickUpdate(v));
+        binding.deleteButton.setOnClickListener((View v) -> deleteConfirmDlg.show());
+        originGoodsName = goods.getName();
 
         return binding.getRoot();
     }
@@ -72,6 +80,9 @@ public class GoodsUpdateFragment extends BaseFragment {
         getComponent().inject(this);
     }
 
+    /**
+     * カテゴリーのドロップダウンリストを作成する
+     */
     private void setCategorySpinner() {
 
         List<GoodsCategory> categoryList = categoryDao.selectAll();
@@ -88,16 +99,28 @@ public class GoodsUpdateFragment extends BaseFragment {
         binding.spinnerCategory.setSelection(adapter.getPosition(goods.getCategoryName()));
     }
 
+    /**
+     * 削除ボタン押下時の確認ダイアログを生成する
+     */
+    private void setDeleteConfirmDlg() {
+        deleteConfirmDlg = new AlertDialog.Builder(getContext());
+        deleteConfirmDlg.setTitle("削除の確認");
+        deleteConfirmDlg.setMessage("この商品を削除しますが本当によろしいですか？");
+        deleteConfirmDlg.setPositiveButton("OK", (dialog, which) -> { doDelete(); });
+        deleteConfirmDlg.setNegativeButton("cancel", (dialog, which) -> {/* キャンセル時は何もしない */});
+    }
+
+    /**
+     * 更新ボタン押下
+     * @param v
+     */
     private void onClickUpdate(View v) {
 
-        if(goods.getName().trim().equals("")) {
-            Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
+        if(!canUpdate()) {
             return;
         }
-        // TODO 同名は禁止
 
         int refreshMode = REFRESH_ONE;
-
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         if(!selectedCategoryName.equals(goods.getCategoryName())) {
             // カテゴリーを変更した場合は全リフレッシュモードにする
@@ -109,10 +132,55 @@ public class GoodsUpdateFragment extends BaseFragment {
         goodsDao.beginTran();
         goodsDao.update(goods);
         goodsDao.commit();
+
         setResult(refreshMode);
         exit();
     }
 
+    /**
+     * 更新前の入力チェック
+     * @return
+     */
+    private boolean canUpdate() {
+
+        if(goods.getName().trim().equals("")) {
+            Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!originGoodsName.equals(goods.getName()) && goodsDao.existGoodsName(goods.getName())) {
+            Toast.makeText(this.getActivity(), "同じ商品名が登録されています。", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 商品情報を削除する。
+     * 削除ボタンを押下し、確認ダイアログでOKを選択した場合に呼ばれる
+     */
+    private void doDelete() {
+
+        if(goodsDao.getCount() == 1) {
+            Toast.makeText(this.getActivity(), "商品が１つしか登録されていないため削除できません。", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        goodsDao.beginTran();
+        goodsDao.delete(goods.getId());
+        goodsDao.commit();
+
+        // 削除の場合は全リフレッシュ
+        // いろいろ全リフレッシュ以外を試行錯誤したが、TabFragmentで持つリストとGoodsFragmentで持つリスト
+        // 等々の整合性を合わせるのが厳しかったので一旦リフレッシュとした。
+        setResult(REFRESH_ALL);
+        exit();
+    }
+
+    /**
+     * 更新は修正した商品情報によって元のアクティビティのタブ更新指示を変更する
+     */
     private void setResult(int refreshMode) {
         Intent intent = new Intent();
         intent.putExtra(ARG_REFRESH_MODE, refreshMode);
@@ -120,6 +188,9 @@ public class GoodsUpdateFragment extends BaseFragment {
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 
+    /**
+     * フラグメントを抜ける
+     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

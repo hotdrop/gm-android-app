@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
@@ -16,12 +17,12 @@ import jp.hotdrop.gmapp.model.Goods;
 
 public class GoodsUpdateActivity extends BaseActivity {
 
-    static void startForResult(Fragment fragment, Goods goods, int requestCode) {
+    static void startForResult(Fragment fragment, @NonNull Goods goods, int requestCode) {
         Intent intent = createIntent(fragment.getContext(), goods);
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(Context context, Goods goods) {
+    public static Intent createIntent(Context context, @NonNull Goods goods) {
         Intent intent = new Intent(context, GoodsUpdateActivity.class);
         intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         return intent;

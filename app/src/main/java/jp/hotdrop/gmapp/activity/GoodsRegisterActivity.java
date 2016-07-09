@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
@@ -13,13 +14,16 @@ import jp.hotdrop.gmapp.fragment.GoodsRegisterFragment;
 
 public class GoodsRegisterActivity extends BaseActivity {
 
-    static void startForResult(Fragment fragment, int requestCode) {
-        Intent intent = createIntent(fragment.getContext());
+    public static final String ARG_TAB_NAME = "ARG_TAB";
+
+    static void startForResult(Fragment fragment, @NonNull String tabName, int requestCode) {
+        Intent intent = createIntent(fragment.getContext(), tabName);
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(Context context) {
+    public static Intent createIntent(Context context, @NonNull String tabName) {
         Intent intent = new Intent(context, GoodsRegisterActivity.class);
+        intent.putExtra(ARG_TAB_NAME, tabName);
         return intent;
     }
 
@@ -28,7 +32,9 @@ public class GoodsRegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         DataBindingUtil.setContentView(this, R.layout.activity_goods_register);
         getComponent().inject(this);
-        replaceFragment(GoodsRegisterFragment.create());
+
+        String tabName = getIntent().getStringExtra(ARG_TAB_NAME);
+        replaceFragment(GoodsRegisterFragment.create(tabName));
     }
 
     private void replaceFragment(Fragment fragment) {

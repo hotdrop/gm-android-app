@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import jp.hotdrop.gmapp.activity.GoodsRegisterActivity;
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsRegisterBinding;
@@ -31,6 +33,7 @@ public class GoodsRegisterFragment extends BaseFragment {
     protected GoodsCategoryDao categoryDao;
 
     private Goods goods;
+    private String selectedTabName;
     private FragmentGoodsRegisterBinding binding;
     private HashMap<String, Integer> categoryMap = new HashMap<>();
 
@@ -38,14 +41,18 @@ public class GoodsRegisterFragment extends BaseFragment {
      * フラグメント生成
      * @return
      */
-    public static GoodsRegisterFragment create() {
+    public static GoodsRegisterFragment create(@NonNull String tabName) {
         GoodsRegisterFragment fragment = new GoodsRegisterFragment();
+        Bundle args = new Bundle();
+        args.putString(GoodsRegisterActivity.ARG_TAB_NAME, tabName);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        selectedTabName = getArguments().getString(GoodsRegisterActivity.ARG_TAB_NAME);
         goods = new Goods();
     }
 
@@ -67,6 +74,9 @@ public class GoodsRegisterFragment extends BaseFragment {
         getComponent().inject(this);
     }
 
+    /**
+     * カテゴリーのドロップダウンリストを作成する
+     */
     private void setCategorySpinner() {
         List<GoodsCategory> categoryList = categoryDao.selectAll();
         // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
@@ -79,19 +89,20 @@ public class GoodsRegisterFragment extends BaseFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerCategory.setAdapter(adapter);
+        binding.spinnerCategory.setSelection(adapter.getPosition(selectedTabName));
     }
 
+    /**
+     * 登録ボタン押下
+     * @param v
+     */
     private void onClickRegister(View v) {
 
-        if(goods.getName().trim().equals("")) {
-            Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
+        if(!canRegister()) {
             return;
         }
 
-        // TODO 同名は禁止
-
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
-
         goods.setCategoryId(categoryMap.get(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
         goods.setLastUpdateAmountDate(DateUtil.longToDate(System.currentTimeMillis()));
@@ -100,16 +111,42 @@ public class GoodsRegisterFragment extends BaseFragment {
         goodsDao.beginTran();
         goodsDao.insert(goods);
         goodsDao.commit();
+
         setResult();
         exit();
     }
 
+    /**
+     * 登録前の入力チェック
+     * @return
+     */
+    private boolean canRegister() {
+
+        if(goods.getName().trim().equals("")) {
+            Toast.makeText(this.getActivity(), "商品名を入力してください。", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(goodsDao.existGoodsName(goods.getName())) {
+            Toast.makeText(this.getActivity(), "同じ商品名が登録されています。", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 登録は商品一覧の全タブ更新指示をアクティビティに通知する
+     */
     private void setResult() {
         Intent intent = new Intent();
         intent.putExtra(ARG_REFRESH_MODE, REFRESH_ALL);
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 
+    /**
+     * フラグメントを抜ける
+     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

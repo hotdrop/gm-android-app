@@ -54,11 +54,25 @@
             android:text="@={goods.stockNum}"
             android:ems="5" />
 
-        <Button
-            android:id="@+id/update_button"
-            style="@style/GoodsButton"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/button_update" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/update_button"
+                style="@style/GoodsButton"
+                android:text="@string/button_update" />
+
+            <Button
+                android:id="@+id/delete_button"
+                style="@style/GoodsButton"
+                android:layout_toRightOf="@id/update_button"
+                android:layout_marginLeft="50dp"
+                android:text="@string/button_delete" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

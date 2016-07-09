@@ -47,7 +47,7 @@
                     android:ellipsize="end"
                     android:lines="1"
                     android:gravity="center_vertical"
-                    android:text="在庫数：" />
+                    android:text="@string/list_stock_num" />
 
                 <TextView
                     android:id="@+id/txt_stock_num"
@@ -72,7 +72,7 @@
                     android:lines="1"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/text_small"
-                    android:text="前回補充した日：" />
+                    android:text="@string/list_last_stock_date" />
 
                 <TextView
                     android:id="@+id/txt_last_stock_date"
@@ -90,6 +90,34 @@
                     android:textSize="@dimen/text_small"
                     android:gravity="center_vertical"
                     android:text="@{DateUtil.dateToString(goods.lastStockDate)}" />
+
+                <TextView
+                    android:id="@+id/label_last_update_amount_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/label_last_stock_date"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/text_small"
+                    android:text="@string/list_last_update_amount_date" />
+
+                <TextView
+                    android:id="@+id/txt_last_update_amount_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_last_update_amount_date"
+                    android:layout_toRightOf="@id/label_last_update_amount_date"
+                    android:layout_alignBottom="@id/label_last_update_amount_date"
+                    android:layout_alignTop="@id/label_last_update_amount_date"
+                    android:drawableLeft="@drawable/ic_access_time_state"
+                    android:drawableStart="@drawable/ic_access_time_state"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_small"
+                    android:gravity="center_vertical"
+                    android:text="@{DateUtil.dateToString(goods.lastUpdateAmountDate)}" />
 
                 <ImageView
                     android:id="@+id/img_amount"

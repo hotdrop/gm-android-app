@@ -18,9 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import javax.inject.Inject;
 
@@ -47,23 +47,15 @@ public class GoodsFragment extends BaseFragment {
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
     private boolean isRefresh = false;
-    private String tabName;
+    private String tabName = "";
 
-    private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
+    private OnChangeGoodsListener onChangeGoodsListener = goods -> {/* no operation */};
 
-    /**
-     * コンストラクタ
-     */
     public static GoodsFragment newInstance() {
         GoodsFragment fragment = new GoodsFragment();
         return fragment;
     }
 
-    /**
-     * インスタンス生成で呼ばれるアタッチイベント
-     * Activityに関連付けされる際に１度だけ呼ばれるようだ。なのでリスナー設定だけする
-     * @param context
-     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -88,22 +80,11 @@ public class GoodsFragment extends BaseFragment {
         }
     }
 
-    /**
-     * フラグメントの初期化処理を行う。
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    /**
-     * Fragmentに関連付けるViewを作成し、returnする。
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGoodsListBinding.inflate(inflater, container, false);
@@ -112,6 +93,10 @@ public class GoodsFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    /**
+     * データベースから商品情報をすべて取得して画面表示のためのリストを生成する。
+     * @return
+     */
     protected Subscription loadData() {
         showLoadingView();
         Observable<List<Goods>> cachedGoodsList = dao.selectAll();
@@ -132,13 +117,9 @@ public class GoodsFragment extends BaseFragment {
         Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
     }
 
-
-    public interface OnChangeGoodsListener {
-        void onChangeGoods(List<Goods> goodsList);
-    }
-
     protected void groupByCategoryGoods(List<Goods> goodsList) {
-        Map<String, List<Goods>> goodsByCategory = new TreeMap<>();
+        // KEYの格納順にタブを表示したいのでLinkedHashMapを使う
+        Map<String, List<Goods>> goodsByCategory = new LinkedHashMap<>();
         for(Goods goods : goodsList) {
             String key = goods.getCategoryName();
             if(goodsByCategory.containsKey(key)) {
@@ -160,7 +141,7 @@ public class GoodsFragment extends BaseFragment {
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
         binding.fabAddButton.setOnClickListener(v ->
-                activityNavigator.showGoodsRegister(GoodsFragment.this, REQ_CODE_REGISTER));
+                activityNavigator.showGoodsRegister(GoodsFragment.this, tabName, REQ_CODE_REGISTER));
         
         if(isRefresh) {
             // もともと選択していたタブを選択状態にする
@@ -198,6 +179,10 @@ public class GoodsFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data == null) {
+            return;
+        }
+
         int refreshMode = data.getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
         if(refreshMode == REFRESH_ALL) {
             isRefresh = true;
@@ -215,6 +200,13 @@ public class GoodsFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO 検索アイコン選択時の動作を書く
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 商品リスト変更リスナーのインタフェース
+     */
+    public interface OnChangeGoodsListener {
+        void onChangeGoods(List<Goods> goodsList);
     }
 
     /**

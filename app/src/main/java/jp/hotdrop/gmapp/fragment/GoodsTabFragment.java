@@ -64,20 +64,14 @@ public class GoodsTabFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        binding = FragmentGoodsTabBinding.inflate(inflater, container, false);
-        bindData();
-        return binding.getRoot();
-    }
 
-    private void bindData() {
-        adapter = createAdapter();
+        binding = FragmentGoodsTabBinding.inflate(inflater, container, false);
+        adapter = new GoodsAdapter(getContext());
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.addAll(goodsList);
-    }
 
-    protected GoodsAdapter createAdapter() {
-        return new GoodsAdapter(getContext());
+        return binding.getRoot();
     }
 
     /**
@@ -104,7 +98,7 @@ public class GoodsTabFragment extends BaseFragment {
                     onChangeGoodsListener.onChangeGoods(Collections.singletonList(goods));
                     break;
                 case REFRESH_ALL:
-                    // カテゴリー変更は全リフレッシュ
+                    // 全リフレッシュはTabFragmentではできないため上位のフラグメントに任せる。
                     getActivity().setIntent(data);
                     break;
                 case REFRESH_NONE:
@@ -144,6 +138,7 @@ public class GoodsTabFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(BindingHolder<ItemGoodsBinding> holder, int position) {
+
             Goods goods = getItem(position);
             ItemGoodsBinding binding = holder.binding;
             binding.setGoods(goods);

@@ -2,6 +2,7 @@ package jp.hotdrop.gmapp.dao;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +35,6 @@ public class GoodsDao extends AbstractDao {
         super(context);
     }
 
-    /**
-     * 一覧表示を行うため全商品情報を取得する
-     * @return
-     */
     public Observable<List<Goods>> selectAll() {
 
         String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, gs.id";
@@ -50,25 +47,6 @@ public class GoodsDao extends AbstractDao {
         }
 
         return Observable.just(goodsList);
-    }
-
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public Goods select(String id) {
-
-        Goods goods = null;
-        String sql = SQL_SELECT_FROM + " WHERE gs.id = ?";
-        String[] bind = {id};
-
-        Cursor cursor = execSelect(sql, bind);
-        if (cursor.moveToNext()) {
-            goods = createGoods(cursor);
-        }
-
-        return goods;
     }
 
     public void insert(Goods goods) {
@@ -105,16 +83,33 @@ public class GoodsDao extends AbstractDao {
         execUpdate(sql, bind);
     }
 
-    public void updateAmount(String id, int amount) {
-        String sql = "UPDATE t_goods SET amount = ?, update_date = ? WHERE id = ? ";
-        String[] bind = {String.valueOf(amount), String.valueOf(System.currentTimeMillis()), id};
-        execUpdate(sql, bind);
-    }
-
     public void delete(String id) {
         String sql = "DELETE FROM t_goods WHERE id = ? ";
         String[] bind = {id};
         execDelete(sql, bind);
+    }
+
+    public boolean existGoodsName(String name) {
+
+        String sql = "SELECT name FROM t_goods WHERE name = ?";
+        String[] bind = {name};
+
+        Cursor cursor = execSelect(sql, bind);
+        if (cursor.moveToNext()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public long getCount() {
+        return DatabaseUtils.queryNumEntries(db, "t_goods");
+    }
+
+    public void updateAmount(String id, int amount) {
+        String sql = "UPDATE t_goods SET amount = ?, update_date = ? WHERE id = ? ";
+        String[] bind = {String.valueOf(amount), String.valueOf(System.currentTimeMillis()), id};
+        execUpdate(sql, bind);
     }
 
     /**
