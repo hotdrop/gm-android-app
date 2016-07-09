@@ -94,6 +94,7 @@ public class GoodsRegisterFragment extends BaseFragment {
 
         goods.setCategoryId(categoryMap.get(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
+        goods.setLastUpdateAmountDate(DateUtil.longToDate(System.currentTimeMillis()));
         goods.setLastStockDate(DateUtil.longToDate(System.currentTimeMillis()));
 
         goodsDao.beginTran();

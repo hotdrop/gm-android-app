@@ -23,8 +23,8 @@ public class Goods {
     // bindingを使用しておりかつEditTextにしているためintではなくStringで表現する
     // なお、空が設定された場合は0を保持する。（setterにて）
     protected String stockNum = "0";
+    protected Date lastUpdateAmountDate;
     protected Date lastStockDate;
-    protected String lastStockPrice;
     protected Date updateDate;
 
     public Goods() {
@@ -78,20 +78,20 @@ public class Goods {
         return String.valueOf(stockNum);
     }
 
+    public void setLastUpdateAmountDate(Date lastUpdateAmountDate) {
+        this.lastUpdateAmountDate = lastUpdateAmountDate;
+    }
+
+    public Date getLastUpdateAmountDate() {
+        return lastUpdateAmountDate;
+    }
+
     public void setLastStockDate(Date argDate) {
         lastStockDate = argDate;
     }
 
     public Date getLastStockDate() {
         return lastStockDate;
-    }
-
-    public void setLastStockPrice(String lastStockPrice) {
-        this.lastStockPrice = lastStockPrice;
-    }
-
-    public String getLastStockPrice() {
-        return lastStockPrice;
     }
 
     public void setUpdateDate(Date updateDate) {
@@ -109,8 +109,8 @@ public class Goods {
         this.categoryName = goods.getCategoryName();
         this.amount = goods.getAmount();
         this.stockNum = goods.getStockNum();
+        this.lastUpdateAmountDate = goods.getLastUpdateAmountDate();
         this.lastStockDate = goods.getLastStockDate();
-        this.lastStockPrice = goods.getLastStockPrice();
         this.updateDate = goods.getUpdateDate();
     }
 

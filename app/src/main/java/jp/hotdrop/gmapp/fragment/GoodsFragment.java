@@ -47,6 +47,7 @@ public class GoodsFragment extends BaseFragment {
     private GoodsPagerAdapter adapter;
     private FragmentGoodsListBinding binding;
     private boolean isRefresh = false;
+    private String tabName;
 
     private OnChangeGoodsListener onChangeGoodsListener = session -> {/* no operation */};
 
@@ -162,12 +163,7 @@ public class GoodsFragment extends BaseFragment {
                 activityNavigator.showGoodsRegister(GoodsFragment.this, REQ_CODE_REGISTER));
         
         if(isRefresh) {
-            // TODO UpdateFragmentから戻ってくるとgetCurrentItemは0になる
-            // TODO そのため、カスタムタブリスナーで常に自身のタブ名を保持しておき、
-            // TODO そのタブと同じ名称のタイトルがあるか探す。
-            // TODO あればそのポジションを設定し、なければポジション0を指定する
-            int currentItem = binding.viewPager.getCurrentItem();
-            String tabName = adapter.getPageTitle(currentItem).toString();
+            // もともと選択していたタブを選択状態にする
             binding.viewPager.setCurrentItem(adapter.getPagePosition(tabName));
             isRefresh = false;
         }
@@ -259,6 +255,11 @@ public class GoodsFragment extends BaseFragment {
         }
 
         public int getPagePosition(String argTitle) {
+
+            if(argTitle == null) {
+                return 0;
+            }
+
             int idx = 0;
             for(String title : titles) {
                 if(title.equals(argTitle)) {
@@ -280,10 +281,19 @@ public class GoodsFragment extends BaseFragment {
         }
 
         @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            super.onTabSelected(tab);
+            GoodsTabFragment fragment = (GoodsTabFragment) adapter.getItem(tab.getPosition());
+            if(fragment != null) {
+                tabName = adapter.getPageTitle(tab.getPosition()).toString();
+            }
+        }
+
+        @Override
         public void onTabReselected(TabLayout.Tab tab) {
             super.onTabReselected(tab);
             GoodsTabFragment fragment = (GoodsTabFragment) adapter.getItem(tab.getPosition());
-            if (fragment != null) {
+            if(fragment != null) {
                 fragment.scrollUpToTop();
             }
         }
