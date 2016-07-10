@@ -1,19 +1,16 @@
 <resources>
     <string name="app_name">在庫管理アプリ</string>
     <string name="app_title">在庫管理アプリ</string>
-    <string name="goods_update">商品更新</string>
 
-    <string name="tag_line">アプリのメニューです。</string>
+    <string name="tag_line">このアプリのメニューです。カテゴリーの編集はカテゴリー一覧で行えます。</string>
 
     <string name="open">開く</string>
     <string name="close">閉じる</string>
-    <string name="ok">OK</string>
-    <string name="cancel">キャンセル</string>
 
-    <string name="goods_list">商品一覧</string>
-    <string name="action_settings">設定</string>
-    <string name="about">このアプリについて</string>
-    <string name="search">検索</string>
+    <!-- ナビゲーションメニュー -->
+    <string name="nav_goods_list">商品一覧</string>
+    <string name="nav_category_list">カテゴリー一覧</string>
+    <string name="nav_search">検索</string>
 
     <!-- 一覧画面 -->
     <string name="list_stock_num">在庫数：</string>

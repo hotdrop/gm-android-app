@@ -64,13 +64,11 @@ public class GoodsTabFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentGoodsTabBinding.inflate(inflater, container, false);
         adapter = new GoodsAdapter(getContext());
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.addAll(goodsList);
-
         return binding.getRoot();
     }
 

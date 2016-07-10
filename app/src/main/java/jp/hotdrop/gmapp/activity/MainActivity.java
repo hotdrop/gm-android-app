@@ -1,7 +1,5 @@
 package jp.hotdrop.gmapp.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,22 +28,14 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
 
     private static final String EXTRA_MENU = "menu";
-
     private static final long DRAWER_CLOSE_DELAY_MILLS = 300L;
 
     @Inject
     MainContentStateBrokerProvider brokerProvider;
-
     @Inject
     CompositeSubscription subscription;
 
     private ActivityMainBinding binding;
-
-    static void start(@NonNull Activity activity) {
-        Intent intent = new Intent(activity, MainActivity.class);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +90,10 @@ public class MainActivity extends BaseActivity
     private void initView() {
         setSupportActionBar(binding.toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, binding.drawer, binding.toolbar, R.string.open, R.string.close);
-        binding.drawer.setDrawerListener(toggle);
+        binding.drawer.addDrawerListener(toggle);
         toggle.syncState();
         binding.navView.setNavigationItemSelectedListener(this);
-        binding.navView.setCheckedItem(R.id.nav_goods);
+        binding.navView.setCheckedItem(R.id.nav_goods_list);
     }
 
     @Override
@@ -113,7 +103,7 @@ public class MainActivity extends BaseActivity
 
     /**
      * 戻る操作をした時の挙動
-     * バックスタックに積んだ画面（フラグメント）があればそれを取り出す
+     * バックスタックに積んだフラグメントがあれば取り出す
      */
     @Override
     public void onBackPressed() {
@@ -132,7 +122,7 @@ public class MainActivity extends BaseActivity
     /**
      * フラグメントの置換。生成ではなくリプレイスでフラグメントを実現している。
      * リプレイスしたらcommitする前にバックスタックに追加する。
-     * ここでは無条件に追加しているため、メイン画面を作りまくると戻るを大量に押さないとアプリが終了できない問題がある
+     * ここでは無条件に追加しているため、メイン画面を作りまくった場合、戻るを大量に押さないとアプリが終了できない問題がある
      * @param fragment
      */
     private void replaceFragment(Fragment fragment) {

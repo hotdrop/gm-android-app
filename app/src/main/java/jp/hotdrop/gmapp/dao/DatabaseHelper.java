@@ -33,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         List<String> createTableSqlList = getSqlList("sql/DDL/createTable.sql");
+
         for(String sql : createTableSqlList) {
             db.execSQL(sql);
         }
@@ -54,18 +55,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-        /*
-        List<String> dropTableSqlList = getSqlList("sql/DDL/dropTable.sql");
-        for(String sql : dropTableSqlList) {
-            db.execSQL(sql);
-        }
-
-        List<String> createTableSqlList = getSqlList("sql/DDL/createTable.sql");
-        for(String sql : createTableSqlList) {
-            db.execSQL(sql);
-        }*/
-
         List<String> insertList = getSqlList("sql/DML/addData.sql");
         for(String insertSql : insertList) {
             db.execSQL(insertSql);

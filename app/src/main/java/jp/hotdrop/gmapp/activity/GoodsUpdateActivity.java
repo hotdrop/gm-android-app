@@ -17,12 +17,12 @@ import jp.hotdrop.gmapp.model.Goods;
 
 public class GoodsUpdateActivity extends BaseActivity {
 
-    static void startForResult(Fragment fragment, @NonNull Goods goods, int requestCode) {
+    static void startForResult(@NonNull Fragment fragment, @NonNull Goods goods, int requestCode) {
         Intent intent = createIntent(fragment.getContext(), goods);
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(Context context, @NonNull Goods goods) {
+    public static Intent createIntent(@NonNull Context context, @NonNull Goods goods) {
         Intent intent = new Intent(context, GoodsUpdateActivity.class);
         intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
         return intent;
@@ -38,7 +38,7 @@ public class GoodsUpdateActivity extends BaseActivity {
         replaceFragment(GoodsUpdateFragment.create(goods));
     }
 
-    private void replaceFragment(Fragment fragment) {
+    private void replaceFragment(@NonNull Fragment fragment) {
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_view, fragment, fragment.getClass().getSimpleName());
         ft.commit();

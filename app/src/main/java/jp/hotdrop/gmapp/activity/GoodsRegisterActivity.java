@@ -16,12 +16,12 @@ public class GoodsRegisterActivity extends BaseActivity {
 
     public static final String ARG_TAB_NAME = "ARG_TAB";
 
-    static void startForResult(Fragment fragment, @NonNull String tabName, int requestCode) {
+    static void startForResult(@NonNull Fragment fragment, @NonNull String tabName, int requestCode) {
         Intent intent = createIntent(fragment.getContext(), tabName);
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(Context context, @NonNull String tabName) {
+    public static Intent createIntent(@NonNull Context context, @NonNull String tabName) {
         Intent intent = new Intent(context, GoodsRegisterActivity.class);
         intent.putExtra(ARG_TAB_NAME, tabName);
         return intent;

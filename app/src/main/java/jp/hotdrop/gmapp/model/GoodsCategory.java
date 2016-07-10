@@ -2,9 +2,9 @@ package jp.hotdrop.gmapp.model;
 
 public class GoodsCategory {
 
-    private int id;
-    private String name;
-    private int viewOrder;
+    protected int id;
+    protected String name;
+    protected int viewOrder;
 
     public GoodsCategory() {
     }

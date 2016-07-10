@@ -33,8 +33,7 @@ public abstract class BaseFragment extends Fragment {
             throw new IllegalStateException("This fragment is not BaseActivity.");
         }
 
-        fragmentComponent = ((BaseActivity) activity).getComponent()
-                .plus(new FragmentModule(this));
+        fragmentComponent = ((BaseActivity) activity).getComponent().plus(new FragmentModule(this));
         return fragmentComponent;
     }
 }

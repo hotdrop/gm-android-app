@@ -255,7 +255,6 @@ public class RtlViewPager extends ViewPager {
         }
     }
 
-
     class PagerAdapterWrapper extends PagerAdapter {
 
         @NonNull

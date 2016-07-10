@@ -7,15 +7,17 @@ import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.fragment.GoodsFragment;
 
 /**
- * 右上のメニュー
+ * ナビゲーションメニューの各ページを表す。
  */
 public enum Page {
-    GOODS_LIST(R.id.nav_goods, R.string.goods_list, false, GoodsFragment.class.getSimpleName()) {
+
+    GOODS_LIST(R.id.nav_goods_list, R.string.nav_goods_list, false, GoodsFragment.class.getSimpleName()) {
         @Override
         public Fragment createFragment() {
             return GoodsFragment.newInstance();
         }
     };
+    // カテゴリーリストを設定する
 
     private final int menuId;
     private final int titleResId;

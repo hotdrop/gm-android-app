@@ -140,8 +140,7 @@ public class GoodsFragment extends BaseFragment {
         binding.viewPager.setAdapter(adapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
-        binding.fabAddButton.setOnClickListener(v ->
-                activityNavigator.showGoodsRegister(GoodsFragment.this, tabName, REQ_CODE_REGISTER));
+        binding.fabAddButton.setOnClickListener(v -> activityNavigator.showGoodsRegister(GoodsFragment.this, tabName, REQ_CODE_REGISTER));
         
         if(isRefresh) {
             // もともと選択していたタブを選択状態にする
