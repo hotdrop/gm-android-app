@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import jp.hotdrop.gmapp.R;
+import jp.hotdrop.gmapp.fragment.CategoryFragment;
 import jp.hotdrop.gmapp.fragment.GoodsFragment;
 
 /**
@@ -16,8 +17,13 @@ public enum Page {
         public Fragment createFragment() {
             return GoodsFragment.newInstance();
         }
+    },
+    CATEGORY_LIST(R.id.nav_category_list, R.string.nav_category_list, false, CategoryFragment.class.getSimpleName()) {
+        @Override
+        public Fragment createFragment() {
+            return CategoryFragment.newInstance();
+        }
     };
-    // カテゴリーリストを設定する
 
     private final int menuId;
     private final int titleResId;

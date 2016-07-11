@@ -14,12 +14,11 @@ import jp.hotdrop.gmapp.model.GoodsCategory;
 @Singleton
 public class GoodsCategoryDao extends AbstractDao {
 
-    private static final String SQL_SELECT_FROM =
-            " SELECT " +
-            "        id, " +
-            "        name, " +
-            "        view_order " +
-            " FROM m_goods_category ";
+    private static final String SQL_SELECT =
+            " SELECT id, name, view_order FROM m_goods_category ORDER BY view_order";
+
+    /** カテゴリー情報はあまり更新しないためstaticに保持する。 */
+    private static ArrayList<GoodsCategory> list;
 
     @Inject
     public GoodsCategoryDao(Context context) {
@@ -27,23 +26,20 @@ public class GoodsCategoryDao extends AbstractDao {
     }
 
     public List<GoodsCategory> selectAll() {
-
-        String sql = SQL_SELECT_FROM + " ORDER BY view_order";
-        List<GoodsCategory> categoryList = new ArrayList<>();
-        Cursor cursor = execSelect(sql, null);
-        while (cursor.moveToNext()) {
-            GoodsCategory category = createCategory(cursor);
-            categoryList.add(category);
+        if(list == null) {
+            saveCategoryList();
         }
-
-        return categoryList;
+        return list;
     }
 
-    /**
-     * カーソルから各値を取得し商品情報を生成する。
-     * @param cursor
-     * @return
-     */
+    private void saveCategoryList() {
+        list = new ArrayList<>();
+        Cursor cursor = execSelect(SQL_SELECT, null);
+        while (cursor.moveToNext()) {
+            list.add(createCategory(cursor));
+        }
+    }
+
     private GoodsCategory createCategory(Cursor cursor) {
         GoodsCategory category = new GoodsCategory();
         category.setId(getCursorInt(cursor, "id"));

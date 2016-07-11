@@ -3,18 +3,28 @@ package jp.hotdrop.gmapp.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import jp.hotdrop.gmapp.R;
+import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.databinding.FragmentCategoryListBinding;
 import jp.hotdrop.gmapp.databinding.ItemCategoryBinding;
 import jp.hotdrop.gmapp.model.GoodsCategory;
 import jp.hotdrop.gmapp.widget.ArrayRecyclerAdapter;
 import jp.hotdrop.gmapp.widget.BindingHolder;
+import rx.subscriptions.CompositeSubscription;
 
 public class CategoryFragment extends BaseFragment {
+
+    @Inject
+    protected CompositeSubscription compositeSubscription;
+    @Inject
+    protected GoodsCategoryDao dao;
 
     private CategoryAdapter adapter;
     private FragmentCategoryListBinding binding;
@@ -37,7 +47,13 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCategoryListBinding.inflate(inflater, container, false);
-        // adapter
+        adapter = new CategoryAdapter(getContext());
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter.addAll(dao.selectAll());
+
+        // TODO 追加ボタンのリスナー
+
         return binding.getRoot();
     }
 
@@ -61,7 +77,7 @@ public class CategoryFragment extends BaseFragment {
             GoodsCategory category = getItem(position);
             ItemCategoryBinding itemBinding = holder.binding;
             itemBinding.setCategory(category);
-            
+
             itemBinding.getRoot().setOnClickListener(v -> {/* 編集別画面へ */});
         }
     }
