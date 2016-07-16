@@ -29,12 +29,18 @@
                 android:clipToPadding="false"
                 android:padding="@dimen/spacing">
 
+                <ImageView
+                    android:id="@+id/icon_reorder_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_reorder" />
+
                 <TextView
                     android:id="@+id/txt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/icon_spacing_large"
-                    android:layout_marginStart="@dimen/icon_spacing_large"
+                    android:layout_toRightOf="@id/icon_reorder_category"
+                    android:layout_marginLeft="5dp"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/text_large"
                     android:text="@{category.name}" />

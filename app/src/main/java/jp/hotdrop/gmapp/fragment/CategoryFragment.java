@@ -3,8 +3,12 @@ package jp.hotdrop.gmapp.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +31,7 @@ public class CategoryFragment extends BaseFragment {
     protected GoodsCategoryDao dao;
 
     private CategoryAdapter adapter;
+    private ItemTouchHelper helper;
     private FragmentCategoryListBinding binding;
 
     public static CategoryFragment newInstance() {
@@ -48,6 +53,11 @@ public class CategoryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCategoryListBinding.inflate(inflater, container, false);
         adapter = new CategoryAdapter(getContext());
+
+        helper = new ItemTouchHelper(new CategoryItemTouchHelperCallback(adapter));
+        helper.attachToRecyclerView(binding.recyclerView);
+
+        binding.recyclerView.addItemDecoration(helper);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.addAll(dao.selectAll());
@@ -56,6 +66,12 @@ public class CategoryFragment extends BaseFragment {
 
         return binding.getRoot();
     }
+
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        helper.startDrag(viewHolder);
+    }
+
+    // TODO フラグメントが終了する際にview_orderを更新する
 
     /**
      * アダプタークラス
@@ -73,12 +89,62 @@ public class CategoryFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(BindingHolder<ItemCategoryBinding> holder, int position) {
-
             GoodsCategory category = getItem(position);
-            ItemCategoryBinding itemBinding = holder.binding;
-            itemBinding.setCategory(category);
+            ItemCategoryBinding binding = holder.binding;
+            binding.setCategory(category);
+            binding.iconReorderCategory.setOnTouchListener((view, event) -> {
+                if(MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    onStartDrag(holder);
+                }
+                return false;
+            });
 
-            itemBinding.getRoot().setOnClickListener(v -> {/* 編集別画面へ */});
+            binding.cardView.setOnClickListener(v -> {/* TODO 編集画面呼び出し */});
+        }
+    }
+
+    /**
+     * アイテム選択時のCallbackクラス
+     */
+    private class CategoryItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final CategoryAdapter adapter;
+
+        public CategoryItemTouchHelperCallback(CategoryAdapter adapter) {
+            this.adapter = adapter;
+        }
+
+        /**
+         * dragとswipeの動作指定
+         * dragの上下のみ許容する。
+         */
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            final int swipeFlags = 0;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        /**
+         * drag時の動作
+         */
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            return adapter.onItemMove(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        }
+
+        /**
+         * swipe時の動作
+         * 何もしない
+         */
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            return;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
         }
     }
 
