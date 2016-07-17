@@ -12,30 +12,30 @@ import android.view.MenuItem;
 import org.parceler.Parcels;
 
 import jp.hotdrop.gmapp.R;
-import jp.hotdrop.gmapp.fragment.GoodsUpdateFragment;
-import jp.hotdrop.gmapp.model.Goods;
+import jp.hotdrop.gmapp.fragment.CategoryUpdateFragment;
+import jp.hotdrop.gmapp.model.GoodsCategory;
 
-public class GoodsUpdateActivity extends BaseActivity {
+public class CategoryUpdateActivity extends BaseActivity {
 
-    public static void startForResult(@NonNull Fragment fragment, @NonNull Goods goods, int requestCode) {
-        Intent intent = createIntent(fragment.getContext(), goods);
+    public static void startForResult(@NonNull Fragment fragment, @NonNull GoodsCategory goodsCategory, int requestCode) {
+        Intent intent = createIntent(fragment.getContext(), goodsCategory);
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(@NonNull Context context, @NonNull Goods goods) {
-        Intent intent = new Intent(context, GoodsUpdateActivity.class);
-        intent.putExtra(Goods.class.getSimpleName(), Parcels.wrap(goods));
+    public static Intent createIntent(@NonNull Context context, @NonNull GoodsCategory goodsCategory) {
+        Intent intent = new Intent(context, CategoryUpdateActivity.class);
+        intent.putExtra(GoodsCategory.class.getSimpleName(), Parcels.wrap(goodsCategory));
         return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_goods_update);
+        DataBindingUtil.setContentView(this, R.layout.activity_category_update);
         getComponent().inject(this);
 
-        Goods goods = Parcels.unwrap(getIntent().getParcelableExtra(Goods.class.getSimpleName()));
-        replaceFragment(GoodsUpdateFragment.create(goods));
+        GoodsCategory goodsCategory = Parcels.unwrap(getIntent().getParcelableExtra(GoodsCategory.class.getName()));
+        replaceFragment(CategoryUpdateFragment.create(goodsCategory));
     }
 
     private void replaceFragment(@NonNull Fragment fragment) {

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jp.hotdrop.gmapp.fragment.CategoryUpdateFragment">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="category" type="jp.hotdrop.gmapp.model.GoodsCategory" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/label_category_name"
+            style="@style/GoodsItemLabel"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/label_category_name" />
+
+        <EditText
+            android:id="@+id/text_category_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="@={category.name}"
+            android:ems="10" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/label_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_register_goods_count"
+                android:textSize="@dimen/text_large" />
+
+            <TextView
+                android:id="@+id/label_count_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_large"
+                android:text="@{String.valueOf(category.goodsCount)}" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/label_delete_attention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:textColor="@color/label_attention"
+            android:textSize="@dimen/text_normal"
+            android:text="@string/label_delete_attention"
+            android:visibility="@{category.hasGoods() ? View.VISIBLE : View.GONE}"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/update_button"
+                style="@style/GoodsButton"
+                android:text="@string/button_update" />
+
+            <Button
+                android:id="@+id/delete_button"
+                style="@style/GoodsButton"
+                android:layout_toRightOf="@id/update_button"
+                android:layout_marginLeft="50dp"
+                android:enabled="@{!category.hasGoods()}"
+                android:text="@string/button_delete" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

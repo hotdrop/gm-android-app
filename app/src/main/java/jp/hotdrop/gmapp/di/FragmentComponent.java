@@ -3,6 +3,7 @@ package jp.hotdrop.gmapp.di;
 import dagger.Subcomponent;
 import jp.hotdrop.gmapp.di.scope.FragmentScope;
 import jp.hotdrop.gmapp.fragment.CategoryFragment;
+import jp.hotdrop.gmapp.fragment.CategoryUpdateFragment;
 import jp.hotdrop.gmapp.fragment.GoodsFragment;
 import jp.hotdrop.gmapp.fragment.GoodsRegisterFragment;
 import jp.hotdrop.gmapp.fragment.GoodsTabFragment;
@@ -21,4 +22,6 @@ public interface FragmentComponent {
     void inject(GoodsRegisterFragment fragment);
 
     void inject(CategoryFragment fragment);
+
+    void inject(CategoryUpdateFragment fragment);
 }

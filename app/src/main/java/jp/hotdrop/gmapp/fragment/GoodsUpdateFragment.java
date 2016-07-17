@@ -14,16 +14,12 @@ import android.widget.Toast;
 
 import org.parceler.Parcels;
 
-import java.util.HashMap;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsUpdateBinding;
 import jp.hotdrop.gmapp.model.Goods;
-import jp.hotdrop.gmapp.model.GoodsCategory;
 import jp.hotdrop.gmapp.util.ArrayUtil;
 
 public class GoodsUpdateFragment extends BaseFragment {
@@ -36,14 +32,9 @@ public class GoodsUpdateFragment extends BaseFragment {
     private Goods goods;
     private String originGoodsName;
     private FragmentGoodsUpdateBinding binding;
-    private HashMap<String, Integer> categoryMap = new HashMap<>();
+
     private AlertDialog.Builder deleteConfirmDlg;
 
-    /**
-     * フラグメント生成
-     * @param goods
-     * @return
-     */
     public static GoodsUpdateFragment create(@NonNull Goods goods) {
         GoodsUpdateFragment fragment = new GoodsUpdateFragment();
         Bundle args = new Bundle();
@@ -67,8 +58,8 @@ public class GoodsUpdateFragment extends BaseFragment {
         setCategorySpinner();
         setDeleteConfirmDlg();
 
-        binding.updateButton.setOnClickListener((View v) -> onClickUpdate(v));
-        binding.deleteButton.setOnClickListener((View v) -> deleteConfirmDlg.show());
+        binding.updateButton.setOnClickListener(v -> onClickUpdate(v));
+        binding.deleteButton.setOnClickListener(v -> deleteConfirmDlg.show());
         originGoodsName = goods.getName();
 
         return binding.getRoot();
@@ -84,14 +75,7 @@ public class GoodsUpdateFragment extends BaseFragment {
      * カテゴリーのドロップダウンリストを作成する
      */
     private void setCategorySpinner() {
-
-        List<GoodsCategory> categoryList = categoryDao.selectAll();
-        // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
-        for(GoodsCategory goodsCategory : categoryList) {
-            categoryMap.put(goodsCategory.getName(), goodsCategory.getId());
-        }
-        String[] strList = ArrayUtil.toArrayStr(categoryList);
-
+        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectAll());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, strList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -124,7 +108,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         if(!selectedCategoryName.equals(goods.getCategoryName())) {
             // カテゴリーを変更した場合は全リフレッシュモードにする
-            goods.setCategoryId(categoryMap.get(selectedCategoryName));
+            goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
             goods.setCategoryName(selectedCategoryName);
             refreshMode = REFRESH_ALL;
         }
@@ -157,8 +141,7 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     /**
-     * 商品情報を削除する。
-     * 削除ボタンを押下し、確認ダイアログでOKを選択した場合に呼ばれる
+     * 商品情報を削除する
      */
     private void doDelete() {
 

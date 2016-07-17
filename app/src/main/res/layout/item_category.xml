@@ -31,8 +31,8 @@
 
                 <ImageView
                     android:id="@+id/icon_reorder_category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/reorder_icon_width"
+                    android:layout_height="@dimen/reorder_icon_height"
                     android:src="@drawable/ic_reorder" />
 
                 <TextView
@@ -40,10 +40,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/icon_reorder_category"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/spacing_small"
                     android:textSize="@dimen/text_large"
                     android:text="@{category.name}" />
+
+                <TextView
+                    android:id="@+id/label_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_name"
+                    android:layout_toRightOf="@id/icon_reorder_category"
+                    android:layout_marginLeft="@dimen/spacing_small"
+                    android:text="@string/label_register_goods_count"
+                    android:textSize="@dimen/text_small" />
+
+                <TextView
+                    android:id="@+id/label_count_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/txt_name"
+                    android:layout_toRightOf="@id/label_count"
+                    android:text="@{String.valueOf(category.goodsCount)}"
+                    android:textSize="@dimen/text_small" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

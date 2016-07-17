@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.activity.GoodsRegisterActivity;
@@ -21,7 +18,6 @@ import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsRegisterBinding;
 import jp.hotdrop.gmapp.model.Goods;
-import jp.hotdrop.gmapp.model.GoodsCategory;
 import jp.hotdrop.gmapp.util.ArrayUtil;
 import jp.hotdrop.gmapp.util.DateUtil;
 
@@ -35,7 +31,6 @@ public class GoodsRegisterFragment extends BaseFragment {
     private Goods goods;
     private String selectedTabName;
     private FragmentGoodsRegisterBinding binding;
-    private HashMap<String, Integer> categoryMap = new HashMap<>();
 
     /**
      * フラグメント生成
@@ -78,13 +73,7 @@ public class GoodsRegisterFragment extends BaseFragment {
      * カテゴリーのドロップダウンリストを作成する
      */
     private void setCategorySpinner() {
-        List<GoodsCategory> categoryList = categoryDao.selectAll();
-        // TODO MAPをいちいちここで作成するのなんとか・・。Utilityとかでstaticに持ちたい
-        for(GoodsCategory goodsCategory : categoryList) {
-            categoryMap.put(goodsCategory.getName(), goodsCategory.getId());
-        }
-        String[] strList = ArrayUtil.toArrayStr(categoryList);
-
+        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectAll());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, strList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -103,7 +92,7 @@ public class GoodsRegisterFragment extends BaseFragment {
         }
 
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
-        goods.setCategoryId(categoryMap.get(selectedCategoryName));
+        goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
         goods.setLastUpdateAmountDate(DateUtil.longToDate(System.currentTimeMillis()));
         goods.setLastStockDate(DateUtil.longToDate(System.currentTimeMillis()));

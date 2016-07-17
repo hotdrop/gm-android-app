@@ -1,8 +1,11 @@
 CREATE TABLE m_goods_category (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    view_order INTEGER
+    view_order INTEGER NOT NULL,
+    register_date INTEGER NOT NULL,
+    update_date INTEGER
 );
+
 CREATE TABLE t_goods (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,

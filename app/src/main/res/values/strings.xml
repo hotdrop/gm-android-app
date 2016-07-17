@@ -22,6 +22,12 @@
     <string name="label_goods_category">商品のカテゴリー</string>
     <string name="label_stock_num">在庫数</string>
 
+    <string name="label_category_name">カテゴリー名</string>
+    <string name="label_register_goods_count">登録されている商品数：</string>
+    <string name="label_delete_attention">
+        ※このカテゴリーは、商品が1つ以上登録されているため削除できません。
+    </string>
+
     <string name="button_register">登録</string>
     <string name="button_update">更新</string>
     <string name="button_delete">削除</string>

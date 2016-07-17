@@ -16,7 +16,7 @@ public class GoodsRegisterActivity extends BaseActivity {
 
     public static final String ARG_TAB_NAME = "ARG_TAB";
 
-    static void startForResult(@NonNull Fragment fragment, @NonNull String tabName, int requestCode) {
+    public static void startForResult(@NonNull Fragment fragment, @NonNull String tabName, int requestCode) {
         Intent intent = createIntent(fragment.getContext(), tabName);
         fragment.startActivityForResult(intent, requestCode);
     }

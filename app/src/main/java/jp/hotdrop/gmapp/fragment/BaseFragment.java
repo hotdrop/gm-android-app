@@ -12,12 +12,17 @@ public abstract class BaseFragment extends Fragment {
 
     protected static final int REQ_CODE_UPDATE = 1;
     protected static final int REQ_CODE_REGISTER = 2;
+    protected static final int REQ_CODE_CATEGORY_UPDATE = 3;
+    protected static final int REQ_CODE_CATEGORY_REGISTER = 4;
 
     protected static final String ARG_REFRESH_MODE = "refreshMode";
 
     protected static final int REFRESH_NONE = 0;
     protected static final int REFRESH_ONE = 1;
     protected static final int REFRESH_ALL = 2;
+    protected static final int REFRESH_UPDATE = 1;
+    protected static final int REFRESH_INSERT = 2;
+    protected static final int REFRESH_DELETE = 3;
 
     private FragmentComponent fragmentComponent;
 
