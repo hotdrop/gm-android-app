@@ -75,7 +75,7 @@ public class GoodsUpdateFragment extends BaseFragment {
      * カテゴリーのドロップダウンリストを作成する
      */
     private void setCategorySpinner() {
-        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectAll());
+        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectForSpinner());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, strList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 

@@ -1,7 +1,10 @@
 package jp.hotdrop.gmapp.model;
 
+import org.parceler.Parcel;
+
 import java.util.Date;
 
+@Parcel
 public class GoodsCategory {
 
     protected int id;
@@ -73,5 +76,10 @@ public class GoodsCategory {
 
     public boolean hasGoods() {
         return (goodsCount >= 1) ? true : false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof GoodsCategory && (((GoodsCategory) o).getId() == this.id);
     }
 }

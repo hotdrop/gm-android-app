@@ -18,17 +18,17 @@ import rx.Observable;
 public class GoodsDao extends AbstractDao {
 
     private static final String SQL_SELECT_FROM = "SELECT " +
-            "        gs.id AS id, " +
-            "        gs.name AS name, " +
-            "        category_id, " +
+            "        g.id AS id, " +
+            "        g.name AS name, " +
+            "        g.category_id, " +
             "        gc.name AS category_name, " +
-            "        amount," +
-            "        stock_num, " +
-            "        last_update_amount_date, " +
-            "        last_stock_date, " +
-            "        update_date" +
-            " FROM t_goods gs " +
-            "    LEFT JOIN m_goods_category gc ON gs.category_id = gc.id";
+            "        g.amount," +
+            "        g.stock_num, " +
+            "        g.last_update_amount_date, " +
+            "        g.last_stock_date, " +
+            "        g.update_date AS update_date" +
+            " FROM t_goods g " +
+            "    LEFT JOIN m_goods_category gc ON g.category_id = gc.id";
 
     @Inject
     public GoodsDao(Context context) {
@@ -37,7 +37,7 @@ public class GoodsDao extends AbstractDao {
 
     public Observable<List<Goods>> selectAll() {
 
-        String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, gs.id";
+        String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, g.id";
 
         List<Goods> goodsList = new ArrayList<>();
         Cursor cursor = execSelect(sql, null);

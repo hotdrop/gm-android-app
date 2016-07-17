@@ -13,12 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.parceler.Parcels;
-
-import java.util.Collections;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,8 +40,7 @@ public class CategoryFragment extends BaseFragment {
     private CategoryAdapter adapter;
     private ItemTouchHelper helper;
     private FragmentCategoryListBinding binding;
-
-    private OnChangeCategoryListener onChangeCategoryListener = categoryGoods -> {/* no operation */};
+    private boolean refresh;
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -54,6 +49,7 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        refresh = false;
     }
 
     @Override
@@ -75,7 +71,8 @@ public class CategoryFragment extends BaseFragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter.addAll(dao.selectAll());
 
-        // TODO 追加ボタンのリスナー
+        binding.fabAddButton.setOnClickListener(v ->
+                activityNavigator.showCategoryRegister(CategoryFragment.this, REQ_CODE_CATEGORY_REGISTER));
 
         return binding.getRoot();
     }
@@ -87,38 +84,38 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != Activity.RESULT_OK) {
+
+        if(resultCode != Activity.RESULT_OK ||
+                (requestCode != REQ_CODE_CATEGORY_REGISTER && requestCode != REQ_CODE_CATEGORY_UPDATE)) {
             return;
         }
 
         int refreshMode = data.getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
         GoodsCategory goodsCategory = Parcels.unwrap(data.getParcelableExtra(GoodsCategory.class.getSimpleName()));
-        if(requestCode == REQ_CODE_UPDATE && goodsCategory != null) {
-            switch (refreshMode) {
-                case REFRESH_INSERT:
-                    break;
-                case REFRESH_UPDATE:
-                    adapter.refresh(goodsCategory);
-                    onChangeCategoryListener.onChangeCategory(Collections.singletonList(goodsCategory));
-                    break;
-                case REFRESH_DELETE:
-                    adapter.remove(goodsCategory);
-                    break;
-                default:
-                    break;
-            }
+
+        if(goodsCategory == null) {
+            return;
         }
 
+        switch (refreshMode) {
+            case REFRESH_INSERT:
+                adapter.add(goodsCategory);
+                break;
+            case REFRESH_UPDATE:
+                adapter.refresh(goodsCategory);
+                break;
+            case REFRESH_DELETE:
+                adapter.remove(goodsCategory);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
-    public void onDetach() {
-        // TODO フラグメントが終了する際にview_orderを更新する
-        Toast.makeText(this.getActivity(), "call onDetach", Toast.LENGTH_SHORT).show();
-    }
-
-    public interface OnChangeCategoryListener {
-        void onChangeCategory(List<GoodsCategory> GoodsCategoryList);
+    public void onDestroyView() {
+        super.onDestroyView();
+        dao.updateViewOrder(adapter.iterator());
     }
 
     /**
@@ -169,6 +166,11 @@ public class CategoryFragment extends BaseFragment {
                     adapter.notifyItemRemoved(i);
                 }
             }
+        }
+
+        private void add(GoodsCategory goodsCategory) {
+            adapter.addItem(goodsCategory);
+            adapter.notifyItemInserted(adapter.getItemCount());
         }
     }
 

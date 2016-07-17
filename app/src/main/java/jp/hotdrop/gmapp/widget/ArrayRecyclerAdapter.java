@@ -30,6 +30,14 @@ public abstract class ArrayRecyclerAdapter<T, VH extends RecyclerView.ViewHolder
         return list.get(position);
     }
 
+    public void addItem(T o) {
+        list.add(o);
+    }
+
+    public void removeItem(int position) {
+        list.remove(position);
+    }
+
     public void addAll(Collection<T> items) {
         list.addAll(items);
     }
@@ -38,9 +46,6 @@ public abstract class ArrayRecyclerAdapter<T, VH extends RecyclerView.ViewHolder
         return context;
     }
 
-    public void removeItem(int position) {
-        list.remove(position);
-    }
 
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(list, fromPosition, toPosition);

@@ -41,7 +41,7 @@ public class CategoryUpdateFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        goodsCategory = Parcels.unwrap(getArguments().getParcelable(GoodsCategory.class.getName()));
+        goodsCategory = Parcels.unwrap(getArguments().getParcelable(GoodsCategory.class.getSimpleName()));
     }
 
     @Override
@@ -119,9 +119,6 @@ public class CategoryUpdateFragment extends BaseFragment {
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 
-    /**
-     * フラグメントを抜ける
-     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

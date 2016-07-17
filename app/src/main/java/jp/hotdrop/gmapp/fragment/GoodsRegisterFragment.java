@@ -32,10 +32,6 @@ public class GoodsRegisterFragment extends BaseFragment {
     private String selectedTabName;
     private FragmentGoodsRegisterBinding binding;
 
-    /**
-     * フラグメント生成
-     * @return
-     */
     public static GoodsRegisterFragment create(@NonNull String tabName) {
         GoodsRegisterFragment fragment = new GoodsRegisterFragment();
         Bundle args = new Bundle();
@@ -73,7 +69,7 @@ public class GoodsRegisterFragment extends BaseFragment {
      * カテゴリーのドロップダウンリストを作成する
      */
     private void setCategorySpinner() {
-        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectAll());
+        String[] strList = ArrayUtil.toArrayStr(categoryDao.selectForSpinner());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, strList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -124,18 +120,12 @@ public class GoodsRegisterFragment extends BaseFragment {
         return true;
     }
 
-    /**
-     * 登録は商品一覧の全タブ更新指示をアクティビティに通知する
-     */
     private void setResult() {
         Intent intent = new Intent();
         intent.putExtra(ARG_REFRESH_MODE, REFRESH_ALL);
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 
-    /**
-     * フラグメントを抜ける
-     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

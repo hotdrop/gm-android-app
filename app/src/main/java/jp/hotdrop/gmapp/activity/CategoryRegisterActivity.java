@@ -9,36 +9,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import org.parceler.Parcels;
-
 import jp.hotdrop.gmapp.R;
-import jp.hotdrop.gmapp.fragment.CategoryUpdateFragment;
-import jp.hotdrop.gmapp.model.GoodsCategory;
+import jp.hotdrop.gmapp.fragment.CategoryRegisterFragment;
 
-public class CategoryUpdateActivity extends BaseActivity {
+public class CategoryRegisterActivity extends BaseActivity {
 
-    public static void startForResult(@NonNull Fragment fragment, @NonNull GoodsCategory goodsCategory, int requestCode) {
-        Intent intent = createIntent(fragment.getContext(), goodsCategory);
+    public static void startForResult(@NonNull Fragment fragment, int requestCode) {
+        Intent intent = createIntent(fragment.getContext());
         fragment.startActivityForResult(intent, requestCode);
     }
 
-    public static Intent createIntent(@NonNull Context context, @NonNull GoodsCategory goodsCategory) {
-        Intent intent = new Intent(context, CategoryUpdateActivity.class);
-        intent.putExtra(GoodsCategory.class.getSimpleName(), Parcels.wrap(goodsCategory));
+    public static Intent createIntent(@NonNull Context context) {
+        Intent intent = new Intent(context, CategoryRegisterActivity.class);
         return intent;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DataBindingUtil.setContentView(this, R.layout.activity_category_update);
+        DataBindingUtil.setContentView(this, R.layout.activity_category_register);
         getComponent().inject(this);
 
-        GoodsCategory goodsCategory = Parcels.unwrap(getIntent().getParcelableExtra(GoodsCategory.class.getSimpleName()));
-        replaceFragment(CategoryUpdateFragment.create(goodsCategory));
+        replaceFragment(CategoryRegisterFragment.create());
     }
 
-    private void replaceFragment(@NonNull Fragment fragment) {
+    private void replaceFragment(Fragment fragment) {
         final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_view, fragment, fragment.getClass().getSimpleName());
         ft.commit();
