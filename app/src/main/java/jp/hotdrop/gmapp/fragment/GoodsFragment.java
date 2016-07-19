@@ -35,7 +35,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
-public class GoodsFragment extends BaseFragment {
+public class GoodsFragment extends BaseFragment implements StackedPageListener  {
 
     @Inject
     protected CompositeSubscription compositeSubscription;
@@ -54,30 +54,6 @@ public class GoodsFragment extends BaseFragment {
     public static GoodsFragment newInstance() {
         GoodsFragment fragment = new GoodsFragment();
         return fragment;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        getComponent().inject(this);
-        if (context instanceof OnChangeGoodsListener) {
-            onChangeGoodsListener = (OnChangeGoodsListener) context;
-        }
-    }
-
-    /**
-     * Tabの切り替えとupdateFragmentでの更新時に無条件で呼ばれる。
-     * そのため、商品のカテゴリーを修正した場合はここで検知してリフレッシュする。
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
-        if(refreshMode == REFRESH_ALL) {
-            isRefresh = true;
-            compositeSubscription.add(loadData());
-            getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
-        }
     }
 
     @Override
@@ -115,6 +91,30 @@ public class GoodsFragment extends BaseFragment {
 
     private void onLoadDataFailure(Throwable throwable) {
         Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        getComponent().inject(this);
+        if (context instanceof OnChangeGoodsListener) {
+            onChangeGoodsListener = (OnChangeGoodsListener) context;
+        }
+    }
+
+    /**
+     * Tabの切り替えとupdateFragmentでの更新時に無条件で呼ばれる。
+     * そのため、商品のカテゴリーを修正した場合はここで検知してリフレッシュする。
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        int refreshMode = getActivity().getIntent().getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
+        if(refreshMode == REFRESH_ALL) {
+            isRefresh = true;
+            compositeSubscription.add(loadData());
+            getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
+        }
     }
 
     protected void groupByCategoryGoods(List<Goods> goodsList) {
@@ -199,6 +199,11 @@ public class GoodsFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         // TODO 検索アイコン選択時の動作を書く
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTop() {
+        compositeSubscription.add(loadData());
     }
 
     /**

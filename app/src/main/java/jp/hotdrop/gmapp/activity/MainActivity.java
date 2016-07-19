@@ -96,6 +96,21 @@ public class MainActivity extends BaseActivity
         binding.navView.setCheckedItem(R.id.nav_goods_list);
     }
 
+    /**
+     * フラグメントの置換。生成ではなくリプレイスでフラグメントを実現している。
+     * リプレイスしたらcommitする前にバックスタックに追加する。
+     * ここでは無条件に追加しているため、メイン画面を作りまくった場合、戻るを大量に押さないとアプリが終了できない問題がある
+     * @param fragment
+     */
+    private void replaceFragment(Fragment fragment) {
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
+        ft.replace(R.id.content_view, fragment, fragment.getClass().getSimpleName());
+        ft.addToBackStack(null);
+        ft.commit();
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -117,43 +132,6 @@ public class MainActivity extends BaseActivity
             return;
         }
         super.onBackPressed();
-    }
-
-    /**
-     * フラグメントの置換。生成ではなくリプレイスでフラグメントを実現している。
-     * リプレイスしたらcommitする前にバックスタックに追加する。
-     * ここでは無条件に追加しているため、メイン画面を作りまくった場合、戻るを大量に押さないとアプリが終了できない問題がある
-     * @param fragment
-     */
-    private void replaceFragment(Fragment fragment) {
-        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.setCustomAnimations(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
-        ft.replace(R.id.content_view, fragment, fragment.getClass().getSimpleName());
-        ft.addToBackStack(null);
-        ft.commit();
-    }
-
-    /**
-     * onBackPressedやreplaceFragmentはフラグメントの操作しか行わないため
-     * バックスタックに変更があった場合、ハンドリングしてその他ナビゲーションビューや
-     * ツールバーなどのコントロールを変更する。
-     */
-    @Override
-    public void onBackStackChanged() {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment current = fm.findFragmentById(R.id.content_view);
-        if (current == null) {
-            finish();
-            return;
-        }
-        Page page = Page.forName(current);
-        binding.navView.setCheckedItem(page.getMenuId());
-        binding.toolbar.setTitle(page.getTitleResId());
-        toggleToolbarElevation(page.shouldToggleToolbar());
-        if (current instanceof StackedPageListener) {
-            StackedPageListener l = (StackedPageListener) current;
-            l.onTop();
-        }
     }
 
     @Override
@@ -185,5 +163,28 @@ public class MainActivity extends BaseActivity
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.activity_fade_enter, R.anim.activity_fade_exit);
+    }
+
+    /**
+     * onBackPressedやreplaceFragmentはフラグメントの操作しか行わないため
+     * バックスタックに変更があった場合、ハンドリングしてその他ナビゲーションビューや
+     * ツールバーなどのコントロールを変更する。
+     */
+    @Override
+    public void onBackStackChanged() {
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment current = fm.findFragmentById(R.id.content_view);
+        if (current == null) {
+            finish();
+            return;
+        }
+        Page page = Page.forName(current);
+        binding.navView.setCheckedItem(page.getMenuId());
+        binding.toolbar.setTitle(page.getTitleResId());
+        toggleToolbarElevation(page.shouldToggleToolbar());
+        if (current instanceof StackedPageListener) {
+            StackedPageListener l = (StackedPageListener) current;
+            l.onTop();
+        }
     }
 }

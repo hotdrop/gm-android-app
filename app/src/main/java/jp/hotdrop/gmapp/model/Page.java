@@ -18,7 +18,7 @@ public enum Page {
             return GoodsFragment.newInstance();
         }
     },
-    CATEGORY_LIST(R.id.nav_category_list, R.string.nav_category_list, false, CategoryFragment.class.getSimpleName()) {
+    CATEGORY_LIST(R.id.nav_category_list, R.string.nav_category_list, true, CategoryFragment.class.getSimpleName()) {
         @Override
         public Fragment createFragment() {
             return CategoryFragment.newInstance();
