@@ -9,10 +9,6 @@ public class MainContentStateBroker {
 
     private final Subject<Page, Page> sj = new SerializedSubject<>(PublishSubject.create());
 
-    public void set(Page page) {
-        sj.onNext(page);
-    }
-
     public Observable<Page> observe() {
         return sj;
     }
