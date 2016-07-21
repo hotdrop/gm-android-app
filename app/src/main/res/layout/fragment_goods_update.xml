@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="jp.hotdrop.gmapp.fragment.GoodsUpdateFragment">
 
     <data>
@@ -12,53 +13,110 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_name"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_goods_name" />
-
-        <EditText
-            android:id="@+id/text_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="@={goods.name}"
-            android:ems="10" />
-
-        <TextView
-            android:id="@+id/label_category"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_goods_category" />
-
-        <Spinner
-            android:id="@+id/spinner_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:clickable="true"
-            android:spinnerMode="dropdown" />
-
-        <TextView
-            android:id="@+id/label_stock"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_stock_num" />
-
-        <EditText
-            android:id="@+id/text_stock"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="@={goods.stockNum}"
-            android:ems="5" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:gravity="center">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label_name"
+                style="@style/GoodsItemLabel"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_goods_name" />
+
+            <EditText
+                android:id="@+id/text_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_name"
+                android:inputType="text"
+                android:text="@={goods.name}"
+                android:ems="10" />
+
+            <TextView
+                android:id="@+id/label_category"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@id/text_name"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_goods_category" />
+
+            <Spinner
+                android:id="@+id/spinner_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_category"
+                android:background="@color/white"
+                android:clickable="true"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/label_stock"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@id/spinner_category"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_stock_num" />
+
+            <EditText
+                android:id="@+id/text_stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_stock"
+                android:inputType="number"
+                android:text="@={goods.stockNum}"
+                android:ems="5" />
+
+            <TextView
+                android:id="@+id/label_amount"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@+id/spinner_category"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_toRightOf="@+id/label_stock"
+                android:layout_marginLeft="@dimen/amount_image_right_space"
+                android:text="@string/label_amount_image" />
+
+            <ImageView
+                android:id="@+id/img_amount"
+                android:layout_width="@dimen/fragment_amount_image_size"
+                android:layout_height="@dimen/fragment_amount_image_size"
+                android:layout_below="@+id/label_amount"
+                android:layout_toRightOf="@+id/text_stock"
+                android:layout_marginLeft="@dimen/amount_image_right_space"
+                app:amountImageSize="@{@dimen/fragment_amount_image_size}"
+                app:amountImageUrl="@{goods.amount}" />
+
+            <ImageView
+                android:id="@+id/ic_amount_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_amount"
+                android:layout_toRightOf="@+id/img_amount"
+                android:clickable="true"
+                android:src="@drawable/ic_add_circle_outline" />
+
+            <ImageView
+                android:id="@+id/ic_amount_reduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ic_amount_increase"
+                android:layout_toRightOf="@+id/img_amount"
+                android:clickable="true"
+                android:src="@drawable/ic_remove_circle_outline" />
+
+            <TextView
+                android:id="@+id/amount_empty_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_amount"
+                style="@style/TextAttention"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/button_space"
+            android:layout_gravity="center">
 
             <Button
                 android:id="@+id/update_button"
@@ -68,12 +126,19 @@
             <Button
                 android:id="@+id/delete_button"
                 style="@style/GoodsButton"
-                android:layout_toRightOf="@id/update_button"
-                android:layout_marginLeft="50dp"
+                android:layout_marginLeft="@dimen/button_space"
                 android:text="@string/button_delete" />
 
-        </RelativeLayout>
+            <Button
+                android:id="@+id/replenishment_button"
+                style="@style/GoodsButton"
+                android:layout_marginLeft="@dimen/button_space"
+                android:text="@string/button_replenishment"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
 
 </layout>

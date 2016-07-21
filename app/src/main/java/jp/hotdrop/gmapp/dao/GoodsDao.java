@@ -24,8 +24,8 @@ public class GoodsDao extends AbstractDao {
             "        gc.name AS category_name, " +
             "        g.amount," +
             "        g.stock_num, " +
-            "        g.last_update_amount_date, " +
-            "        g.last_stock_date, " +
+            "        g.replenishment_date, " +
+            "        g.register_date, " +
             "        g.update_date AS update_date" +
             " FROM t_goods g " +
             "    LEFT JOIN m_goods_category gc ON g.category_id = gc.id";
@@ -52,15 +52,15 @@ public class GoodsDao extends AbstractDao {
     public void insert(Goods goods) {
 
         String sql = "INSERT INTO t_goods" +
-                "  (name, category_id, stock_num, last_update_amount_date, last_stock_date, update_date) " +
+                "  (name, category_id, stock_num, replenishment_date, register_date, update_date) " +
                 " VALUES " +
                 "  (?, ?, ?, ?, ?, ?)";
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 goods.getStockNum(),
-                String.valueOf(DateUtil.dateToLong(goods.getLastUpdateAmountDate())),
-                String.valueOf(DateUtil.dateToLong(goods.getLastStockDate())),
+                String.valueOf(DateUtil.dateToLong(goods.getReplenishmentDate())),
+                String.valueOf(DateUtil.dateToLong(goods.getRegisterDate())),
                 String.valueOf(System.currentTimeMillis())};
 
         execInsert(sql, bind);
@@ -69,14 +69,13 @@ public class GoodsDao extends AbstractDao {
     public void update(Goods goods) {
 
         String sql = "UPDATE t_goods SET" +
-                " name = ?, category_id = ?, stock_num = ?, last_update_amount_date = ?, " +
-                " last_stock_date = ?, update_date = ? " +
+                " name = ?, category_id = ?, amount = ?, stock_num = ?, " +
+                " update_date = ? " +
                 " WHERE id = ? ";
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
+                String.valueOf(goods.getAmount()),
                 goods.getStockNum(),
-                String.valueOf(DateUtil.dateToLong(goods.getLastUpdateAmountDate())),
-                String.valueOf(DateUtil.dateToLong(goods.getLastStockDate())),
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
@@ -106,12 +105,6 @@ public class GoodsDao extends AbstractDao {
         return DatabaseUtils.queryNumEntries(db, "t_goods");
     }
 
-    public void updateAmount(String id, int amount) {
-        String sql = "UPDATE t_goods SET amount = ?, update_date = ? WHERE id = ? ";
-        String[] bind = {String.valueOf(amount), String.valueOf(System.currentTimeMillis()), id};
-        execUpdate(sql, bind);
-    }
-
     /**
      * カーソルから各値を取得し商品情報を生成する。
      * @param cursor
@@ -125,8 +118,8 @@ public class GoodsDao extends AbstractDao {
         goods.setCategoryName(getCursorString(cursor, "category_name"));
         goods.setAmount(getCursorInt(cursor, "amount"));
         goods.setStockNum(getCursorString(cursor, "stock_num"));
-        goods.setLastUpdateAmountDate(getCursorDate(cursor, "last_update_amount_date"));
-        goods.setLastStockDate(getCursorDate(cursor, "last_stock_date"));
+        goods.setReplenishmentDate(getCursorDate(cursor, "replenishment_date"));
+        goods.setRegisterDate(getCursorDate(cursor, "register_date"));
         goods.setUpdateDate(getCursorDate(cursor, "update_date"));
         return goods;
     }

@@ -2,16 +2,12 @@ package jp.hotdrop.gmapp.model;
 
 import org.parceler.Parcel;
 
-import java.util.Date;
-
 @Parcel
 public class GoodsCategory {
 
     protected int id;
     protected String name;
     protected int viewOrder;
-    protected Date registerDate;
-    protected Date updateDate;
     protected int goodsCount = 0;
 
     public GoodsCategory() {
@@ -41,22 +37,6 @@ public class GoodsCategory {
         this.viewOrder = viewOrder;
     }
 
-    public Date getRegisterDate() {
-        return registerDate;
-    }
-
-    public void setRegisterDate(Date registerDate) {
-        this.registerDate = registerDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
     public void setGoodsCount(int goodsCount) {
         this.goodsCount = goodsCount;
     }
@@ -69,8 +49,6 @@ public class GoodsCategory {
         this.id = goodsCategory.getId();
         this.name = goodsCategory.getName();
         this.viewOrder = goodsCategory.getViewOrder();
-        this.registerDate = goodsCategory.getRegisterDate();
-        this.updateDate = goodsCategory.getUpdateDate();
         this.goodsCount = goodsCategory.getGoodsCount();
     }
 

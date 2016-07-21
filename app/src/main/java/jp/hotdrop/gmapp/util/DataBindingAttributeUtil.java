@@ -8,8 +8,10 @@ import jp.hotdrop.gmapp.model.Goods;
 
 public class DataBindingAttributeUtil {
 
-    @BindingAdapter({"amountImageUrl"})
-    public static void setAmountImage(ImageView iv, int amount) {
+    @BindingAdapter({"amountImageUrl", "amountImageSize"})
+    public static void setAmountImage(ImageView iv, int amount, float sizeDimen) {
+
+        //int resid = R.drawable.amount_full;
 
         switch(amount) {
             case Goods.AMOUNT_FULL:
@@ -28,5 +30,9 @@ public class DataBindingAttributeUtil {
                 iv.setImageResource(R.drawable.amount_empty);
                 break;
         }
+
+       // final int size = Math.round(sizeDimen);
+       // iv.setBackground(ContextCompat.getDrawable(iv.getContext(), R.drawable.circle_border));
+       // Picasso.with(iv.getContext()).load(resid).resize(size,size).centerInside().into(iv);
     }
 }

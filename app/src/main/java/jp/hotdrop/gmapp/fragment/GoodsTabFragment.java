@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -136,16 +135,9 @@ public class GoodsTabFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(BindingHolder<ItemGoodsBinding> holder, int position) {
-
             Goods goods = getItem(position);
             ItemGoodsBinding binding = holder.binding;
             binding.setGoods(goods);
-
-            // TODO 量のクリックイベントを実装する
-            binding.imgAmount.setOnClickListener(v ->
-                    Toast.makeText(getActivity(), "画像が押下されました。", Toast.LENGTH_LONG).show()
-            );
-
             binding.cardView.setOnClickListener(v ->
                     activityNavigator.showGoodsUpdate(GoodsTabFragment.this, goods, REQ_CODE_UPDATE));
         }

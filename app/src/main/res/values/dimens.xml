@@ -27,14 +27,19 @@
     <dimen name="drawer_header_icon">68dp</dimen>
 
     <!-- list item -->
-    <dimen name="amount_image">28dp</dimen>
+    <dimen name="list_amount_image_size">28dp</dimen>
     <dimen name="reorder_icon_width">36dp</dimen>
     <dimen name="reorder_icon_height">40dp</dimen>
+
+    <!-- amount image -->
+    <dimen name="fragment_amount_image_size">50dp</dimen>
+    <dimen name="amount_image_right_space">100dp</dimen>
 
     <!-- Button -->
     <dimen name="button_stroke_width">1dp</dimen>
     <dimen name="button_corner">15dp</dimen>
     <dimen name="button_padding">10dp</dimen>
     <dimen name="button_size">30dp</dimen>
+    <dimen name="button_space">50dp</dimen>
 
 </resources>

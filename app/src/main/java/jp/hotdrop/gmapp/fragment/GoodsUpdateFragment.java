@@ -16,11 +16,13 @@ import org.parceler.Parcels;
 
 import javax.inject.Inject;
 
+import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsUpdateBinding;
 import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.util.ArrayUtil;
+import jp.hotdrop.gmapp.util.DataBindingAttributeUtil;
 
 public class GoodsUpdateFragment extends BaseFragment {
 
@@ -31,6 +33,7 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private Goods goods;
     private String originGoodsName;
+    private Goods originGoods;
     private FragmentGoodsUpdateBinding binding;
 
     private AlertDialog.Builder deleteConfirmDlg;
@@ -58,9 +61,17 @@ public class GoodsUpdateFragment extends BaseFragment {
         setCategorySpinner();
         setDeleteConfirmDlg();
 
-        binding.updateButton.setOnClickListener(v -> onClickUpdate(v));
+        binding.icAmountIncrease.setOnClickListener(v -> onClickAmountIncrease());
+        binding.icAmountReduce.setOnClickListener(v -> onClickAmountDecrease());
+
+        binding.updateButton.setOnClickListener(v -> onClickUpdate());
         binding.deleteButton.setOnClickListener(v -> deleteConfirmDlg.show());
         originGoodsName = goods.getName();
+
+        if(goods.getAmount() == goods.AMOUNT_EMPTY) {
+            setViewAmountEmpty();
+            originGoods = goods;
+        }
 
         return binding.getRoot();
     }
@@ -94,17 +105,67 @@ public class GoodsUpdateFragment extends BaseFragment {
         deleteConfirmDlg.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
     }
 
+    private void setViewAmountEmpty() {
+        binding.icAmountIncrease.setVisibility(View.GONE);
+        binding.icAmountReduce.setVisibility(View.GONE);
+        binding.amountEmptyAttention.setVisibility(View.VISIBLE);
+        if(goods.getStockNum() != null && Integer.valueOf(goods.getStockNum()) >= 1) {
+            binding.amountEmptyAttention.setText(R.string.label_amount_empty_attention);
+            binding.replenishmentButton.setVisibility(View.VISIBLE);
+            binding.replenishmentButton.setOnClickListener(v -> onClickReplenishment());
+        } else {
+            binding.amountEmptyAttention.setText(R.string.label_amount_and_stock_empty_attention);
+        }
+    }
+
+    private void onClickAmountIncrease() {
+        if(goods.getAmount() == goods.AMOUNT_FULL) {
+           return;
+        }
+        int amount = goods.getAmount() + goods.AMOUNT_INCREASE_DECREASE_UNIT;
+        goods.setAmount(amount);
+        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount, R.dimen.fragment_amount_image_size);
+    }
+
+    private void onClickAmountDecrease() {
+        if(goods.getAmount() == goods.AMOUNT_EMPTY) {
+            return;
+        }
+        int amount = goods.getAmount() - goods.AMOUNT_INCREASE_DECREASE_UNIT;
+        goods.setAmount(amount);
+        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount, R.dimen.fragment_amount_image_size);
+    }
+
+    private void onClickReplenishment() {
+
+        // TODO originGoodsから値をとって他の項目は更新させないようにする
+        // このボタンの表示条件は「stockNumが１以上」であるため−1しても問題ない
+        int stockNum = Integer.valueOf(goods.getStockNum()) - 1;
+        goods.setStockNum(String.valueOf(stockNum));
+        goods.setAmount(goods.AMOUNT_FULL);
+
+        goodsDao.beginTran();
+        // TODO updateAmountにして他の値は更新しないようにする
+        goodsDao.update(goods);
+        goodsDao.commit();
+
+        setResult(REFRESH_ONE);
+        exit();
+
+    }
+
     /**
      * 更新ボタン押下
-     * @param v
      */
-    private void onClickUpdate(View v) {
+    private void onClickUpdate() {
 
         if(!canUpdate()) {
             return;
         }
 
         int refreshMode = REFRESH_ONE;
+
+        // spinnerはバインドできないため手動で値を設定する
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         if(!selectedCategoryName.equals(goods.getCategoryName())) {
             // カテゴリーを変更した場合は全リフレッシュモードにする

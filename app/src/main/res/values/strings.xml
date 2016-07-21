@@ -14,23 +14,30 @@
 
     <!-- 一覧画面 -->
     <string name="list_stock_num">在庫数：</string>
-    <string name="list_last_stock_date">前回補充した日：</string>
-    <string name="list_last_update_amount_date">前回量を変更した日：</string>
+    <string name="list_replenishment_date">前回補充した日：</string>
 
     <!-- 詳細画面 -->
     <string name="label_goods_name">商品名</string>
     <string name="label_goods_category">商品のカテゴリー</string>
     <string name="label_stock_num">在庫数</string>
+    <string name="label_amount_image">商品の量</string>
 
     <string name="label_category_name">カテゴリー名</string>
     <string name="label_register_goods_count">登録されている商品数：</string>
     <string name="label_delete_attention">
         ※このカテゴリーは、商品が1つ以上登録されているため削除できません。
     </string>
+    <string name="label_amount_empty_attention">
+        ※商品が空です。在庫が1つ以上のため、右下の補充ボタンを押して商品を補充できます。
+    </string>
+    <string name="label_amount_and_stock_empty_attention">
+        ※商品が空で在庫もありません。在庫を1つ以上登録し、更新ボタンを押して再びこの商品を選択してください。
+    </string>
 
     <string name="button_register">登録</string>
     <string name="button_update">更新</string>
     <string name="button_delete">削除</string>
+    <string name="button_replenishment">補充</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

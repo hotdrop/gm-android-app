@@ -21,8 +21,6 @@ public class GoodsCategoryDao extends AbstractDao {
                     "    gc.id AS id, " +
                     "    gc.name AS name, " +
                     "    gc.view_order AS view_order," +
-                    "    gc.register_date AS register_date, " +
-                    "    gc.update_date AS update_date, " +
                     "    count(g.category_id) AS count" +
                     " FROM " +
                     "    m_goods_category gc " +
@@ -79,11 +77,8 @@ public class GoodsCategoryDao extends AbstractDao {
 
     public void update(GoodsCategory goodsCategory) {
 
-        String sql = "UPDATE m_goods_category SET" +
-                " name = ?, update_date = ? " +
-                " WHERE id = ? ";
+        String sql = "UPDATE m_goods_category SET name = ? WHERE id = ? ";
         String[] bind = {goodsCategory.getName(),
-                String.valueOf(System.currentTimeMillis()),
                 String.valueOf(goodsCategory.getId())};
 
         execUpdate(sql, bind);
@@ -93,12 +88,11 @@ public class GoodsCategoryDao extends AbstractDao {
     public void insert(GoodsCategory goodsCategory) {
 
         String sql = "INSERT INTO m_goods_category" +
-                "  (name, view_order, register_date) " +
+                "  (name, view_order) " +
                 " VALUES " +
-                "  (?, (SELECT MAX(view_order)+1 FROM m_goods_category), ?)";
+                "  (?, (SELECT MAX(view_order)+1 FROM m_goods_category))";
 
-        String[] bind = {goodsCategory.getName(),
-                String.valueOf(System.currentTimeMillis())};
+        String[] bind = {goodsCategory.getName()};
 
         execInsert(sql, bind);
         destroyField();
@@ -181,8 +175,6 @@ public class GoodsCategoryDao extends AbstractDao {
         category.setId(getCursorInt(cursor, "id"));
         category.setName(getCursorString(cursor, "name"));
         category.setViewOrder(getCursorInt(cursor, "view_order"));
-        category.setRegisterDate(getCursorDate(cursor, "register_date"));
-        category.setUpdateDate(getCursorDate(cursor, "update_date"));
         category.setGoodsCount(getCursorInt(cursor, "count"));
         return category;
     }

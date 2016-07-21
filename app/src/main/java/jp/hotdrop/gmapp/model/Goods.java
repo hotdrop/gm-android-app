@@ -13,6 +13,8 @@ public class Goods {
     public static final int AMOUNT_A_LITTLE = 2;
     public static final int AMOUNT_EMPTY = 1;
 
+    public static final int AMOUNT_INCREASE_DECREASE_UNIT = 1;
+
     protected String id;
     protected String name;
 
@@ -23,8 +25,8 @@ public class Goods {
     // bindingを使用しておりかつEditTextにしているためintではなくStringで表現する
     // なお、空が設定された場合は0を保持する。（setterにて）
     protected String stockNum = "0";
-    protected Date lastUpdateAmountDate;
-    protected Date lastStockDate;
+    protected Date replenishmentDate;
+    protected Date registerDate;
     protected Date updateDate;
 
     public Goods() {
@@ -78,20 +80,20 @@ public class Goods {
         return String.valueOf(stockNum);
     }
 
-    public void setLastUpdateAmountDate(Date lastUpdateAmountDate) {
-        this.lastUpdateAmountDate = lastUpdateAmountDate;
+    public void setReplenishmentDate(Date replenishmentDate) {
+        this.replenishmentDate = replenishmentDate;
     }
 
-    public Date getLastUpdateAmountDate() {
-        return lastUpdateAmountDate;
+    public Date getReplenishmentDate() {
+        return replenishmentDate;
     }
 
-    public void setLastStockDate(Date argDate) {
-        lastStockDate = argDate;
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
-    public Date getLastStockDate() {
-        return lastStockDate;
+    public Date getRegisterDate() {
+        return registerDate;
     }
 
     public void setUpdateDate(Date updateDate) {
@@ -109,8 +111,8 @@ public class Goods {
         this.categoryName = goods.getCategoryName();
         this.amount = goods.getAmount();
         this.stockNum = goods.getStockNum();
-        this.lastUpdateAmountDate = goods.getLastUpdateAmountDate();
-        this.lastStockDate = goods.getLastStockDate();
+        this.replenishmentDate = goods.getReplenishmentDate();
+        this.registerDate = goods.getRegisterDate();
         this.updateDate = goods.getUpdateDate();
     }
 

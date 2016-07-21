@@ -90,8 +90,8 @@ public class GoodsRegisterFragment extends BaseFragment {
         String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
         goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
-        goods.setLastUpdateAmountDate(DateUtil.longToDate(System.currentTimeMillis()));
-        goods.setLastStockDate(DateUtil.longToDate(System.currentTimeMillis()));
+        goods.setReplenishmentDate(DateUtil.longToDate(System.currentTimeMillis()));
+        goods.setRegisterDate(DateUtil.longToDate(System.currentTimeMillis()));
 
         goodsDao.beginTran();
         goodsDao.insert(goods);

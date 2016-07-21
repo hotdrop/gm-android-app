@@ -1,9 +1,7 @@
 CREATE TABLE m_goods_category (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    view_order INTEGER NOT NULL,
-    register_date INTEGER NOT NULL,
-    update_date INTEGER
+    view_order INTEGER NOT NULL
 );
 
 CREATE TABLE t_goods (
@@ -12,7 +10,7 @@ CREATE TABLE t_goods (
     category_id INTEGER NOT NULL,
     amount INTEGER NOT NULL DEFAULT 5,
     stock_num String,
-    last_update_amount_date INTEGER,
-    last_stock_date INTEGER,
+    replenishment_date INTEGER,
+    register_date INTEGER,
     update_date INTEGER
 );
