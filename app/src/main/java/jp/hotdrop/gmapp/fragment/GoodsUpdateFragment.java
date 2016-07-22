@@ -33,7 +33,6 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private Goods goods;
     private String originGoodsName;
-    private Goods originGoods;
     private FragmentGoodsUpdateBinding binding;
 
     private AlertDialog.Builder deleteConfirmDlg;
@@ -70,7 +69,6 @@ public class GoodsUpdateFragment extends BaseFragment {
 
         if(goods.getAmount() == goods.AMOUNT_EMPTY) {
             setViewAmountEmpty();
-            originGoods = goods;
         }
 
         return binding.getRoot();
@@ -138,20 +136,19 @@ public class GoodsUpdateFragment extends BaseFragment {
 
     private void onClickReplenishment() {
 
-        // TODO originGoodsから値をとって他の項目は更新させないようにする
         // このボタンの表示条件は「stockNumが１以上」であるため−1しても問題ない
         int stockNum = Integer.valueOf(goods.getStockNum()) - 1;
         goods.setStockNum(String.valueOf(stockNum));
         goods.setAmount(goods.AMOUNT_FULL);
 
         goodsDao.beginTran();
-        // TODO updateAmountにして他の値は更新しないようにする
-        goodsDao.update(goods);
+        goodsDao.replenishmentAmount(goods);
         goodsDao.commit();
+
+        goods = goodsDao.select(goods.getId());
 
         setResult(REFRESH_ONE);
         exit();
-
     }
 
     /**

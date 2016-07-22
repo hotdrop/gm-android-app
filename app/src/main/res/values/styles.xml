@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -64,6 +65,11 @@
         <item name="android:layout_marginLeft">@dimen/spacing_small</item>
         <item name="android:layout_marginRight">@dimen/spacing_small</item>
         <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="SpinnerDropDownItem" parent="android:style/Widget.DropDownItem.Spinner">
+        <item name="android:background">@drawable/selectable_background</item>
+        <item name="android:checkMark">@null</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

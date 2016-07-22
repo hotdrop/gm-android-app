@@ -35,6 +35,17 @@ public class GoodsDao extends AbstractDao {
         super(context);
     }
 
+    public Goods select(String id) {
+        String sql = SQL_SELECT_FROM + " WHERE g.id = ?";
+        String[] bind = {id};
+        Cursor cursor = execSelect(sql, bind);
+        if(cursor.moveToNext()) {
+            return createGoods(cursor);
+        }
+
+        return null;
+    }
+
     public Observable<List<Goods>> selectAll() {
 
         String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, g.id";
@@ -76,6 +87,20 @@ public class GoodsDao extends AbstractDao {
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getAmount()),
                 goods.getStockNum(),
+                String.valueOf(System.currentTimeMillis()),
+                goods.getId()};
+
+        execUpdate(sql, bind);
+    }
+
+    public void replenishmentAmount(Goods goods) {
+
+        String sql = "UPDATE t_goods SET" +
+                " amount = ?, stock_num = ?, replenishment_date = ?, update_date = ? " +
+                " WHERE id = ? ";
+        String[] bind = {String.valueOf(goods.getAmount()),
+                goods.getStockNum(),
+                String.valueOf(System.currentTimeMillis()),
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
