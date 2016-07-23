@@ -10,34 +10,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_category_name"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_category_name" />
-
-        <EditText
-            android:id="@+id/text_category_name"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="@={category.name}"
-            android:ems="10" />
+            android:layout_weight="0.8"
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing"
-            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/label_category_name"
+                style="@style/GoodsItemLabel"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_category_name" />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/text_category_name"
+                style="@style/BootstrapTypeEditText"
+                android:layout_below="@id/label_category_name"
+                android:text="@={category.name}" />
 
             <TextView
                 android:id="@+id/label_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text_category_name"
                 android:text="@string/label_register_goods_count"
                 android:textSize="@dimen/text_large" />
 
@@ -45,42 +43,44 @@
                 android:id="@+id/label_count_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/text_category_name"
+                android:layout_toRightOf="@id/label_count"
                 android:textSize="@dimen/text_large"
                 android:text="@{String.valueOf(category.goodsCount)}" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/label_delete_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_count"
+                android:layout_margin="@dimen/spacing_small"
+                android:textColor="@color/label_attention"
+                android:textSize="@dimen/text_normal"
+                android:text="@string/label_delete_attention"
+                android:visibility="@{category.hasGoods() ? View.VISIBLE : View.GONE}"/>
 
-        <TextView
-            android:id="@+id/label_delete_attention"
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:layout_marginLeft="@dimen/spacing"
-            android:layout_marginRight="@dimen/spacing"
-            android:textColor="@color/label_attention"
-            android:textSize="@dimen/text_normal"
-            android:text="@string/label_delete_attention"
-            android:visibility="@{category.hasGoods() ? View.VISIBLE : View.GONE}"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:gravity="center">
+            android:layout_weight="0.2"
+            android:layout_gravity="center">
 
             <Button
                 android:id="@+id/update_button"
                 style="@style/GoodsButton"
+                android:background="@drawable/exec_button"
                 android:text="@string/button_update" />
 
             <Button
                 android:id="@+id/delete_button"
                 style="@style/GoodsButton"
-                android:layout_toRightOf="@id/update_button"
-                android:layout_marginLeft="50dp"
+                android:background="@drawable/delete_button"
+                android:layout_marginLeft="@dimen/button_space"
                 android:enabled="@{!category.hasGoods()}"
                 android:text="@string/button_delete" />
 
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 </layout>

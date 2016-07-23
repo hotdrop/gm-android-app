@@ -32,7 +32,7 @@
     <dimen name="reorder_icon_height">40dp</dimen>
 
     <!-- amount image -->
-    <dimen name="fragment_amount_image_size">50dp</dimen>
+    <dimen name="fragment_amount_image_size">75dp</dimen>
     <dimen name="amount_image_right_space">100dp</dimen>
 
     <!-- Button -->
@@ -40,6 +40,6 @@
     <dimen name="button_corner">15dp</dimen>
     <dimen name="button_padding">10dp</dimen>
     <dimen name="button_size">30dp</dimen>
-    <dimen name="button_space">50dp</dimen>
+    <dimen name="button_space">30dp</dimen>
 
 </resources>

@@ -31,18 +31,28 @@
     <color name="label_attention">#ff0000</color>
     <color name="spinner_selected_item">#84f1eb</color>
 
-    <!-- button -->
-    <color name="button_start">#1af8ff</color>
-    <color name="button_end">#0e169a</color>
+    <!-- button style common -->
+    <color name="button_text">#020202</color>
     <color name="button_stroke">#696969</color>
 
-    <color name="button_press_start">#BEBEBE</color>
-    <color name="button_press_end">#3a3a3a</color>
-    <color name="button_press_stroke">#696969</color>
+    <!-- button style -->
+    <color name="exec_button_start">#7cfbff</color>
+    <color name="exec_button_end">#000fff</color>
+    <color name="exec_button_press_start">#65f4f9</color>
+    <color name="exec_button_press_end">#010ba7</color>
+
+    <color name="delete_button_start">#ffcece</color>
+    <color name="delete_button_end">#ea0000</color>
+    <color name="delete_button_press_start">#fcadad</color>
+    <color name="delete_button_press_end">#990000</color>
+
+    <color name="support_button_start">#ffffde</color>
+    <color name="support_button_end">#eaea00</color>
+    <color name="support_button_press_start">#fafab8</color>
+    <color name="support_button_press_end">#9b9b01</color>
 
     <color name="button_disable_start">#BEBEBE</color>
     <color name="button_disable_end">#3a3a3a</color>
     <color name="button_disable_stroke">#696969</color>
-
 
 </resources>

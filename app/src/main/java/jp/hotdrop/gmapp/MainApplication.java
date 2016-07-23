@@ -2,6 +2,8 @@ package jp.hotdrop.gmapp;
 
 import android.app.Application;
 
+import com.beardedhen.androidbootstrap.TypefaceProvider;
+
 import jp.hotdrop.gmapp.di.AppComponent;
 import jp.hotdrop.gmapp.di.AppModule;
 import jp.hotdrop.gmapp.di.DaggerAppComponent;
@@ -18,5 +20,6 @@ public class MainApplication extends Application {
     public void onCreate(){
         super.onCreate();
         appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
+        TypefaceProvider.registerDefaultIconSets();
     }
 }

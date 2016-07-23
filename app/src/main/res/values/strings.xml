@@ -15,6 +15,7 @@
     <!-- 一覧画面 -->
     <string name="list_stock_num">在庫数：</string>
     <string name="list_replenishment_date">前回補充した日：</string>
+    <string name="list_amount_empty_attention">※この商品は空です。</string>
 
     <!-- 詳細画面 -->
     <string name="label_goods_name">商品名</string>

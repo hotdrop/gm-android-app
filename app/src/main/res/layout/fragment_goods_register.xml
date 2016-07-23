@@ -9,56 +9,68 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_name"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_goods_name" />
-
-        <EditText
-            android:id="@+id/text_name"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:text="@={goods.name}"
-            android:ems="10" />
+            android:layout_weight="0.8"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/label_category"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_goods_category" />
+            <TextView
+                android:id="@+id/label_name"
+                style="@style/GoodsItemLabel"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_goods_name" />
 
-        <Spinner
-            android:id="@+id/spinner_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:clickable="true"
-            android:spinnerMode="dropdown" />
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/text_name"
+                style="@style/BootstrapTypeEditText"
+                android:layout_below="@id/label_name"
+                android:text="@={goods.name}" />
 
-        <TextView
-            android:id="@+id/label_stock"
-            style="@style/GoodsItemLabel"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/label_stock_num" />
+            <TextView
+                android:id="@+id/label_category"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@id/text_name"
+                android:text="@string/label_goods_category" />
 
-        <EditText
-            android:id="@+id/text_stock"
+            <Spinner
+                android:id="@+id/spinner_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/label_category"
+                android:background="@color/white"
+                android:clickable="true"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/label_stock"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@id/spinner_category"
+                android:text="@string/label_stock_num" />
+
+            <com.beardedhen.androidbootstrap.BootstrapEditText
+                android:id="@+id/text_stock"
+                style="@style/BootstrapTypeNumber"
+                android:layout_below="@id/label_stock"
+                android:text="@={goods.stockNum}" />
+
+        </RelativeLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="@={goods.stockNum}"
-            android:ems="5" />
+            android:layout_weight="0.2"
+            android:layout_gravity="center">
 
-        <Button
-            android:id="@+id/register_button"
-            style="@style/GoodsButton"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/button_register" />
+            <Button
+                android:id="@+id/register_button"
+                style="@style/GoodsButton"
+                android:background="@drawable/exec_button"
+                android:text="@string/button_register" />
 
+        </LinearLayout>
     </LinearLayout>
 </layout>
