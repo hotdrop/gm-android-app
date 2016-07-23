@@ -69,13 +69,13 @@
 
             <Button
                 android:id="@+id/update_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/exec_button"
                 android:text="@string/button_update" />
 
             <Button
                 android:id="@+id/delete_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/delete_button"
                 android:layout_marginLeft="@dimen/button_space"
                 android:enabled="@{!category.hasGoods()}"

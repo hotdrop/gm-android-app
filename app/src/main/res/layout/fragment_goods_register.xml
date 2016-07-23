@@ -38,12 +38,8 @@
 
             <Spinner
                 android:id="@+id/spinner_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/label_category"
-                android:background="@color/white"
-                android:clickable="true"
-                android:spinnerMode="dropdown" />
+                style="@style/GMSpinner"
+                android:layout_below="@id/label_category" />
 
             <TextView
                 android:id="@+id/label_stock"
@@ -67,7 +63,7 @@
 
             <Button
                 android:id="@+id/register_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/exec_button"
                 android:text="@string/button_register" />
 

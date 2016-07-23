@@ -5,12 +5,25 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
-        <item name="android:dropDownListViewStyle">@style/GMSpinnerStyle</item>
+        <item name="android:dropDownListViewStyle">@style/SpinnerDropDownBorder</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SpinnerDropDownItem" parent="android:style/Widget.DropDownItem.Spinner">
+        <item name="android:background">@drawable/selectable_background</item>
+        <item name="android:checkMark">@null</item>
+    </style>
+
+    <style name="SpinnerDropDownBorder" parent="android:style/Widget.ListView.DropDown">
+        <item name="android:divider">@color/spinner_border</item>
+        <item name="android:dividerHeight">1dp</item>
     </style>
 
     <style name="TextTitle">
@@ -68,7 +81,7 @@
         <item name="bootstrapBrand">regular</item>
     </style>
 
-    <style name="GoodsButton">
+    <style name="GMButton">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_weight">1</item>
@@ -78,17 +91,14 @@
         <item name="android:textSize">@dimen/text_large</item>
     </style>
 
-    <style name="SpinnerDropDownItem" parent="android:style/Widget.DropDownItem.Spinner">
-        <item name="android:background">@drawable/selectable_background</item>
-        <item name="android:checkMark">@null</item>
+    <style name="GMSpinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_margin">7dp</item>
+        <item name="android:background">@drawable/spinner_shape</item>
+        <item name="android:popupBackground">@drawable/spinner_popup_shape</item>
+        <item name="android:clickable">true</item>
+        <item name="android:spinnerMode">dropdown</item>
     </style>
-
-    <style name="GMSpinnerStyle" parent="android:style/Widget.ListView.DropDown">
-        <item name="android:divider">@color/black</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

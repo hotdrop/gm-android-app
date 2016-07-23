@@ -40,7 +40,7 @@
 
             <Button
                 android:id="@+id/register_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/exec_button"
                 android:text="@string/button_register" />
 

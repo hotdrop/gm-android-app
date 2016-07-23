@@ -35,6 +35,10 @@
     <dimen name="fragment_amount_image_size">75dp</dimen>
     <dimen name="amount_image_right_space">100dp</dimen>
 
+    <!-- spinner -->
+    <dimen name="spinner_radius">6dip</dimen>
+    <dimen name="spinner_border">1dp</dimen>
+
     <!-- Button -->
     <dimen name="button_stroke_width">1dp</dimen>
     <dimen name="button_corner">15dp</dimen>

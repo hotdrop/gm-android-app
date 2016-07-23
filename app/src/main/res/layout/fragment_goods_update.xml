@@ -40,12 +40,8 @@
 
             <Spinner
                 android:id="@+id/spinner_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/label_category"
-                android:background="@color/white"
-                android:clickable="true"
-                android:spinnerMode="dropdown" />
+                style="@style/GMSpinner"
+                android:layout_below="@id/label_category" />
 
             <TextView
                 android:id="@+id/label_stock"
@@ -115,20 +111,20 @@
 
             <Button
                 android:id="@+id/update_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/exec_button"
                 android:text="@string/button_update" />
 
             <Button
                 android:id="@+id/delete_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/delete_button"
                 android:layout_marginLeft="@dimen/button_space"
                 android:text="@string/button_delete" />
 
             <Button
                 android:id="@+id/replenishment_button"
-                style="@style/GoodsButton"
+                style="@style/GMButton"
                 android:background="@drawable/support_button"
                 android:layout_marginLeft="@dimen/button_space"
                 android:text="@string/button_replenishment"

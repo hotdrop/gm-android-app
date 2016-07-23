@@ -29,7 +29,10 @@
 
     <!-- fragment -->
     <color name="label_attention">#ff0000</color>
-    <color name="spinner_selected_item">#84f1eb</color>
+
+    <!-- spinner -->
+    <color name="spinner_selected_item">#b4fcf8</color>
+    <color name="spinner_border">#bab9b9</color>
 
     <!-- button style common -->
     <color name="button_text">#020202</color>
@@ -51,8 +54,8 @@
     <color name="support_button_press_start">#fafab8</color>
     <color name="support_button_press_end">#9b9b01</color>
 
-    <color name="button_disable_start">#BEBEBE</color>
-    <color name="button_disable_end">#3a3a3a</color>
-    <color name="button_disable_stroke">#696969</color>
+    <color name="button_disable_start">#e6e6e6</color>
+    <color name="button_disable_end">#b9b8b8</color>
+    <color name="button_disable_stroke">#b9b8b8</color>
 
 </resources>
