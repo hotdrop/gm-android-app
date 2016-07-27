@@ -58,6 +58,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         binding.setGoods(goods);
 
         setCategorySpinner();
+        setStockNumSpinner();
         setDeleteConfirmDlg();
 
         binding.icAmountIncrease.setOnClickListener(v -> onClickAmountIncrease());
@@ -90,6 +91,17 @@ public class GoodsUpdateFragment extends BaseFragment {
 
         binding.spinnerCategory.setAdapter(adapter);
         binding.spinnerCategory.setSelection(adapter.getPosition(goods.getCategoryName()));
+    }
+
+    /**
+     * 在庫数のドロップダウンリストを作成する
+     */
+    private void setStockNumSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, goods.STOCK_NUM_LIST);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        binding.spinnerStock.setAdapter(adapter);
+        binding.spinnerStock.setSelection(adapter.getPosition(goods.getStockNum()));
     }
 
     /**
@@ -161,15 +173,14 @@ public class GoodsUpdateFragment extends BaseFragment {
         }
 
         int refreshMode = REFRESH_ONE;
-
-        // spinnerはバインドできないため手動で値を設定する
-        String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
-        if(!selectedCategoryName.equals(goods.getCategoryName())) {
-            // カテゴリーを変更した場合は全リフレッシュモードにする
-            goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
-            goods.setCategoryName(selectedCategoryName);
+        if(changedCategory()) {
+            // spinnerはバインドできないため手動で値を設定する
+            setCategoryToGoods();
             refreshMode = REFRESH_ALL;
         }
+
+        // spinnerの手動設定
+        setStockNumToGoods();
 
         goodsDao.beginTran();
         goodsDao.update(goods);
@@ -196,6 +207,25 @@ public class GoodsUpdateFragment extends BaseFragment {
         }
 
         return true;
+    }
+
+    private boolean changedCategory() {
+        String selectedCategoryName = String.valueOf(binding.spinnerCategory.getSelectedItem());
+        if(!selectedCategoryName.equals(goods.getCategoryName())) {
+            return true;
+        }
+        return false;
+    }
+
+    private void setCategoryToGoods() {
+        String selectedCategoryName = String.valueOf(binding.spinnerCategory.getSelectedItem());
+        goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
+        goods.setCategoryName(selectedCategoryName);
+    }
+
+    private void setStockNumToGoods() {
+        Object selectedItem = binding.spinnerStock.getSelectedItem();
+        goods.setStockNum(String.valueOf(selectedItem));
     }
 
     /**

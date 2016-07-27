@@ -53,6 +53,8 @@ public class GoodsRegisterFragment extends BaseFragment {
         setHasOptionsMenu(false);
 
         setCategorySpinner();
+        setStockNumSpinner();
+
         binding.registerButton.setOnClickListener((View v) -> onClickRegister(v));
         binding.setGoods(goods);
 
@@ -78,6 +80,17 @@ public class GoodsRegisterFragment extends BaseFragment {
     }
 
     /**
+     * 在庫数のドロップダウンリストを作成する
+     */
+    private void setStockNumSpinner() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, goods.STOCK_NUM_LIST);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        binding.spinnerStock.setAdapter(adapter);
+        binding.spinnerStock.setSelection(adapter.getPosition(goods.getStockNum()));
+    }
+
+    /**
      * 登録ボタン押下
      * @param v
      */
@@ -87,11 +100,7 @@ public class GoodsRegisterFragment extends BaseFragment {
             return;
         }
 
-        String selectedCategoryName = (String)binding.spinnerCategory.getSelectedItem();
-        goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
-        goods.setCategoryName(selectedCategoryName);
-        goods.setReplenishmentDate(DateUtil.longToDate(System.currentTimeMillis()));
-        goods.setRegisterDate(DateUtil.longToDate(System.currentTimeMillis()));
+        setToGoods();
 
         goodsDao.beginTran();
         goodsDao.insert(goods);
@@ -118,6 +127,15 @@ public class GoodsRegisterFragment extends BaseFragment {
         }
 
         return true;
+    }
+
+    private void setToGoods() {
+        String selectedCategoryName = (String.valueOf(binding.spinnerCategory.getSelectedItem()));
+        goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
+        goods.setCategoryName(selectedCategoryName);
+        goods.setStockNum(String.valueOf(binding.spinnerStock.getSelectedItem()));
+        goods.setReplenishmentDate(DateUtil.longToDate(System.currentTimeMillis()));
+        goods.setRegisterDate(DateUtil.longToDate(System.currentTimeMillis()));
     }
 
     private void setResult() {

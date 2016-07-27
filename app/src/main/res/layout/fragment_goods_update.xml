@@ -50,11 +50,11 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/label_stock_num" />
 
-            <com.beardedhen.androidbootstrap.BootstrapEditText
-                android:id="@+id/text_stock"
-                style="@style/BootstrapTypeNumber"
-                android:layout_below="@id/label_stock"
-                android:text="@={goods.stockNum}" />
+            <Spinner
+                android:id="@+id/spinner_stock"
+                android:layout_width="100dp"
+                style="@style/GMSpinner"
+                android:layout_below="@id/label_stock" />
 
             <TextView
                 android:id="@+id/label_amount"
@@ -70,7 +70,7 @@
                 android:layout_width="@dimen/fragment_amount_image_size"
                 android:layout_height="@dimen/fragment_amount_image_size"
                 android:layout_below="@+id/label_amount"
-                android:layout_toRightOf="@+id/text_stock"
+                android:layout_toRightOf="@+id/label_stock"
                 android:layout_marginLeft="@dimen/amount_image_right_space"
                 app:amountImageSize="@{@dimen/fragment_amount_image_size}"
                 app:amountImageUrl="@{goods.amount}" />

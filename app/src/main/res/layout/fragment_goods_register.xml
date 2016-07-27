@@ -47,11 +47,11 @@
                 android:layout_below="@id/spinner_category"
                 android:text="@string/label_stock_num" />
 
-            <com.beardedhen.androidbootstrap.BootstrapEditText
-                android:id="@+id/text_stock"
-                style="@style/BootstrapTypeNumber"
-                android:layout_below="@id/label_stock"
-                android:text="@={goods.stockNum}" />
+            <Spinner
+                android:id="@+id/spinner_stock"
+                android:layout_width="100dp"
+                style="@style/GMSpinner"
+                android:layout_below="@id/label_stock" />
 
         </RelativeLayout>
 

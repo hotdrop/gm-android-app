@@ -64,9 +64,10 @@
         <item name="android:layout_margin">@dimen/spacing_small</item>
         <item name="android:lines">1</item>
         <item name="android:inputType">text</item>
-        <item name="bootstrapSize">md</item>
+        <item name="bootstrapSize">lg</item>
         <item name="roundedCorners">true</item>
         <item name="bootstrapBrand">regular</item>
+        <item name="android:textSize">@dimen/text_normal</item>
     </style>
 
     <style name="BootstrapTypeNumber">

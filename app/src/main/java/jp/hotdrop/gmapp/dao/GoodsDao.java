@@ -36,7 +36,9 @@ public class GoodsDao extends AbstractDao {
     }
 
     public Goods select(String id) {
-        String sql = SQL_SELECT_FROM + " WHERE g.id = ?";
+
+        final String sql = SQL_SELECT_FROM + " WHERE g.id = ?";
+
         String[] bind = {id};
         Cursor cursor = execSelect(sql, bind);
         if(cursor.moveToNext()) {
@@ -48,7 +50,7 @@ public class GoodsDao extends AbstractDao {
 
     public Observable<List<Goods>> selectAll() {
 
-        String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, g.id";
+        final String sql = SQL_SELECT_FROM + " ORDER BY gc.view_order, g.id";
 
         List<Goods> goodsList = new ArrayList<>();
         Cursor cursor = execSelect(sql, null);
@@ -62,7 +64,7 @@ public class GoodsDao extends AbstractDao {
 
     public void insert(Goods goods) {
 
-        String sql = "INSERT INTO t_goods" +
+        final String sql = "INSERT INTO t_goods" +
                 "  (name, category_id, stock_num, replenishment_date, register_date, update_date) " +
                 " VALUES " +
                 "  (?, ?, ?, ?, ?, ?)";
@@ -79,10 +81,11 @@ public class GoodsDao extends AbstractDao {
 
     public void update(Goods goods) {
 
-        String sql = "UPDATE t_goods SET" +
+        final String sql = "UPDATE t_goods SET" +
                 " name = ?, category_id = ?, amount = ?, stock_num = ?, " +
                 " update_date = ? " +
                 " WHERE id = ? ";
+
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getAmount()),
@@ -95,9 +98,10 @@ public class GoodsDao extends AbstractDao {
 
     public void replenishmentAmount(Goods goods) {
 
-        String sql = "UPDATE t_goods SET" +
+        final String sql = "UPDATE t_goods SET" +
                 " amount = ?, stock_num = ?, replenishment_date = ?, update_date = ? " +
                 " WHERE id = ? ";
+
         String[] bind = {String.valueOf(goods.getAmount()),
                 goods.getStockNum(),
                 String.valueOf(System.currentTimeMillis()),
@@ -108,14 +112,14 @@ public class GoodsDao extends AbstractDao {
     }
 
     public void delete(String id) {
-        String sql = "DELETE FROM t_goods WHERE id = ? ";
+        final String sql = "DELETE FROM t_goods WHERE id = ? ";
         String[] bind = {id};
         execDelete(sql, bind);
     }
 
     public boolean existGoodsName(String name) {
 
-        String sql = "SELECT name FROM t_goods WHERE name = ?";
+        final String sql = "SELECT name FROM t_goods WHERE name = ?";
         String[] bind = {name};
 
         Cursor cursor = execSelect(sql, bind);
