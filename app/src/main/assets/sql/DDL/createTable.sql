@@ -9,7 +9,7 @@ CREATE TABLE t_goods (
     name TEXT NOT NULL,
     category_id INTEGER NOT NULL,
     amount INTEGER NOT NULL DEFAULT 5,
-    stock_num String,
+    stock_num INTEGER,
     replenishment_date INTEGER,
     register_date INTEGER,
     update_date INTEGER

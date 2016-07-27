@@ -101,7 +101,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerStock.setAdapter(adapter);
-        binding.spinnerStock.setSelection(adapter.getPosition(goods.getStockNum()));
+        binding.spinnerStock.setSelection(adapter.getPosition(String.valueOf(goods.getStockNum())));
     }
 
     /**
@@ -119,7 +119,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         binding.icAmountIncrease.setVisibility(View.GONE);
         binding.icAmountReduce.setVisibility(View.GONE);
         binding.amountEmptyAttention.setVisibility(View.VISIBLE);
-        if(goods.getStockNum() != null && Integer.valueOf(goods.getStockNum()) >= 1) {
+        if(goods.getStockNum() >= 1) {
             binding.amountEmptyAttention.setText(R.string.label_amount_empty_attention);
             binding.replenishmentButton.setVisibility(View.VISIBLE);
             binding.replenishmentButton.setOnClickListener(v -> onClickReplenishment());
@@ -149,8 +149,7 @@ public class GoodsUpdateFragment extends BaseFragment {
     private void onClickReplenishment() {
 
         // このボタンの表示条件は「stockNumが１以上」であるため−1しても問題ない
-        int stockNum = Integer.valueOf(goods.getStockNum()) - 1;
-        goods.setStockNum(String.valueOf(stockNum));
+        goods.setStockNum(goods.getStockNum() - 1);
         goods.setAmount(goods.AMOUNT_FULL);
 
         goodsDao.beginTran();
@@ -224,8 +223,7 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     private void setStockNumToGoods() {
-        Object selectedItem = binding.spinnerStock.getSelectedItem();
-        goods.setStockNum(String.valueOf(selectedItem));
+        goods.setStockNum(Integer.valueOf(binding.spinnerStock.getSelectedItem().toString()));
     }
 
     /**
@@ -243,7 +241,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         goodsDao.commit();
 
         // 削除の場合は全リフレッシュ
-        // いろいろ全リフレッシュ以外を試行錯誤したが、TabFragmentで持つリストとGoodsFragmentで持つリスト
+        // 全リフレッシュ以外を試行錯誤したが、TabFragmentで持つリストとGoodsFragmentで持つリスト
         // 等々の整合性を合わせるのが厳しかったので一旦リフレッシュとした。
         setResult(REFRESH_ALL);
         exit();

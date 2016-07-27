@@ -71,7 +71,7 @@ public class GoodsDao extends AbstractDao {
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
-                goods.getStockNum(),
+                String.valueOf(goods.getStockNum()),
                 String.valueOf(DateUtil.dateToLong(goods.getReplenishmentDate())),
                 String.valueOf(DateUtil.dateToLong(goods.getRegisterDate())),
                 String.valueOf(System.currentTimeMillis())};
@@ -89,7 +89,7 @@ public class GoodsDao extends AbstractDao {
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getAmount()),
-                goods.getStockNum(),
+                String.valueOf(goods.getStockNum()),
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
@@ -103,7 +103,7 @@ public class GoodsDao extends AbstractDao {
                 " WHERE id = ? ";
 
         String[] bind = {String.valueOf(goods.getAmount()),
-                goods.getStockNum(),
+                String.valueOf(goods.getStockNum()),
                 String.valueOf(System.currentTimeMillis()),
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
@@ -146,7 +146,7 @@ public class GoodsDao extends AbstractDao {
         goods.setCategoryId(getCursorInt(cursor, "category_id"));
         goods.setCategoryName(getCursorString(cursor, "category_name"));
         goods.setAmount(getCursorInt(cursor, "amount"));
-        goods.setStockNum(getCursorString(cursor, "stock_num"));
+        goods.setStockNum(getCursorInt(cursor, "stock_num"));
         goods.setReplenishmentDate(getCursorDate(cursor, "replenishment_date"));
         goods.setRegisterDate(getCursorDate(cursor, "register_date"));
         goods.setUpdateDate(getCursorDate(cursor, "update_date"));

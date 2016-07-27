@@ -87,7 +87,8 @@ public class GoodsRegisterFragment extends BaseFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerStock.setAdapter(adapter);
-        binding.spinnerStock.setSelection(adapter.getPosition(goods.getStockNum()));
+        String stockNumStr = String.valueOf(goods.getStockNum());
+        binding.spinnerStock.setSelection(adapter.getPosition(stockNumStr));
     }
 
     /**
@@ -133,7 +134,7 @@ public class GoodsRegisterFragment extends BaseFragment {
         String selectedCategoryName = (String.valueOf(binding.spinnerCategory.getSelectedItem()));
         goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
-        goods.setStockNum(String.valueOf(binding.spinnerStock.getSelectedItem()));
+        goods.setStockNum(Integer.valueOf(binding.spinnerStock.getSelectedItem().toString()));
         goods.setReplenishmentDate(DateUtil.longToDate(System.currentTimeMillis()));
         goods.setRegisterDate(DateUtil.longToDate(System.currentTimeMillis()));
     }

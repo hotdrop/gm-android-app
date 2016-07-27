@@ -57,7 +57,7 @@
                     android:layout_below="@id/txt_name"
                     android:layout_toRightOf="@id/label_stock_num"
                     android:textSize="@dimen/text_small"
-                    android:text="@{goods.stockNum.toString()}" />
+                    android:text="@{String.valueOf(goods.stockNum)}" />
 
                 <TextView
                     android:id="@+id/label_replenishment_date"

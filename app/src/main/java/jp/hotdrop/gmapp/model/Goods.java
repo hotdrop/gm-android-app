@@ -14,6 +14,7 @@ public class Goods {
     public static final int AMOUNT_EMPTY = 1;
 
     public static final int AMOUNT_INCREASE_DECREASE_UNIT = 1;
+
     public static final String[] STOCK_NUM_LIST = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 
@@ -23,10 +24,8 @@ public class Goods {
     protected int categoryId;
     protected String categoryName;
 
-    protected int amount = 0;
-    // bindingを使用しておりかつEditTextにしているためintではなくStringで表現する
-    // なお、空が設定された場合は0を保持する。（setterにて）
-    protected String stockNum = "0";
+    protected int amount;
+    protected int stockNum;
     protected Date replenishmentDate;
     protected Date registerDate;
     protected Date updateDate;
@@ -74,11 +73,11 @@ public class Goods {
         return amount;
     }
 
-    public void setStockNum(String stockNum) {
-        this.stockNum = (stockNum == null || stockNum.trim().equals(""))? "0" : stockNum;
+    public void setStockNum(int stockNum) {
+        this.stockNum = stockNum;
     }
 
-    public String getStockNum() {
+    public int getStockNum() {
         return stockNum;
     }
 
