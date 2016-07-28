@@ -49,7 +49,7 @@
 
             <Spinner
                 android:id="@+id/spinner_stock"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/spinner_stock_width"
                 style="@style/GMSpinner"
                 android:layout_below="@id/label_stock" />
 

@@ -16,7 +16,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.8"
+            android:layout_weight="0.9"
             android:orientation="vertical">
 
             <TextView
@@ -52,8 +52,9 @@
 
             <Spinner
                 android:id="@+id/spinner_stock"
-                android:layout_width="100dp"
+                android:layout_width="@dimen/spinner_stock_width"
                 style="@style/GMSpinner"
+                android:dropDownVerticalOffset="5dp"
                 android:layout_below="@id/label_stock" />
 
             <TextView
@@ -106,7 +107,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.1"
             android:layout_gravity="center">
 
             <Button

@@ -38,6 +38,7 @@
     <!-- spinner -->
     <dimen name="spinner_radius">6dip</dimen>
     <dimen name="spinner_border">1dp</dimen>
+    <dimen name="spinner_stock_width">100dp</dimen>
 
     <!-- Button -->
     <dimen name="button_stroke_width">1dp</dimen>
