@@ -18,12 +18,12 @@
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/theme500"
+                android:background="@color/tab_background"
                 android:elevation="@dimen/elevation"
                 app:elevation="@dimen/elevation"
-                app:tabIndicatorColor="@color/accent100"
+                app:tabIndicatorColor="@color/tab_indicator"
                 app:tabMode="scrollable"
-                app:tabTextColor="@color/white_alpha_40"
+                app:tabTextColor="@color/tab_text"
                 tools:targetApi="lollipop">
             </android.support.design.widget.TabLayout>
 
@@ -31,6 +31,7 @@
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/view_background"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
@@ -56,7 +57,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add"
             android:clickable="true"
-            app:backgroundTint="@color/light_blue" />
+            app:backgroundTint="@color/fab_add_background" />
 
     </FrameLayout>
 

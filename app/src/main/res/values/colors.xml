@@ -1,44 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="theme500">#00BCD4</color>
-    <color name="theme600">#00ACC1</color>
-    <color name="accent100">#FFFF8D</color>
+    <!-- main theme -->
+    <color name="colorPrimary">#333333</color>
+    <color name="colorPrimaryDark">#151515</color>
+    <color name="colorAccent">#7013e9</color>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!-- nav menu -->
+    <color name="nav_background">#282828</color>
+    <color name="nav_menu_background">#666666</color>
+    <color name="nav_text_color">#a3c9a3</color>
 
-    <color name="white">#ffffff</color>
-    <color name="white_alpha_40">#b3ffffff</color>
-    <color name="green">#00ff00</color>
-    <color name="dark_green">#093b09</color>
-    <color name="black">#000000</color>
-    <color name="black_alpha_30">#4D000000</color>
-    <color name="red">#ff0000</color>
-    <color name="light_blue">#00c4ff</color>
-    <color name="gray">#6f7071</color>
-    <color name="blackGreen">#00BCD4</color>
-    <color name="yellow">#FFFF8D</color>
+    <!-- common -->
+    <color name="view_background">#262626</color>
+    <color name="img_circle_border">#6f7071</color>
 
-    <color name="ColorPrimary">#FF5722</color>
-    <color name="ColorPrimaryDark">#E64A19</color>
+    <!-- goodsList fragment -->
+    <color name="item_list_background">#5b5b5b</color>
+    <color name="tab_background">#444748</color>
+    <color name="tab_indicator">#6300dc</color>
+    <color name="tab_text">#dcdcdc</color>
 
-    <color name="background">#020202</color>
-    <color name="title_background">#07086f</color>
+    <!-- fab -->
+    <color name="fab_add_background">#27d6df</color>
 
-    <!-- fragment -->
-    <color name="label_attention">#ff0000</color>
-
-    <!-- spinner -->
+    <!-- register or update fragment -->
+    <color name="label_item_text">#a3c9a3</color>
+    <color name="text_background">#696969</color>
+    <color name="text_color">#cecdcd</color>
+    <color name="label_attention">#a60000</color>
     <color name="spinner_selected_item">#b4fcf8</color>
-    <color name="spinner_border">#bab9b9</color>
-
-    <!-- button style common -->
+    <color name="spinner_border">#202020</color>
+    <color name="spinner_background">#696969</color>
     <color name="button_text">#020202</color>
     <color name="button_stroke">#696969</color>
 
-    <!-- button style -->
+    <!-- button style individual -->
     <color name="exec_button_start">#7cfbff</color>
     <color name="exec_button_end">#000fff</color>
     <color name="exec_button_press_start">#65f4f9</color>

@@ -11,6 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/view_background"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -25,9 +26,9 @@
                 android:layout_marginTop="@dimen/spacing_small"
                 android:text="@string/label_goods_name" />
 
-            <com.beardedhen.androidbootstrap.BootstrapEditText
+            <EditText
                 android:id="@+id/text_name"
-                style="@style/BootstrapTypeEditText"
+                style="@style/EditText"
                 android:layout_below="@id/label_name"
                 android:text="@={goods.name}" />
 

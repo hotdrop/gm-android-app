@@ -1,23 +1,29 @@
 <resources>
+
     <string name="app_name">在庫管理アプリ</string>
-    <string name="app_title">在庫管理アプリ</string>
 
-    <string name="tag_line">このアプリのメニューです。カテゴリーの編集はカテゴリー一覧で行えます。</string>
+    <!-- Activity title -->
+    <string name="title_main">商品一覧</string>
+    <string name="title_goods_register">商品の新規登録</string>
+    <string name="title_goods_update">商品の更新</string>
+    <string name="title_category_register">カテゴリー新規登録</string>
+    <string name="title_category_update">カテゴリー更新</string>
 
-    <string name="open">開く</string>
-    <string name="close">閉じる</string>
-
-    <!-- ナビゲーションメニュー -->
+    <!-- navigation menu -->
+    <string name="nav_app_description">在庫管理するためのアプリです。</string>
     <string name="nav_goods_list">商品一覧</string>
     <string name="nav_category_list">カテゴリー一覧</string>
     <string name="nav_search">検索</string>
 
-    <!-- 一覧画面 -->
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+    <!-- activity goods list -->
     <string name="list_stock_num">在庫数：</string>
     <string name="list_replenishment_date">前回補充した日：</string>
     <string name="list_amount_empty_attention">※この商品は空です。</string>
 
-    <!-- 詳細画面 -->
+    <!-- activity detail(goods update, category register etc..) -->
     <string name="label_goods_name">商品名</string>
     <string name="label_goods_category">商品のカテゴリー</string>
     <string name="label_stock_num">在庫数</string>
@@ -39,8 +45,5 @@
     <string name="button_update">更新</string>
     <string name="button_delete">削除</string>
     <string name="button_replenishment">補充</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

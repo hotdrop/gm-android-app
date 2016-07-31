@@ -9,14 +9,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/drawer_header"
-        android:background="@drawable/img_default_cover_auto_mirrored"
         android:orientation="vertical"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black_alpha_30" />
+            android:background="@color/nav_background" />
 
         <ImageView
             android:id="@+id/img_nav_header_icon"
@@ -40,24 +39,10 @@
             android:layout_marginTop="@dimen/spacing_small"
             android:ellipsize="end"
             android:lines="1"
-            android:textColor="@color/white"
+            android:textColor="@color/nav_text_color"
             android:textSize="@dimen/text_normal"
             android:textStyle="bold"
-            android:text="@string/app_name" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_nav_header_title"
-            android:layout_marginBottom="@dimen/spacing"
-            android:layout_marginEnd="@dimen/spacing"
-            android:layout_marginLeft="@dimen/spacing"
-            android:layout_marginRight="@dimen/spacing"
-            android:layout_marginStart="@dimen/spacing"
-            android:layout_marginTop="@dimen/spacing_small"
-            android:text="@string/tag_line"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_small" />
+            android:text="@string/nav_app_description" />
 
     </RelativeLayout>
 

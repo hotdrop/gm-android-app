@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
 
-    <solid android:color="@color/gray" />
+    <solid android:color="@color/img_circle_border" />
 
     <padding
         android:bottom="@dimen/list_amount_image_size"

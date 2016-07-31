@@ -22,8 +22,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="@string/app_title" />
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
             <FrameLayout
                 android:id="@+id/content_view"
@@ -36,6 +35,7 @@
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@color/nav_menu_background"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"

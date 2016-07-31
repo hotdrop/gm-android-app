@@ -22,9 +22,9 @@
     <!-- Elevation -->
     <dimen name="elevation">4dp</dimen>
 
-    <!-- Component -->
-    <dimen name="drawer_header">172dp</dimen>
-    <dimen name="drawer_header_icon">68dp</dimen>
+    <!-- navigation menu -->
+    <dimen name="drawer_header">170dp</dimen>
+    <dimen name="drawer_header_icon">70dp</dimen>
 
     <!-- list item -->
     <dimen name="list_amount_image_size">28dp</dimen>

@@ -21,7 +21,7 @@
             android:clickable="true"
             android:clipChildren="false"
             android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/item_list_background"
             app:cardUseCompatPadding="true">
 
             <RelativeLayout
@@ -75,7 +75,6 @@
                     android:layout_toRightOf="@id/label_replenishment_date"
                     android:drawableLeft="@drawable/ic_access_time_state"
                     android:drawableStart="@drawable/ic_access_time_state"
-                    android:textColor="@color/gray"
                     android:textSize="@dimen/text_small"
                     android:gravity="center_vertical"
                     android:text="@{DateUtil.dateToString(goods.replenishmentDate)}" />

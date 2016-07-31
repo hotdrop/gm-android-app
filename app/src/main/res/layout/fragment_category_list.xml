@@ -16,6 +16,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/view_background"
                 android:layout_below="@id/toolbar" />
 
         </RelativeLayout>
@@ -28,7 +29,7 @@
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/ic_add"
             android:clickable="true"
-            app:backgroundTint="@color/light_blue" />
+            app:backgroundTint="@color/fab_add_background" />
 
     </FrameLayout>
 </layout>
