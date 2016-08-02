@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- main theme -->
-    <color name="colorPrimary">#333333</color>
-    <color name="colorPrimaryDark">#151515</color>
+    <color name="colorPrimary">#2e2e2e</color>
+    <color name="colorPrimaryDark">#232323</color>
+    <color name="textColorPrimary">#f5f5f5</color>
+    <color name="windowBackground">#232323</color>
     <color name="colorAccent">#7013e9</color>
 
-    <!-- nav menu -->
-    <color name="nav_background">#282828</color>
-    <color name="nav_menu_background">#666666</color>
+    <color name="nav_background">#434343</color>
+    <color name="nav_menu_background">#313131</color>
     <color name="nav_text_color">#a3c9a3</color>
 
-    <!-- common -->
     <color name="view_background">#262626</color>
     <color name="img_circle_border">#6f7071</color>
+    <color name="fab_add_background">#27d6df</color>
 
-    <!-- goodsList fragment -->
     <color name="item_list_background">#5b5b5b</color>
     <color name="tab_background">#444748</color>
     <color name="tab_indicator">#6300dc</color>
-    <color name="tab_text">#dcdcdc</color>
+    <color name="tab_selected_text">#cecdcd</color>
+    <color name="tab_unselected_text">#2d2d2d</color>
 
-    <!-- fab -->
-    <color name="fab_add_background">#27d6df</color>
-
-    <!-- register or update fragment -->
     <color name="label_item_text">#a3c9a3</color>
     <color name="text_background">#696969</color>
     <color name="text_color">#cecdcd</color>
-    <color name="label_attention">#a60000</color>
-    <color name="spinner_selected_item">#b4fcf8</color>
+    <color name="label_attention">#ff0000</color>
+    <color name="spinner_selected_item">#b16efd</color>
     <color name="spinner_border">#202020</color>
     <color name="spinner_background">#696969</color>
     <color name="button_text">#020202</color>

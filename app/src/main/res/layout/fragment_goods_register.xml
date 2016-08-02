@@ -54,11 +54,25 @@
                 style="@style/GMSpinner"
                 android:layout_below="@id/label_stock" />
 
+            <TextView
+                android:id="@+id/label_note"
+                style="@style/GoodsItemLabel"
+                android:layout_marginTop="@dimen/spacing"
+                android:layout_below="@id/spinner_stock"
+                android:text="@string/label_note" />
+
+            <EditText
+                android:id="@+id/text_note"
+                style="@style/MultiLineEditText"
+                android:layout_below="@id/label_note"
+                android:text="@={goods.note}" />
+
         </RelativeLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing"
             android:layout_weight="0.2"
             android:layout_gravity="center">
 

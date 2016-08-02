@@ -23,10 +23,10 @@ public class Goods {
 
     protected int categoryId;
     protected String categoryName;
-
     protected int amount;
     protected int stockNum;
     protected Date replenishmentDate;
+    protected String note;
     protected Date registerDate;
     protected Date updateDate;
 
@@ -89,6 +89,14 @@ public class Goods {
         return replenishmentDate;
     }
 
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
     }
@@ -113,6 +121,7 @@ public class Goods {
         this.amount = goods.getAmount();
         this.stockNum = goods.getStockNum();
         this.replenishmentDate = goods.getReplenishmentDate();
+        this.note = goods.getNote();
         this.registerDate = goods.getRegisterDate();
         this.updateDate = goods.getUpdateDate();
     }

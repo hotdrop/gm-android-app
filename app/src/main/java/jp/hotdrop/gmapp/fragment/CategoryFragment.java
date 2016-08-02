@@ -40,7 +40,6 @@ public class CategoryFragment extends BaseFragment {
     private CategoryAdapter adapter;
     private ItemTouchHelper helper;
     private FragmentCategoryListBinding binding;
-    private boolean refresh;
 
     public static CategoryFragment newInstance() {
         return new CategoryFragment();
@@ -49,7 +48,6 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        refresh = false;
     }
 
     @Override

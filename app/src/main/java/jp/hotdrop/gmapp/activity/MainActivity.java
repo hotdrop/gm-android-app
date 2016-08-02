@@ -93,6 +93,7 @@ public class MainActivity extends BaseActivity
         binding.drawer.addDrawerListener(toggle);
         toggle.syncState();
         binding.navView.setNavigationItemSelectedListener(this);
+        binding.navView.setItemIconTintList(null);
         binding.navView.setCheckedItem(R.id.nav_goods_list);
     }
 

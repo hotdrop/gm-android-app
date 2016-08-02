@@ -42,6 +42,7 @@
                     android:layout_toRightOf="@id/icon_reorder_category"
                     android:layout_marginLeft="@dimen/spacing_small"
                     android:textSize="@dimen/text_large"
+                    android:textColor="@color/text_color"
                     android:text="@{category.name}" />
 
                 <TextView
@@ -52,6 +53,7 @@
                     android:layout_toRightOf="@id/icon_reorder_category"
                     android:layout_marginLeft="@dimen/spacing_small"
                     android:text="@string/label_register_goods_count"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small" />
 
                 <TextView
@@ -61,6 +63,7 @@
                     android:layout_below="@id/txt_name"
                     android:layout_toRightOf="@id/label_count"
                     android:text="@{String.valueOf(category.goodsCount)}"
+                    android:textColor="@{(category.goodsCount > 0) ? @color/text_color : @color/label_attention}"
                     android:textSize="@dimen/text_small" />
 
             </RelativeLayout>

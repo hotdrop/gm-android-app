@@ -25,6 +25,7 @@ public class GoodsDao extends AbstractDao {
             "        g.amount," +
             "        g.stock_num, " +
             "        g.replenishment_date, " +
+            "        g.note, " +
             "        g.register_date, " +
             "        g.update_date AS update_date" +
             " FROM t_goods g " +
@@ -65,7 +66,7 @@ public class GoodsDao extends AbstractDao {
     public void insert(Goods goods) {
 
         final String sql = "INSERT INTO t_goods" +
-                "  (name, category_id, stock_num, replenishment_date, register_date, update_date) " +
+                "  (name, category_id, stock_num, replenishment_date, note, register_date, update_date) " +
                 " VALUES " +
                 "  (?, ?, ?, ?, ?, ?)";
 
@@ -73,6 +74,7 @@ public class GoodsDao extends AbstractDao {
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getStockNum()),
                 String.valueOf(DateUtil.dateToLong(goods.getReplenishmentDate())),
+                goods.getNote(),
                 String.valueOf(DateUtil.dateToLong(goods.getRegisterDate())),
                 String.valueOf(System.currentTimeMillis())};
 
@@ -83,13 +85,14 @@ public class GoodsDao extends AbstractDao {
 
         final String sql = "UPDATE t_goods SET" +
                 " name = ?, category_id = ?, amount = ?, stock_num = ?, " +
-                " update_date = ? " +
+                " note = ?, update_date = ? " +
                 " WHERE id = ? ";
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getAmount()),
                 String.valueOf(goods.getStockNum()),
+                goods.getNote(),
                 String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
@@ -109,6 +112,10 @@ public class GoodsDao extends AbstractDao {
                 goods.getId()};
 
         execUpdate(sql, bind);
+
+        final String historySql = "INSERT INTO t_history (goods_id, replenishment_date) VALUES (?, ?)";
+        String[] historyBind = {goods.getId(), String.valueOf(System.currentTimeMillis())};
+        execInsert(historySql, historyBind);
     }
 
     public void delete(String id) {
@@ -148,6 +155,7 @@ public class GoodsDao extends AbstractDao {
         goods.setAmount(getCursorInt(cursor, "amount"));
         goods.setStockNum(getCursorInt(cursor, "stock_num"));
         goods.setReplenishmentDate(getCursorDate(cursor, "replenishment_date"));
+        goods.setNote(getCursorString(cursor, "note"));
         goods.setRegisterDate(getCursorDate(cursor, "register_date"));
         goods.setUpdateDate(getCursorDate(cursor, "update_date"));
         return goods;

@@ -35,6 +35,7 @@
                     android:id="@+id/txt_name"
                     android:maxLines="2"
                     android:ellipsize="end"
+                    android:textColor="@color/text_color"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="@dimen/line_spacing"
@@ -45,6 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_name"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small"
                     android:text="@string/list_stock_num" />
 
@@ -56,6 +58,7 @@
                     android:layout_alignTop="@id/label_stock_num"
                     android:layout_below="@id/txt_name"
                     android:layout_toRightOf="@id/label_stock_num"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small"
                     android:text="@{String.valueOf(goods.stockNum)}" />
 
@@ -64,6 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/label_stock_num"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small"
                     android:text="@string/list_replenishment_date" />
 
@@ -75,6 +79,7 @@
                     android:layout_toRightOf="@id/label_replenishment_date"
                     android:drawableLeft="@drawable/ic_access_time_state"
                     android:drawableStart="@drawable/ic_access_time_state"
+                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small"
                     android:gravity="center_vertical"
                     android:text="@{DateUtil.dateToString(goods.replenishmentDate)}" />
@@ -97,7 +102,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignBottom="@id/txt_replenishment_date"
                     android:layout_toRightOf="@id/txt_replenishment_date"
-                    app:amountImageSize="@{@dimen/list_amount_image_size}"
                     app:amountImageUrl="@{goods.amount}"
                     android:layout_marginLeft="70dp" />
 

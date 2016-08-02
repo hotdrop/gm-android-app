@@ -33,7 +33,7 @@
 
     <!-- amount image -->
     <dimen name="fragment_amount_image_size">75dp</dimen>
-    <dimen name="amount_image_right_space">100dp</dimen>
+    <dimen name="amount_image_right_space">150dp</dimen>
 
     <!-- spinner -->
     <dimen name="spinner_radius">6dip</dimen>

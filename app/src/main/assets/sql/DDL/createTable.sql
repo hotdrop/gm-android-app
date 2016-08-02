@@ -11,6 +11,13 @@ CREATE TABLE t_goods (
     amount INTEGER NOT NULL DEFAULT 5,
     stock_num INTEGER,
     replenishment_date INTEGER,
+    note TEXT,
     register_date INTEGER,
     update_date INTEGER
+);
+
+CREATE TABLE t_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    goods_id INTEGER NOT NULL,
+    replenishment_date INTEGER
 );

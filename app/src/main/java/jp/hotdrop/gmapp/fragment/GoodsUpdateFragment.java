@@ -134,7 +134,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         }
         int amount = goods.getAmount() + goods.AMOUNT_INCREASE_DECREASE_UNIT;
         goods.setAmount(amount);
-        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount, R.dimen.fragment_amount_image_size);
+        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount);
     }
 
     private void onClickAmountDecrease() {
@@ -143,7 +143,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         }
         int amount = goods.getAmount() - goods.AMOUNT_INCREASE_DECREASE_UNIT;
         goods.setAmount(amount);
-        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount, R.dimen.fragment_amount_image_size);
+        DataBindingAttributeUtil.setAmountImage(binding.imgAmount, amount);
     }
 
     private void onClickReplenishment() {

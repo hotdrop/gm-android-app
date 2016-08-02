@@ -10,7 +10,7 @@
     <string name="title_category_update">カテゴリー更新</string>
 
     <!-- navigation menu -->
-    <string name="nav_app_description">在庫管理するためのアプリです。</string>
+    <string name="nav_app_description">商品の在庫を管理するためのアプリです。カテゴリーを登録してから商品を登録してください。</string>
     <string name="nav_goods_list">商品一覧</string>
     <string name="nav_category_list">カテゴリー一覧</string>
     <string name="nav_search">検索</string>
@@ -28,6 +28,7 @@
     <string name="label_goods_category">商品のカテゴリー</string>
     <string name="label_stock_num">在庫数</string>
     <string name="label_amount_image">商品の量</string>
+    <string name="label_note">その他メモ</string>
 
     <string name="label_category_name">カテゴリー名</string>
     <string name="label_register_goods_count">登録されている商品数：</string>
