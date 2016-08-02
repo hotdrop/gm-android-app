@@ -68,7 +68,7 @@ public class GoodsDao extends AbstractDao {
         final String sql = "INSERT INTO t_goods" +
                 "  (name, category_id, stock_num, replenishment_date, note, register_date, update_date) " +
                 " VALUES " +
-                "  (?, ?, ?, ?, ?, ?)";
+                "  (?, ?, ?, ?, ?, ?, ?)";
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
