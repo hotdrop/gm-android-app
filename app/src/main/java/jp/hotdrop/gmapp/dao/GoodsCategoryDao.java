@@ -71,7 +71,6 @@ public class GoodsCategoryDao extends AbstractDao {
             goodsCategory = createCategory(cursor);
         }
 
-        // TODO nullの場合は落としたほうが良いか・
         return goodsCategory;
     }
 

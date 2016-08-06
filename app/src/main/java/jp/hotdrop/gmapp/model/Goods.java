@@ -15,6 +15,9 @@ public class Goods {
 
     public static final int AMOUNT_INCREASE_DECREASE_UNIT = 1;
 
+    public static final int CHECKED = 1;
+    public static final int UN_CHECKED = 0;
+
     public static final String[] STOCK_NUM_LIST = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
             "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"};
 
@@ -25,8 +28,9 @@ public class Goods {
     protected String categoryName;
     protected int amount;
     protected int stockNum;
-    protected Date replenishmentDate;
     protected String note;
+    protected int checked;
+    protected Date amountUpdateDate;
     protected Date registerDate;
     protected Date updateDate;
 
@@ -81,14 +85,6 @@ public class Goods {
         return stockNum;
     }
 
-    public void setReplenishmentDate(Date replenishmentDate) {
-        this.replenishmentDate = replenishmentDate;
-    }
-
-    public Date getReplenishmentDate() {
-        return replenishmentDate;
-    }
-
     public void setNote(String note) {
         this.note = note;
     }
@@ -96,6 +92,23 @@ public class Goods {
     public String getNote() {
         return note;
     }
+
+    public void setChecked(int checked) {
+        this.checked = checked;
+    }
+
+    public int getChecked() {
+        return checked;
+    }
+
+    public void setAmountUpdateDate(Date amountUpdateDate) {
+        this.amountUpdateDate = amountUpdateDate;
+    }
+
+    public Date getAmountUpdateDate() {
+        return amountUpdateDate;
+    }
+
 
     public void setRegisterDate(Date registerDate) {
         this.registerDate = registerDate;
@@ -120,7 +133,7 @@ public class Goods {
         this.categoryName = goods.getCategoryName();
         this.amount = goods.getAmount();
         this.stockNum = goods.getStockNum();
-        this.replenishmentDate = goods.getReplenishmentDate();
+        this.checked = goods.getChecked();
         this.note = goods.getNote();
         this.registerDate = goods.getRegisterDate();
         this.updateDate = goods.getUpdateDate();

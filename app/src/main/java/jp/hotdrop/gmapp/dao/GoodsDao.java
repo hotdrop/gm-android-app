@@ -24,8 +24,9 @@ public class GoodsDao extends AbstractDao {
             "        gc.name AS category_name, " +
             "        g.amount," +
             "        g.stock_num, " +
-            "        g.replenishment_date, " +
             "        g.note, " +
+            "        g.checked, " +
+            "        g.amount_update_date, " +
             "        g.register_date, " +
             "        g.update_date AS update_date" +
             " FROM t_goods g " +
@@ -66,16 +67,15 @@ public class GoodsDao extends AbstractDao {
     public void insert(Goods goods) {
 
         final String sql = "INSERT INTO t_goods" +
-                "  (name, category_id, stock_num, replenishment_date, note, register_date, update_date) " +
+                "  (name, category_id, stock_num, note, register_date, update_date) " +
                 " VALUES " +
-                "  (?, ?, ?, ?, ?, ?, ?)";
+                "  (?, ?, ?, ?, ?, ?)";
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getStockNum()),
-                String.valueOf(DateUtil.dateToLong(goods.getReplenishmentDate())),
+                String.valueOf(DateUtil.dateToLong(goods.getAmountUpdateDate())),
                 goods.getNote(),
-                String.valueOf(DateUtil.dateToLong(goods.getRegisterDate())),
                 String.valueOf(System.currentTimeMillis())};
 
         execInsert(sql, bind);
@@ -102,20 +102,15 @@ public class GoodsDao extends AbstractDao {
     public void replenishmentAmount(Goods goods) {
 
         final String sql = "UPDATE t_goods SET" +
-                " amount = ?, stock_num = ?, replenishment_date = ?, update_date = ? " +
+                " amount = ?, stock_num = ?, update_date = ? " +
                 " WHERE id = ? ";
 
         String[] bind = {String.valueOf(goods.getAmount()),
                 String.valueOf(goods.getStockNum()),
                 String.valueOf(System.currentTimeMillis()),
-                String.valueOf(System.currentTimeMillis()),
                 goods.getId()};
 
         execUpdate(sql, bind);
-
-        final String historySql = "INSERT INTO t_history (goods_id, replenishment_date) VALUES (?, ?)";
-        String[] historyBind = {goods.getId(), String.valueOf(System.currentTimeMillis())};
-        execInsert(historySql, historyBind);
     }
 
     public void delete(String id) {
@@ -154,8 +149,9 @@ public class GoodsDao extends AbstractDao {
         goods.setCategoryName(getCursorString(cursor, "category_name"));
         goods.setAmount(getCursorInt(cursor, "amount"));
         goods.setStockNum(getCursorInt(cursor, "stock_num"));
-        goods.setReplenishmentDate(getCursorDate(cursor, "replenishment_date"));
         goods.setNote(getCursorString(cursor, "note"));
+        goods.setChecked(getCursorInt(cursor, "checked"));
+        goods.setAmountUpdateDate(getCursorDate(cursor, "amount_update_date"));
         goods.setRegisterDate(getCursorDate(cursor, "register_date"));
         goods.setUpdateDate(getCursorDate(cursor, "update_date"));
         return goods;

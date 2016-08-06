@@ -14,7 +14,7 @@
 
     <dimen name="line_spacing">2dp</dimen>
 
-    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_small">11sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_large">16sp</dimen>
     <dimen name="text_xlarge">24sp</dimen>

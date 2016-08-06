@@ -135,7 +135,6 @@ public class GoodsRegisterFragment extends BaseFragment {
         goods.setCategoryId(categoryDao.getCategoryId(selectedCategoryName));
         goods.setCategoryName(selectedCategoryName);
         goods.setStockNum(Integer.valueOf(binding.spinnerStock.getSelectedItem().toString()));
-        goods.setReplenishmentDate(DateUtil.longToDate(System.currentTimeMillis()));
         goods.setRegisterDate(DateUtil.longToDate(System.currentTimeMillis()));
     }
 

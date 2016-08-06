@@ -10,14 +10,27 @@ CREATE TABLE t_goods (
     category_id INTEGER NOT NULL,
     amount INTEGER NOT NULL DEFAULT 5,
     stock_num INTEGER,
-    replenishment_date INTEGER,
     note TEXT,
+    checked INTEGER DEFAULT 0,
+    amount_update_date INTEGER,
     register_date INTEGER,
     update_date INTEGER
 );
 
+CREATE TABLE t_check_version (
+    version INTEGER PRIMARY KEY AUTOINCREMENT,
+    checked_date INTEGER
+);
+
 CREATE TABLE t_history (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    version INTEGER NOT NULL,
     goods_id INTEGER NOT NULL,
-    replenishment_date INTEGER
+    goods_name TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    category_name TEXT NOT NULL,
+    amount INTEGER NOT NULL,
+    stock_num INTEGER,
+    register_date INTEGER,
+    update_date INTEGER
 );
