@@ -26,4 +26,8 @@ public class ActivityNavigator {
     public void showCategoryRegister(@NonNull Fragment fragment, int requestCode) {
         CategoryRegisterActivity.startForResult(fragment, requestCode);
     }
+
+    public void showCheckGoods(@NonNull Fragment fragment, @NonNull GoodsCategory goodsCategory, int requestCode) {
+        CheckGoodsActivity.startForResult(fragment, goodsCategory, requestCode);
+    }
 }

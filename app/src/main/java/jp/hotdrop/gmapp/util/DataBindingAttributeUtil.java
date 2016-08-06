@@ -29,4 +29,16 @@ public class DataBindingAttributeUtil {
                 break;
         }
     }
+
+    @BindingAdapter("checkIconUrl")
+    public static void changeIconImage(ImageView iv, int checked) {
+        switch(checked) {
+            case Goods.CHECKED:
+                iv.setImageResource(R.drawable.ic_check_circle);
+                break;
+            case Goods.UN_CHECKED:
+                iv.setImageResource(R.drawable.ic_cancel);
+                break;
+        }
+    }
 }

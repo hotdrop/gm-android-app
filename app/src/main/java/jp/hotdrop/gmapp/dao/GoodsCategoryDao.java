@@ -49,6 +49,19 @@ public class GoodsCategoryDao extends AbstractDao {
         return list;
     }
 
+    public List<GoodsCategory> selectExceptUnRegisteredGoods() {
+        List<GoodsCategory> list = new ArrayList<>();
+        Cursor cursor = execSelect(SQL_SELECT + SQL_GROUP_BY + SQL_ORDER_BY, null);
+        while (cursor.moveToNext()) {
+            // TODO 商品未登録カテゴリーの除外はSQLでもよかったが、別途SQLを用意する必要があったためプログラムでやることにした
+            int count = getCursorInt(cursor, "count");
+            if(count > 0) {
+                list.add(createCategory(cursor));
+            }
+        }
+        return list;
+    }
+
     /**
      * スピナーに設定するリスト取得用のメソッド
      * @return

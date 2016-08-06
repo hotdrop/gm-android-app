@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.fragment.CategoryFragment;
+import jp.hotdrop.gmapp.fragment.CheckCategoryFragment;
 import jp.hotdrop.gmapp.fragment.GoodsFragment;
 
 /**
@@ -22,6 +23,12 @@ public enum Page {
         @Override
         public Fragment createFragment() {
             return CategoryFragment.newInstance();
+        }
+    },
+    CHECK_LIST(R.id.nav_check_category_list, R.string.nav_check_category_list, true, CheckCategoryFragment.class.getSimpleName()) {
+        @Override
+        public Fragment createFragment() {
+            return CheckCategoryFragment.newInstance();
         }
     };
 

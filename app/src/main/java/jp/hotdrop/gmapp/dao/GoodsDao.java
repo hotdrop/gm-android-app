@@ -64,6 +64,21 @@ public class GoodsDao extends AbstractDao {
         return Observable.just(goodsList);
     }
 
+    public List<Goods> selectByCategory(int categoryId) {
+
+        final String sql = SQL_SELECT_FROM + " WHERE gc.id = ? ORDER BY gc.view_order, g.id";
+
+        String[] bind = {String.valueOf(categoryId)};
+        List<Goods> goodsList = new ArrayList<>();
+        Cursor cursor = execSelect(sql, bind);
+        while (cursor.moveToNext()) {
+            Goods goods = createGoods(cursor);
+            goodsList.add(goods);
+        }
+
+        return goodsList;
+    }
+
     public void insert(Goods goods) {
 
         final String sql = "INSERT INTO t_goods" +

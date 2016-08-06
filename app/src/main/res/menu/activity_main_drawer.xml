@@ -10,6 +10,10 @@
             android:id="@+id/nav_category_list"
             android:icon="@drawable/ic_action_list_2"
             android:title="@string/nav_category_list" />
+        <item
+            android:id="@+id/nav_check_category_list"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/nav_check_category_list" />
         <!-- <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_action_search"

@@ -3,6 +3,7 @@ package jp.hotdrop.gmapp.di;
 import dagger.Subcomponent;
 import jp.hotdrop.gmapp.activity.CategoryRegisterActivity;
 import jp.hotdrop.gmapp.activity.CategoryUpdateActivity;
+import jp.hotdrop.gmapp.activity.CheckGoodsActivity;
 import jp.hotdrop.gmapp.activity.GoodsRegisterActivity;
 import jp.hotdrop.gmapp.activity.GoodsUpdateActivity;
 import jp.hotdrop.gmapp.activity.MainActivity;
@@ -21,6 +22,8 @@ public interface ActivityComponent {
     void inject(CategoryUpdateActivity activity);
 
     void inject(CategoryRegisterActivity activity);
+
+    void inject(CheckGoodsActivity activity);
 
     FragmentComponent plus(FragmentModule module);
 }

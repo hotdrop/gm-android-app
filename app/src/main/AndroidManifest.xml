@@ -15,6 +15,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -30,6 +31,9 @@
         <activity
             android:name=".activity.CategoryUpdateActivity"
             android:label="@string/title_category_update" />
+        <activity
+            android:name=".activity.CheckGoodsActivity"
+            android:label="@string/title_activity_check_goods" />
     </application>
 
 </manifest>
