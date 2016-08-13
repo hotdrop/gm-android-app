@@ -30,6 +30,7 @@
     <dimen name="list_amount_image_size">28dp</dimen>
     <dimen name="reorder_icon_width">36dp</dimen>
     <dimen name="reorder_icon_height">40dp</dimen>
+    <dimen name="check_icon_size">40dp</dimen>
 
     <!-- amount image -->
     <dimen name="fragment_amount_image_size">75dp</dimen>

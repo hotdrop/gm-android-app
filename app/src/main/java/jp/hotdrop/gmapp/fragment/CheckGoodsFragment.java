@@ -7,8 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import org.parceler.Parcels;
 
@@ -20,7 +18,6 @@ import jp.hotdrop.gmapp.databinding.FragmentCheckGoodsListBinding;
 import jp.hotdrop.gmapp.databinding.ItemCheckGoodsBinding;
 import jp.hotdrop.gmapp.model.Goods;
 import jp.hotdrop.gmapp.model.GoodsCategory;
-import jp.hotdrop.gmapp.util.DataBindingAttributeUtil;
 import jp.hotdrop.gmapp.widget.ArrayRecyclerAdapter;
 import jp.hotdrop.gmapp.widget.BindingHolder;
 
@@ -32,8 +29,6 @@ public class CheckGoodsFragment extends BaseFragment {
     private GoodsCategory goodsCategory;
     private CheckGoodsAdapter adapter;
     private FragmentCheckGoodsListBinding binding;
-
-    Animation flipAnim = AnimationUtils.loadAnimation(getContext(), R.anim.flip_anim);
 
     public static CheckGoodsFragment create(@NonNull GoodsCategory goodsCategory) {
         CheckGoodsFragment fragment = new CheckGoodsFragment();
@@ -52,7 +47,6 @@ public class CheckGoodsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCheckGoodsListBinding.inflate(inflater, container, false);
-        // TODO ここfalseにするか後で検討
         setHasOptionsMenu(false);
         adapter = new CheckGoodsAdapter(getContext());
 
@@ -91,17 +85,13 @@ public class CheckGoodsFragment extends BaseFragment {
             ItemCheckGoodsBinding binding = holder.binding;
             binding.setGoods(goods);
 
-            binding.iconCheck.setOnClickListener(v -> {
-                // チェックアイコンを反転させる
-                if(goods.getChecked() == Goods.CHECKED) {
-                    goods.setChecked(Goods.UN_CHECKED);
-                    DataBindingAttributeUtil.changeIconImage(binding.iconCheck, Goods.UN_CHECKED);
-                } else {
+            binding.iconCheck.setOnFlippingListener((v, checked) -> {
+                if(checked) {
                     goods.setChecked(Goods.CHECKED);
-                    DataBindingAttributeUtil.changeIconImage(binding.iconCheck, Goods.CHECKED);
+                } else {
+                    goods.setChecked(Goods.UN_CHECKED);
                 }
             });
         }
     }
-
 }
