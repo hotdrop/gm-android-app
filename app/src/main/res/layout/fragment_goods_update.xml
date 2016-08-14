@@ -74,7 +74,7 @@
                 android:layout_below="@+id/label_amount"
                 android:layout_toRightOf="@+id/label_stock"
                 android:layout_marginLeft="@dimen/amount_image_right_space"
-                app:amountImageUrl="@{goods.amount}" />
+                app:amountImageCanChange="@{goods.amount}" />
 
             <ImageView
                 android:id="@+id/ic_amount_increase"

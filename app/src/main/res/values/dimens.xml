@@ -27,7 +27,7 @@
     <dimen name="drawer_header_icon">70dp</dimen>
 
     <!-- list item -->
-    <dimen name="list_amount_image_size">28dp</dimen>
+    <dimen name="list_amount_image_size">72dp</dimen>
     <dimen name="reorder_icon_width">36dp</dimen>
     <dimen name="reorder_icon_height">40dp</dimen>
     <dimen name="check_icon_size">40dp</dimen>

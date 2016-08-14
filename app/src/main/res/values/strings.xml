@@ -22,7 +22,7 @@
 
     <!-- activity goods list -->
     <string name="list_stock_num">在庫数：</string>
-    <string name="list_amount_update_date">残量変更日：</string>
+    <string name="list_amount_update_date">更新日：</string>
     <string name="list_amount_empty_attention">※この商品は空です。</string>
 
     <!-- activity detail(goods update, category register etc..) -->
