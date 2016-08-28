@@ -46,7 +46,6 @@ public abstract class ArrayRecyclerAdapter<T, VH extends RecyclerView.ViewHolder
         return context;
     }
 
-
     public boolean onItemMove(int fromPosition, int toPosition) {
         Collections.swap(list, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);

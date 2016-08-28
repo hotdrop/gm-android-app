@@ -1,6 +1,8 @@
 package jp.hotdrop.gmapp.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.parceler.Parcels;
+
+import java.util.Iterator;
 
 import javax.inject.Inject;
 
@@ -29,6 +33,7 @@ public class CheckGoodsFragment extends BaseFragment {
     private GoodsCategory goodsCategory;
     private CheckGoodsAdapter adapter;
     private FragmentCheckGoodsListBinding binding;
+    private int checkCount = 0;
 
     public static CheckGoodsFragment create(@NonNull GoodsCategory goodsCategory) {
         CheckGoodsFragment fragment = new CheckGoodsFragment();
@@ -48,11 +53,14 @@ public class CheckGoodsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCheckGoodsListBinding.inflate(inflater, container, false);
         setHasOptionsMenu(false);
+
         adapter = new CheckGoodsAdapter(getContext());
+        adapter.addAll(dao.selectByCategory(goodsCategory.getId()));
+
+        checkCount = goodsCategory.getCheckedGoodsCount();
 
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter.addAll(dao.selectByCategory(goodsCategory.getId()));
 
         return binding.getRoot();
     }
@@ -65,12 +73,27 @@ public class CheckGoodsFragment extends BaseFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDetach();
+        super.onDestroyView();
+
         dao.beginTran();
-        dao.updateChecked(adapter.iterator());
+        Iterator<Goods> ite = adapter.iterator();
+        while(ite.hasNext()) {
+            Goods goods = ite.next();
+            dao.updateChecked(goods.getId(), goods.getChecked());
+        }
         dao.commit();
     }
 
+    private void setResult() {
+        Intent intent = new Intent();
+        goodsCategory.setCheckedGoodsCount(checkCount);
+        intent.putExtra(GoodsCategory.class.getSimpleName(), Parcels.wrap(goodsCategory));
+        getActivity().setResult(Activity.RESULT_OK, intent);
+    }
+
+    /**
+     * アダプター
+     */
     private class CheckGoodsAdapter extends ArrayRecyclerAdapter<Goods, BindingHolder<ItemCheckGoodsBinding>> {
 
         public CheckGoodsAdapter(@NonNull Context context) {
@@ -94,9 +117,12 @@ public class CheckGoodsFragment extends BaseFragment {
             binding.iconCheck.setOnFlippingListener((v, checked) -> {
                 if(checked) {
                     goods.setChecked(Goods.CHECKED);
+                    checkCount++;
                 } else {
                     goods.setChecked(Goods.UN_CHECKED);
+                    checkCount--;
                 }
+                setResult();
             });
         }
     }

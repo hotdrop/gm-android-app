@@ -1,12 +1,16 @@
 package jp.hotdrop.gmapp.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.parceler.Parcels;
 
 import javax.inject.Inject;
 
@@ -41,15 +45,27 @@ public class CheckCategoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCheckCategoryListBinding.inflate(inflater, container, false);
-        adapter = new CheckCategoryAdapter(getContext());
 
+        adapter = new CheckCategoryAdapter(getContext());
+        adapter.addAll(dao.selectExceptUnRegisteredGoods());
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter.addAll(dao.selectExceptUnRegisteredGoods());
 
-        // TODO カテゴリーの商品が全て在庫チェック完了していたらチェックONにする動作追加
+        // TODO 確定ボタンとその動作追加
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode != Activity.RESULT_OK || requestCode != REQ_CODE_CHECK_GOODS) {
+            return;
+        }
+
+        GoodsCategory goodsCategory = Parcels.unwrap(data.getParcelableExtra(GoodsCategory.class.getSimpleName()));
+        adapter.refresh(goodsCategory);
     }
 
     @Override
@@ -67,6 +83,16 @@ public class CheckCategoryFragment extends BaseFragment {
         @Override
         public BindingHolder<ItemCheckCategoryBinding> onCreateViewHolder(ViewGroup parent, int viewType) {
             return new BindingHolder<>(getContext(), parent, R.layout.item_check_category);
+        }
+
+        private void refresh(GoodsCategory goodsCategory) {
+            for(int i = 0; i < adapter.getItemCount(); i++) {
+                GoodsCategory g = getItem(i);
+                if(goodsCategory.equals(g)) {
+                    g.change(goodsCategory);
+                    adapter.notifyItemChanged(i);
+                }
+            }
         }
 
         public void onBindViewHolder(BindingHolder<ItemCheckCategoryBinding> holder, int position) {

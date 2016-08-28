@@ -21,6 +21,7 @@ public abstract class BaseFragment extends Fragment {
     protected static final int REFRESH_NONE = 0;
     protected static final int REFRESH_ONE = 1;
     protected static final int REFRESH_ALL = 2;
+
     protected static final int REFRESH_UPDATE = 1;
     protected static final int REFRESH_INSERT = 2;
     protected static final int REFRESH_DELETE = 3;

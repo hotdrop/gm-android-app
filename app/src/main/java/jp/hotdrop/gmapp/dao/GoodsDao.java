@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -129,14 +128,10 @@ public class GoodsDao extends AbstractDao {
         execUpdate(sql, bind);
     }
 
-    public void updateChecked(Iterator<Goods> iterator) {
+    public void updateChecked(String id, int checked) {
         final String sql = "UPDATE t_goods SET checked = ? WHERE id = ? ";
-        while(iterator.hasNext()) {
-            Goods goods = iterator.next();
-            String[] bind = {String.valueOf(goods.getChecked()),
-                    String.valueOf(goods.getId())};
-            execUpdate(sql, bind);
-        }
+        String[] bind = {String.valueOf(checked), id};
+        execUpdate(sql, bind);
     }
 
     public void delete(String id) {
