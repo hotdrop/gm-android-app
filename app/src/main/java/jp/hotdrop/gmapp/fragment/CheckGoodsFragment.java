@@ -66,7 +66,9 @@ public class CheckGoodsFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDetach();
-        // TODO チェック内容を保存する
+        dao.beginTran();
+        dao.updateChecked(adapter.iterator());
+        dao.commit();
     }
 
     private class CheckGoodsAdapter extends ArrayRecyclerAdapter<Goods, BindingHolder<ItemCheckGoodsBinding>> {
@@ -84,6 +86,10 @@ public class CheckGoodsFragment extends BaseFragment {
             Goods goods = getItem(position);
             ItemCheckGoodsBinding binding = holder.binding;
             binding.setGoods(goods);
+
+            if(goods.getChecked() == Goods.CHECKED) {
+                binding.iconCheck.flipSilently(true);
+            }
 
             binding.iconCheck.setOnFlippingListener((v, checked) -> {
                 if(checked) {

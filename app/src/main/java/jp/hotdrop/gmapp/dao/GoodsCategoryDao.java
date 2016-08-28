@@ -21,7 +21,8 @@ public class GoodsCategoryDao extends AbstractDao {
                     "    gc.id AS id, " +
                     "    gc.name AS name, " +
                     "    gc.view_order AS view_order," +
-                    "    count(g.category_id) AS count" +
+                    "    count(g.category_id) AS count," +
+                    "    SUM(g.checked) AS checked_cnt" +
                     " FROM " +
                     "    m_goods_category gc " +
                     " LEFT JOIN " +
@@ -49,15 +50,23 @@ public class GoodsCategoryDao extends AbstractDao {
         return list;
     }
 
+    /**
+     * 商品が1つ以上登録されているカテゴリーを取得する。
+     *
+     * @return
+     */
     public List<GoodsCategory> selectExceptUnRegisteredGoods() {
+
+        final String sql =
+                "SELECT * FROM ( " +
+                        SQL_SELECT + SQL_GROUP_BY +
+                "    ) gcl " +
+                " WHERE count > 0 " + SQL_ORDER_BY;
+
         List<GoodsCategory> list = new ArrayList<>();
-        Cursor cursor = execSelect(SQL_SELECT + SQL_GROUP_BY + SQL_ORDER_BY, null);
+        Cursor cursor = execSelect(sql, null);
         while (cursor.moveToNext()) {
-            // TODO 商品未登録カテゴリーの除外はSQLでもよかったが、別途SQLを用意する必要があったためプログラムでやることにした
-            int count = getCursorInt(cursor, "count");
-            if(count > 0) {
-                list.add(createCategory(cursor));
-            }
+            list.add(createCategory(cursor));
         }
         return list;
     }
@@ -188,6 +197,7 @@ public class GoodsCategoryDao extends AbstractDao {
         category.setName(getCursorString(cursor, "name"));
         category.setViewOrder(getCursorInt(cursor, "view_order"));
         category.setGoodsCount(getCursorInt(cursor, "count"));
+        category.setCheckedGoodsCount(getCursorInt(cursor, "checked_cnt"));
         return category;
     }
 }

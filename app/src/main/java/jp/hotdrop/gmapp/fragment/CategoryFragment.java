@@ -113,7 +113,9 @@ public class CategoryFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        dao.beginTran();
         dao.updateViewOrder(adapter.iterator());
+        dao.commit();
     }
 
     /**

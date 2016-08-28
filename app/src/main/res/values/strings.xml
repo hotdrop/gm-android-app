@@ -22,7 +22,7 @@
 
     <!-- activity goods list -->
     <string name="list_stock_num">在庫数：</string>
-    <string name="list_amount_update_date">更新日：</string>
+    <string name="list_checked_date">在庫チェック日：</string>
     <string name="list_amount_empty_attention">※この商品は空です。</string>
 
     <!-- activity detail(goods update, category register etc..) -->
@@ -50,6 +50,7 @@
     <string name="button_replenishment">補充</string>
 
     <!-- check fragment -->
-    <string name="label_check_goods_count">在庫チェックした商品数：</string>
+    <string name="label_check_goods_count">チェック済：</string>
+    <string name="label_un_check_goods_count">未チェック：</string>
 
 </resources>

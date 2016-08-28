@@ -30,7 +30,7 @@ public class Goods {
     protected int stockNum;
     protected String note;
     protected int checked;
-    protected Date amountUpdateDate;
+    protected Date checkedConfirmDate;
     protected Date registerDate;
     protected Date updateDate;
 
@@ -101,12 +101,12 @@ public class Goods {
         return checked;
     }
 
-    public void setAmountUpdateDate(Date amountUpdateDate) {
-        this.amountUpdateDate = amountUpdateDate;
+    public void setCheckedConfirmDate(Date checkedConfirmDate) {
+        this.checkedConfirmDate = checkedConfirmDate;
     }
 
-    public Date getAmountUpdateDate() {
-        return amountUpdateDate;
+    public Date getCheckedConfirmDate() {
+        return checkedConfirmDate;
     }
 
 
@@ -133,8 +133,9 @@ public class Goods {
         this.categoryName = goods.getCategoryName();
         this.amount = goods.getAmount();
         this.stockNum = goods.getStockNum();
-        this.checked = goods.getChecked();
         this.note = goods.getNote();
+        this.checked = goods.getChecked();
+        this.checkedConfirmDate = goods.getCheckedConfirmDate();
         this.registerDate = goods.getRegisterDate();
         this.updateDate = goods.getUpdateDate();
     }

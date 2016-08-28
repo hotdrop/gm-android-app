@@ -49,7 +49,6 @@ public class CheckCategoryFragment extends BaseFragment {
 
         // TODO カテゴリーの商品が全て在庫チェック完了していたらチェックONにする動作追加
 
-
         return binding.getRoot();
     }
 

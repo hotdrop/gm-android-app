@@ -12,7 +12,7 @@ CREATE TABLE t_goods (
     stock_num INTEGER,
     note TEXT,
     checked INTEGER DEFAULT 0,
-    amount_update_date INTEGER,
+    checked_confirm_date INTEGER,
     register_date INTEGER,
     update_date INTEGER
 );

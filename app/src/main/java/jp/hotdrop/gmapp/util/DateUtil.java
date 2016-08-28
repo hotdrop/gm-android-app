@@ -32,6 +32,10 @@ public class DateUtil {
      * @return
      */
     public static String dateToString(Date argDate) {
+        long epoch = argDate.getTime();
+        if(epoch <= 0) {
+            return "";
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(argDate);
     }

@@ -9,6 +9,7 @@ public class GoodsCategory {
     protected String name;
     protected int viewOrder;
     protected int goodsCount = 0;
+    protected int checkedGoodsCount = 0;
 
     public GoodsCategory() {
     }
@@ -45,11 +46,20 @@ public class GoodsCategory {
         return goodsCount;
     }
 
+    public void setCheckedGoodsCount(int checkedGoodsCount) {
+        this.checkedGoodsCount = checkedGoodsCount;
+    }
+
+    public int getCheckedGoodsCount() {
+        return checkedGoodsCount;
+    }
+
     public void change(GoodsCategory goodsCategory) {
         this.id = goodsCategory.getId();
         this.name = goodsCategory.getName();
         this.viewOrder = goodsCategory.getViewOrder();
         this.goodsCount = goodsCategory.getGoodsCount();
+        this.checkedGoodsCount = goodsCategory.getCheckedGoodsCount();
     }
 
     public boolean hasGoods() {

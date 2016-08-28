@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,7 +27,7 @@ public class GoodsDao extends AbstractDao {
             "        g.stock_num, " +
             "        g.note, " +
             "        g.checked, " +
-            "        g.amount_update_date, " +
+            "        g.checked_confirm_date, " +
             "        g.register_date, " +
             "        g.update_date AS update_date" +
             " FROM t_goods g " +
@@ -89,7 +90,7 @@ public class GoodsDao extends AbstractDao {
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getStockNum()),
-                String.valueOf(DateUtil.dateToLong(goods.getAmountUpdateDate())),
+                String.valueOf(DateUtil.dateToLong(goods.getCheckedConfirmDate())),
                 goods.getNote(),
                 String.valueOf(System.currentTimeMillis())};
 
@@ -126,6 +127,16 @@ public class GoodsDao extends AbstractDao {
                 goods.getId()};
 
         execUpdate(sql, bind);
+    }
+
+    public void updateChecked(Iterator<Goods> iterator) {
+        final String sql = "UPDATE t_goods SET checked = ? WHERE id = ? ";
+        while(iterator.hasNext()) {
+            Goods goods = iterator.next();
+            String[] bind = {String.valueOf(goods.getChecked()),
+                    String.valueOf(goods.getId())};
+            execUpdate(sql, bind);
+        }
     }
 
     public void delete(String id) {
@@ -166,7 +177,7 @@ public class GoodsDao extends AbstractDao {
         goods.setStockNum(getCursorInt(cursor, "stock_num"));
         goods.setNote(getCursorString(cursor, "note"));
         goods.setChecked(getCursorInt(cursor, "checked"));
-        goods.setAmountUpdateDate(getCursorDate(cursor, "amount_update_date"));
+        goods.setCheckedConfirmDate(getCursorDate(cursor, "checked_confirm_date"));
         goods.setRegisterDate(getCursorDate(cursor, "register_date"));
         goods.setUpdateDate(getCursorDate(cursor, "update_date"));
         return goods;
