@@ -20,5 +20,16 @@
                 android:layout_below="@id/toolbar" />
 
         </RelativeLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_add"
+            android:clickable="true"
+            app:backgroundTint="@color/fab_add_background" />
+
     </FrameLayout>
 </layout>

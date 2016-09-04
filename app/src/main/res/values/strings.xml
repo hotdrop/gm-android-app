@@ -50,8 +50,6 @@
     <string name="button_replenishment">補充</string>
 
     <!-- check fragment -->
-    <string name="label_goods_count">登録商品数：</string>
-    <string name="label_check_goods_count">チェック済：</string>
-    <string name="label_un_check_goods_count">未チェック：</string>
+    <string name="label_goods_count">チェック商品数：</string>
 
 </resources>

@@ -33,7 +33,7 @@
                     android:id="@+id/icon_check"
                     android:layout_width="@dimen/reorder_icon_width"
                     android:layout_height="@dimen/reorder_icon_height"
-                    android:src="@drawable/ic_cancel" />
+                    app:stateImageByCategory="@{(category.goodsCount == category.checkedGoodsCount)}" />
 
                 <TextView
                     android:id="@+id/txt_name"
@@ -57,35 +57,14 @@
                     android:text="@string/label_goods_count" />
 
                 <TextView
-                    android:id="@+id/value_goods_count"
+                    android:id="@+id/value_checked_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/txt_name"
                     android:layout_toRightOf="@id/label_goods_count"
-                    android:textColor="@color/text_color"
                     android:textSize="@dimen/text_small"
-                    android:text="@{String.valueOf(category.goodsCount)}" />
-
-                <TextView
-                    android:id="@+id/label_checked_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_goods_count"
-                    android:layout_toRightOf="@id/icon_check"
-                    android:layout_marginLeft="@dimen/spacing_small"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/text_small"
-                    android:text="@string/label_check_goods_count" />
-
-                <TextView
-                    android:id="@+id/value_checked_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/label_goods_count"
-                    android:layout_toRightOf="@id/label_checked_count"
-                    android:textColor="@{(category.goodsCount == category.checkedGoodsCount) ? @color/text_color : @color/label_attention}"
-                    android:textSize="@dimen/text_small"
-                    android:text="@{String.valueOf(category.checkedGoodsCount)}" />
+                    app:checkedCount="@{category.checkedGoodsCount}"
+                    app:goodsCount="@{category.goodsCount}" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

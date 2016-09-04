@@ -1,7 +1,10 @@
 package jp.hotdrop.gmapp.util;
 
 import android.databinding.BindingAdapter;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +63,24 @@ public class DataBindingAttributeUtil {
             default:
                 imageView.setImageResource(R.drawable.amount_empty);
                 break;
+        }
+    }
+
+    @BindingAdapter("stateImageByCategory")
+    public static void setStateImageByCategory(ImageView imageView, boolean checked) {
+        if(checked) {
+            imageView.setImageResource(R.drawable.ic_check_circle);
+            imageView.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
+        } else {
+            imageView.setImageResource(R.drawable.ic_cancel);
+        }
+    }
+
+    @BindingAdapter({"checkedCount", "goodsCount"})
+    public static void setCheckedCountText(TextView textView, int checkedCnt, int totalCnt) {
+        textView.setText(String.valueOf(checkedCnt) + "/" + String.valueOf(totalCnt));
+        if(checkedCnt != totalCnt) {
+            textView.setTextColor(Color.RED);
         }
     }
 }

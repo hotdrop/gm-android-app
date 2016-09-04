@@ -99,6 +99,7 @@ public class CheckCategoryFragment extends BaseFragment {
             GoodsCategory category = getItem(position);
             ItemCheckCategoryBinding binding = holder.binding;
             binding.setCategory(category);
+
             binding.cardView.setOnClickListener(v ->
                     activityNavigator.showCheckGoods(CheckCategoryFragment.this, category, REQ_CODE_CHECK_GOODS));
         }
