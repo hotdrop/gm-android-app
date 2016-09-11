@@ -134,6 +134,14 @@ public class GoodsDao extends AbstractDao {
         execUpdate(sql, bind);
     }
 
+    public void confirmChecked() {
+        final String sql = "UPDATE t_goods SET checked = 0, checked_confirm_date = ?, update_date = ? " +
+                " WHERE checked = 1";
+        String[] bind = {String.valueOf(System.currentTimeMillis()),
+                String.valueOf(System.currentTimeMillis())};
+        execUpdate(sql, bind);
+    }
+
     public void delete(String id) {
         final String sql = "DELETE FROM t_goods WHERE id = ? ";
         String[] bind = {id};

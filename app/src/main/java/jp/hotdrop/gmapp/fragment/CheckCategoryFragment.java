@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.activity.ActivityNavigator;
 import jp.hotdrop.gmapp.dao.GoodsCategoryDao;
+import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentCheckCategoryListBinding;
 import jp.hotdrop.gmapp.databinding.ItemCheckCategoryBinding;
 import jp.hotdrop.gmapp.model.GoodsCategory;
@@ -28,10 +30,13 @@ public class CheckCategoryFragment extends BaseFragment {
     @Inject
     protected GoodsCategoryDao dao;
     @Inject
+    protected GoodsDao goodsDao;
+    @Inject
     ActivityNavigator activityNavigator;
 
     private CheckCategoryAdapter adapter;
     private FragmentCheckCategoryListBinding binding;
+    private AlertDialog.Builder confirmDialog;
 
     public static CheckCategoryFragment newInstance() {
         return new CheckCategoryFragment();
@@ -45,13 +50,14 @@ public class CheckCategoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCheckCategoryListBinding.inflate(inflater, container, false);
-
         adapter = new CheckCategoryAdapter(getContext());
         adapter.addAll(dao.selectExceptUnRegisteredGoods());
+
+        setConfirmDialog();
+
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        // TODO 確定ボタンとその動作追加
+        binding.fabAddButton.setOnClickListener(v -> confirmDialog.show());
 
         return binding.getRoot();
     }
@@ -74,6 +80,24 @@ public class CheckCategoryFragment extends BaseFragment {
         getComponent().inject(this);
     }
 
+    private void setConfirmDialog() {
+        confirmDialog = new AlertDialog.Builder(getContext());
+        confirmDialog.setTitle("在庫の確定確認");
+        confirmDialog.setMessage("商品の在庫チェックを確定します。よろしいですか？");
+        confirmDialog.setPositiveButton("OK", (dialog, which) -> { checkConfirm(); });
+        confirmDialog.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
+    }
+
+    private void checkConfirm() {
+        // TODO チェックを確定する
+        goodsDao.beginTran();
+        goodsDao.confirmChecked();
+        goodsDao.commit();
+    }
+
+    /**
+     * アダプター
+     */
     private class CheckCategoryAdapter extends ArrayRecyclerAdapter<GoodsCategory, BindingHolder<ItemCheckCategoryBinding>> {
 
         public CheckCategoryAdapter(@NonNull Context context) {

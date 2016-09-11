@@ -34,7 +34,6 @@ public class GoodsUpdateFragment extends BaseFragment {
     private Goods goods;
     private String originGoodsName;
     private FragmentGoodsUpdateBinding binding;
-
     private AlertDialog.Builder deleteConfirmDlg;
 
     public static GoodsUpdateFragment create(@NonNull Goods goods) {
