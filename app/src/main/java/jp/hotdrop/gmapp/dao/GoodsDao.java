@@ -11,7 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import jp.hotdrop.gmapp.model.Goods;
-import jp.hotdrop.gmapp.util.DateUtil;
 import rx.Observable;
 
 @Singleton
@@ -82,14 +81,13 @@ public class GoodsDao extends AbstractDao {
     public void insert(Goods goods) {
 
         final String sql = "INSERT INTO t_goods" +
-                "  (name, category_id, stock_num, note, register_date, update_date) " +
+                "  (name, category_id, stock_num, note, register_date) " +
                 " VALUES " +
-                "  (?, ?, ?, ?, ?, ?)";
+                "  (?, ?, ?, ?, ?)";
 
         String[] bind = {goods.getName(),
                 String.valueOf(goods.getCategoryId()),
                 String.valueOf(goods.getStockNum()),
-                String.valueOf(DateUtil.dateToLong(goods.getCheckedConfirmDate())),
                 goods.getNote(),
                 String.valueOf(System.currentTimeMillis())};
 

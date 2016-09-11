@@ -73,6 +73,7 @@ public class DataBindingAttributeUtil {
             imageView.setColorFilter(Color.CYAN, PorterDuff.Mode.SRC_IN);
         } else {
             imageView.setImageResource(R.drawable.ic_cancel);
+            imageView.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
         }
     }
 
@@ -81,6 +82,8 @@ public class DataBindingAttributeUtil {
         textView.setText(String.valueOf(checkedCnt) + "/" + String.valueOf(totalCnt));
         if(checkedCnt != totalCnt) {
             textView.setTextColor(Color.RED);
+        } else {
+            textView.setTextColor(Color.BLACK);
         }
     }
 }

@@ -9,6 +9,7 @@
     <string name="title_category_register">カテゴリー新規登録</string>
     <string name="title_category_update">カテゴリー更新</string>
     <string name="title_activity_check_goods">在庫チェック 商品一覧</string>
+    <string name="title_activity_check_goods_update">在庫チェック 商品の更新</string>
 
     <!-- navigation menu -->
     <string name="nav_app_description">商品の在庫を管理するためのアプリです。カテゴリーを登録してから商品を登録してください。</string>
@@ -51,9 +52,5 @@
 
     <!-- check fragment -->
     <string name="label_goods_count">チェック商品数：</string>
-    <string name="title_activity_check_goods_update">CheckGoodsUpdateActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
