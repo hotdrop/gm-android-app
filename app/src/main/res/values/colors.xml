@@ -13,6 +13,7 @@
 
     <color name="view_background">#262626</color>
     <color name="fab_add_background">#27d6df</color>
+    <color name="fab_check_background">#444748</color>
     <color name="flip_check_front">#cac9c9</color>
     <color name="flip_check_rear">#13d9f7</color>
 

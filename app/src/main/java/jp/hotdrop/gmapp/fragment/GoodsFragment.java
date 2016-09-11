@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import jp.hotdrop.gmapp.R;
 import jp.hotdrop.gmapp.activity.ActivityNavigator;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentGoodsListBinding;
@@ -192,7 +191,8 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        menuInflater.inflate(R.menu.menu_goods_list, menu);
+        // TODO 検索は未実装
+        //menuInflater.inflate(R.menu.menu_goods_list, menu);
     }
 
     @Override

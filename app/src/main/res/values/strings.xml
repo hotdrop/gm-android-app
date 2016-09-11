@@ -8,13 +8,13 @@
     <string name="title_goods_update">商品の更新</string>
     <string name="title_category_register">カテゴリー新規登録</string>
     <string name="title_category_update">カテゴリー更新</string>
-    <string name="title_activity_check_goods">在庫チェック状況 商品一覧</string>
+    <string name="title_activity_check_goods">在庫チェック 商品一覧</string>
 
     <!-- navigation menu -->
     <string name="nav_app_description">商品の在庫を管理するためのアプリです。カテゴリーを登録してから商品を登録してください。</string>
     <string name="nav_goods_list">商品一覧</string>
     <string name="nav_category_list">カテゴリー一覧</string>
-    <string name="nav_check_category_list">在庫チェック状況</string>
+    <string name="nav_check_category_list">在庫チェック</string>
     <string name="nav_search">検索</string>
 
     <string name="open">open</string>

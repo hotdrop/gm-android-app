@@ -27,9 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_action_process_start"
             android:clickable="true"
-            app:backgroundTint="@color/fab_add_background" />
+            app:backgroundTint="@color/fab_check_background" />
 
     </FrameLayout>
 </layout>

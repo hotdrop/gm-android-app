@@ -12,7 +12,7 @@
             android:title="@string/nav_category_list" />
         <item
             android:id="@+id/nav_check_category_list"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_action_process_start"
             android:title="@string/nav_check_category_list" />
         <!-- <item
             android:id="@+id/nav_search"
