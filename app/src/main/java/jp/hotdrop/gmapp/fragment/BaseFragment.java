@@ -15,6 +15,7 @@ public abstract class BaseFragment extends Fragment {
     protected static final int REQ_CODE_CATEGORY_UPDATE = 3;
     protected static final int REQ_CODE_CATEGORY_REGISTER = 4;
     protected static final int REQ_CODE_CHECK_GOODS = 5;
+    protected static final int REQ_CODE_CHECK_GOODS_UPDATE = 6;
 
     protected static final String ARG_REFRESH_MODE = "refreshMode";
 

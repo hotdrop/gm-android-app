@@ -114,6 +114,20 @@ public class GoodsDao extends AbstractDao {
         execUpdate(sql, bind);
     }
 
+    public void updateForStockCheck(Goods goods) {
+        final String sql = "UPDATE t_goods SET" +
+                " amount = ?, stock_num = ?, update_date = ? " +
+                " WHERE id = ? ";
+
+        String[] bind = {
+                String.valueOf(goods.getAmount()),
+                String.valueOf(goods.getStockNum()),
+                String.valueOf(System.currentTimeMillis()),
+                goods.getId()};
+
+        execUpdate(sql, bind);
+    }
+
     public void replenishmentAmount(Goods goods) {
 
         final String sql = "UPDATE t_goods SET" +

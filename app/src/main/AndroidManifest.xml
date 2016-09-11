@@ -34,6 +34,10 @@
         <activity
             android:name=".activity.CheckGoodsActivity"
             android:label="@string/title_activity_check_goods" />
+        <activity
+            android:name=".activity.CheckGoodsUpdateActivity"
+            android:label="@string/title_activity_check_goods_update"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

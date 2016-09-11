@@ -30,4 +30,8 @@ public class ActivityNavigator {
     public void showCheckGoods(@NonNull Fragment fragment, @NonNull GoodsCategory goodsCategory, int requestCode) {
         CheckGoodsActivity.startForResult(fragment, goodsCategory, requestCode);
     }
+
+    public void showCheckGoodsUpdate(@NonNull Fragment fragment, @NonNull Goods goods, int requestCode) {
+        CheckGoodsUpdateActivity.startForResult(fragment, goods, requestCode);
+    }
 }

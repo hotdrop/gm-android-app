@@ -4,6 +4,7 @@ import dagger.Subcomponent;
 import jp.hotdrop.gmapp.activity.CategoryRegisterActivity;
 import jp.hotdrop.gmapp.activity.CategoryUpdateActivity;
 import jp.hotdrop.gmapp.activity.CheckGoodsActivity;
+import jp.hotdrop.gmapp.activity.CheckGoodsUpdateActivity;
 import jp.hotdrop.gmapp.activity.GoodsRegisterActivity;
 import jp.hotdrop.gmapp.activity.GoodsUpdateActivity;
 import jp.hotdrop.gmapp.activity.MainActivity;
@@ -24,6 +25,8 @@ public interface ActivityComponent {
     void inject(CategoryRegisterActivity activity);
 
     void inject(CheckGoodsActivity activity);
+
+    void inject(CheckGoodsUpdateActivity activity);
 
     FragmentComponent plus(FragmentModule module);
 }

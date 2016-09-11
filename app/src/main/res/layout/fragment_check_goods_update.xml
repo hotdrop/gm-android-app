@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="jp.hotdrop.gmapp.fragment.CheckGoodsUpdateFragment">
+
+    <data>
+        <variable name="goods" type="jp.hotdrop.gmapp.model.Goods" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/view_background"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/label_name"
+                style="@style/GoodsItemLabel"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/label_goods_name" />
+
+            <TextView
+                android:id="@+id/text_name"
+                style="@style/EditText"
+                android:layout_below="@id/label_name"
+                android:text="@={goods.name}" />
+
+            <TextView
+                android:id="@+id/label_stock"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@id/text_name"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/label_stock_num" />
+
+            <Spinner
+                android:id="@+id/spinner_stock"
+                android:layout_width="@dimen/spinner_stock_width"
+                style="@style/GMSpinner"
+                android:dropDownVerticalOffset="5dp"
+                android:layout_below="@id/label_stock" />
+
+            <TextView
+                android:id="@+id/label_amount"
+                style="@style/GoodsItemLabel"
+                android:layout_below="@+id/text_name"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_toRightOf="@+id/label_stock"
+                android:layout_marginLeft="@dimen/amount_image_right_space"
+                android:text="@string/label_amount_image" />
+
+            <ImageView
+                android:id="@+id/img_amount"
+                android:layout_width="@dimen/fragment_amount_image_size"
+                android:layout_height="@dimen/fragment_amount_image_size"
+                android:layout_below="@+id/label_amount"
+                android:layout_toRightOf="@+id/label_stock"
+                android:layout_marginLeft="@dimen/amount_image_right_space"
+                app:amountImageCanChange="@{goods.amount}" />
+
+            <ImageView
+                android:id="@+id/ic_amount_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_amount"
+                android:layout_toRightOf="@+id/img_amount"
+                android:clickable="true"
+                android:src="@drawable/ic_add_circle_outline" />
+
+            <ImageView
+                android:id="@+id/ic_amount_reduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ic_amount_increase"
+                android:layout_toRightOf="@+id/img_amount"
+                android:clickable="true"
+                android:src="@drawable/ic_remove_circle_outline" />
+
+            <TextView
+                android:id="@+id/amount_empty_attention"
+                style="@style/TextAttention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/img_amount"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:visibility="visible"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/update_button"
+                style="@style/GMButton"
+                android:background="@drawable/exec_button"
+                android:text="@string/button_update" />
+
+            <Button
+                android:id="@+id/replenishment_button"
+                style="@style/GMButton"
+                android:background="@drawable/support_button"
+                android:layout_marginLeft="@dimen/button_space"
+                android:text="@string/button_replenishment"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</layout>

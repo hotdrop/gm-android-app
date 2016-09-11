@@ -7,6 +7,7 @@ import jp.hotdrop.gmapp.fragment.CategoryRegisterFragment;
 import jp.hotdrop.gmapp.fragment.CategoryUpdateFragment;
 import jp.hotdrop.gmapp.fragment.CheckCategoryFragment;
 import jp.hotdrop.gmapp.fragment.CheckGoodsFragment;
+import jp.hotdrop.gmapp.fragment.CheckGoodsUpdateFragment;
 import jp.hotdrop.gmapp.fragment.GoodsFragment;
 import jp.hotdrop.gmapp.fragment.GoodsRegisterFragment;
 import jp.hotdrop.gmapp.fragment.GoodsTabFragment;
@@ -33,4 +34,6 @@ public interface FragmentComponent {
     void inject(CheckCategoryFragment fragment);
 
     void inject(CheckGoodsFragment fragment);
+
+    void inject(CheckGoodsUpdateFragment fragment);
 }

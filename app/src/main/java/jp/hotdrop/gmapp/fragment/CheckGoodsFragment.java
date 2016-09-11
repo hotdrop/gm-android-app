@@ -17,6 +17,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import jp.hotdrop.gmapp.R;
+import jp.hotdrop.gmapp.activity.ActivityNavigator;
 import jp.hotdrop.gmapp.dao.GoodsDao;
 import jp.hotdrop.gmapp.databinding.FragmentCheckGoodsListBinding;
 import jp.hotdrop.gmapp.databinding.ItemCheckGoodsBinding;
@@ -29,6 +30,8 @@ public class CheckGoodsFragment extends BaseFragment {
 
     @Inject
     protected GoodsDao dao;
+    @Inject
+    protected ActivityNavigator activityNavigator;
 
     private GoodsCategory goodsCategory;
     private CheckGoodsAdapter adapter;
@@ -84,6 +87,27 @@ public class CheckGoodsFragment extends BaseFragment {
         dao.commit();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        int refreshMode = data.getIntExtra(ARG_REFRESH_MODE, REFRESH_NONE);
+        Goods goods = Parcels.unwrap(data.getParcelableExtra(Goods.class.getSimpleName()));
+
+        if(requestCode == REQ_CODE_CHECK_GOODS_UPDATE && goods != null) {
+            switch (refreshMode) {
+                case REFRESH_ONE:
+                    adapter.refresh(goods);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     private void setResult() {
         Intent intent = new Intent();
         goodsCategory.setCheckedGoodsCount(checkCount);
@@ -102,6 +126,16 @@ public class CheckGoodsFragment extends BaseFragment {
 
         public BindingHolder<ItemCheckGoodsBinding> onCreateViewHolder(ViewGroup parent, int viewType) {
             return new BindingHolder<>(getContext(), parent, R.layout.item_check_goods);
+        }
+
+        private void refresh(Goods goods) {
+            for(int i = 0; i < adapter.getItemCount(); i++) {
+                Goods g = getItem(i);
+                if(g.equals(goods)) {
+                    g.change(goods);
+                    adapter.notifyItemChanged(i);
+                }
+            }
         }
 
         @Override
@@ -124,6 +158,9 @@ public class CheckGoodsFragment extends BaseFragment {
                 }
                 setResult();
             });
+
+            binding.cardView.setOnClickListener(v ->
+                    activityNavigator.showCheckGoodsUpdate(CheckGoodsFragment.this, goods, REQ_CODE_CHECK_GOODS_UPDATE));
         }
     }
 }
