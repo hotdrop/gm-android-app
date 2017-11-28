@@ -89,6 +89,9 @@ public class CheckCategoryFragment extends BaseFragment {
         confirmDialog.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
     }
 
+    /**
+     * 在庫チェックを実行する
+     */
     private void checkConfirm() {
         goodsDao.beginTran();
         goodsDao.confirmChecked();
@@ -98,9 +101,6 @@ public class CheckCategoryFragment extends BaseFragment {
         exit();
     }
 
-    /**
-     * フラグメントを抜ける
-     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

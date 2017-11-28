@@ -9,7 +9,7 @@ import java.util.Date;
 public class DateUtil {
 
     /**
-     * Unixエポック（long型）を日付形式に変換して取得します。
+     * Unixエポック（long型）を日付形式に変換して取得する。
      * @param argEpoch
      * @return
      */
@@ -18,7 +18,7 @@ public class DateUtil {
     }
 
     /**
-     * 日付形式のデータをUnixエポックに変換して取得します。
+     * 日付形式のデータをUnixエポックに変換して取得する。
      * @param argDate
      * @return
      */
@@ -27,7 +27,7 @@ public class DateUtil {
     }
 
     /**
-     * 日付型データを yyyy/MM/dd 形式の文字列表現で取得します。
+     * 日付型データを yyyy/MM/dd 形式の文字列表現で取得する。
      * @param argDate
      * @return
      */
@@ -41,8 +41,8 @@ public class DateUtil {
     }
 
     /**
-     * 引数の日付が現在日付から何日経過しているか日数を取得します。
-     * 日付が未設定（UNIXエポックの初期値）かまたは経過日数が１日未満の場合は空文字を取得します。
+     * 引数の日付が現在日付から何日経過しているか日数を取得する。
+     * 日付が未設定（UNIXエポックの初期値）かまたは経過日数が１日未満の場合は空文字を取得する。
      * @param argDate
      * @return
      */

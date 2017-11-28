@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * タブをスワイプで移動するためViewPagerの拡張クラスを作成
+ *
+ */
 public class RtlViewPager extends ViewPager {
 
     @NonNull

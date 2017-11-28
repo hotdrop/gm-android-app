@@ -161,9 +161,6 @@ public class GoodsUpdateFragment extends BaseFragment {
         exit();
     }
 
-    /**
-     * 更新ボタン押下
-     */
     private void onClickUpdate() {
 
         if(!canUpdate()) {
@@ -172,7 +169,7 @@ public class GoodsUpdateFragment extends BaseFragment {
 
         int refreshMode = REFRESH_ONE;
         if(changedCategory()) {
-            // spinnerはバインドできないため手動で値を設定する
+            // Spinnerはdatabindingではバインドできないため手動で値を設定する
             setCategoryToGoods();
             refreshMode = REFRESH_ALL;
         }
@@ -189,8 +186,8 @@ public class GoodsUpdateFragment extends BaseFragment {
     }
 
     /**
-     * 更新前の入力チェック
-     * @return
+     * 更新を実行しても良い状態かチェックする。
+     * @return 更新可能ならtrue、そうでなければfalse
      */
     private boolean canUpdate() {
 
@@ -225,9 +222,6 @@ public class GoodsUpdateFragment extends BaseFragment {
         goods.setStockNum(Integer.valueOf(binding.spinnerStock.getSelectedItem().toString()));
     }
 
-    /**
-     * 商品情報を削除する
-     */
     private void doDelete() {
 
         if(goodsDao.getCount() == 1) {
@@ -239,15 +233,15 @@ public class GoodsUpdateFragment extends BaseFragment {
         goodsDao.delete(goods.getId());
         goodsDao.commit();
 
-        // 削除の場合は全リフレッシュ
-        // 全リフレッシュ以外を試行錯誤したが、TabFragmentで持つリストとGoodsFragmentで持つリスト
-        // 等々の整合性を合わせるのが厳しかったので一旦リフレッシュとした。
+        // 削除の場合は全リフレッシュを指定する
+        // 全リフレッシュ以外に方法がないか試行錯誤したが、TabFragmentで持つリストとGoodsFragmentで持つリスト
+        // 等々の整合性を合わせるのが厳しかったので一旦全リフレッシュとした。
         setResult(REFRESH_ALL);
         exit();
     }
 
     /**
-     * 更新は修正した商品情報によって元のアクティビティのタブ更新指示を変更する
+     * 更新時は、修正した商品情報によって元のアクティビティのタブ更新指示を変更する
      */
     private void setResult(int refreshMode) {
         Intent intent = new Intent();
@@ -256,9 +250,6 @@ public class GoodsUpdateFragment extends BaseFragment {
         getActivity().setResult(Activity.RESULT_OK, intent);
     }
 
-    /**
-     * フラグメントを抜ける
-     */
     private void exit() {
         if(isResumed()) {
             getActivity().onBackPressed();

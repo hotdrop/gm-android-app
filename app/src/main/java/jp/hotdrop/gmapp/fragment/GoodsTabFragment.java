@@ -95,7 +95,7 @@ public class GoodsTabFragment extends BaseFragment {
                     onChangeGoodsListener.onChangeGoods(Collections.singletonList(goods));
                     break;
                 case REFRESH_ALL:
-                    // 全リフレッシュはTabFragmentではできないため上位のフラグメントに任せる。
+                    // 全リフレッシュはTabFragmentではできないため、Intentを設定して親に任せる。
                     getActivity().setIntent(data);
                     break;
                 case REFRESH_NONE:
@@ -110,7 +110,7 @@ public class GoodsTabFragment extends BaseFragment {
     }
 
     /**
-     * アダプター
+     * アダプタークラス
      */
     protected class GoodsAdapter extends ArrayRecyclerAdapter<Goods, BindingHolder<ItemGoodsBinding>> {
 

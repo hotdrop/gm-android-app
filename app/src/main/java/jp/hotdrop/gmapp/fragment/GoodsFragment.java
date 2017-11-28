@@ -11,9 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -112,18 +109,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
             compositeSubscription.add(loadData());
             getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
-        // TODO 検索は未実装
-        //menuInflater.inflate(R.menu.menu_goods_list, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // TODO 検索アイコン選択時の動作を書く
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

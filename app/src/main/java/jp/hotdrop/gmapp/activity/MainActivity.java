@@ -183,8 +183,9 @@ public class MainActivity extends BaseActivity
 
     /**
      * onBackPressedやreplaceFragmentはフラグメントの操作しか行わないため
-     * バックスタックに変更があった場合、ハンドリングしてその他ナビゲーションビューや
-     * ツールバーなどのコントロールを変更する。
+     * バックスタックに変更があった場合にハンドリングし、ナビゲーションビューの選択状態、
+     * ツールバーのタイトルや画面表示時にスクロールバーを一番上に戻す
+     * といった操作を行う。
      */
     @Override
     public void onBackStackChanged() {

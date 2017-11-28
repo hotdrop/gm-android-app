@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * データベースの初期生成時に呼ばれ、テーブル生成と初期データ作成を行います。
+     * データベースの初期生成時に呼ばれ、テーブル生成と初期データ作成を行う。
      * @param db DBオブジェクト
      */
     @Override
@@ -45,9 +45,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * DB_VERSIONを上げた場合に呼ばれます。
-     * 既存テーブルの再生成とデータ追加を行います。テーブルの再生成はテーブル構成変更時以外は
-     * やりたくないのでコメントアウトし必要な時に有効にします。
+     * 既存テーブルの再生成とデータ追加を行う。
+     * DB_VERSIONを上げた場合に呼ばれる。
      *
      * @param db DBオブジェクト
      * @param oldVersion 旧バージョン番号
@@ -62,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * 指定のsqlファイルを読み込み、指定の区切り文字で分割したSQL文をリスト形式で取得します。
+     * 指定のsqlファイルを読み込み、指定の区切り文字で分割したSQL文をリスト形式で取得する。
      *
      * @param sqlFilePath 読み込むsqlのパス
      * @return SQL文のリスト

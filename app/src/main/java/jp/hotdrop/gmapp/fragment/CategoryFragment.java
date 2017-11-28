@@ -175,7 +175,8 @@ public class CategoryFragment extends BaseFragment {
     }
 
     /**
-     * アイテム選択時のCallbackクラス
+     * Viewのアイテム選択時のCallbackクラス
+     * 一覧でアイテムを上下に移動できるためこのクラスを実装している。
      */
     private class CategoryItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
@@ -187,7 +188,7 @@ public class CategoryFragment extends BaseFragment {
 
         /**
          * dragとswipeの動作指定
-         * dragの上下のみ許容する。
+         * dragの上下のみ許容
          */
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {

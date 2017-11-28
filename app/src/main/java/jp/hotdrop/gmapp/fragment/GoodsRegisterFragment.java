@@ -91,10 +91,6 @@ public class GoodsRegisterFragment extends BaseFragment {
         binding.spinnerStock.setSelection(adapter.getPosition(stockNumStr));
     }
 
-    /**
-     * 登録ボタン押下
-     * @param v
-     */
     private void onClickRegister(View v) {
 
         if(!canRegister()) {
@@ -112,8 +108,8 @@ public class GoodsRegisterFragment extends BaseFragment {
     }
 
     /**
-     * 登録前の入力チェック
-     * @return
+     * 登録を実行しても良い状態かチェックする。
+     * @return 登録可能ならtrue、そうでなければfalse
      */
     private boolean canRegister() {
 

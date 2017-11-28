@@ -30,9 +30,13 @@ public class GoodsCategoryDao extends AbstractDao {
     private static final String SQL_GROUP_BY = " GROUP BY gc.id, g.category_id ";
     private static final String SQL_ORDER_BY = " ORDER BY view_order";
 
-    /** カテゴリーリストをスピナーで表示する際、いちいちselectするとコストがかかるのでフィールドに保持する */
+    /** カテゴリーをSpinnerでリスト表示する際、いちいちselectするとコストがかかるのでフィールドに保持する */
     private static ArrayList<GoodsCategory> list;
-    /** カテゴリー名とidのマップ情報。カテゴリーのスピナーが名称しか持てないのでこのMAPを使う */
+
+    /**
+     * カテゴリー名とカテゴリーidのマップ情報。
+     * カテゴリー名からidを取得するために使用。Spinnerが名称しか持てないのでlistとは別にMap保持で内部保持している。
+     **/
     private static HashMap<String, Integer> mapUsedSpinner;
 
     @Inject
@@ -41,9 +45,12 @@ public class GoodsCategoryDao extends AbstractDao {
     }
 
     /**
-     * 通常のカテゴリー取得メソッド
-     * カテゴリー一覧など表示するためのデータはこのメソッドを使用する。
-     * @return
+     * 登録されている全てのカテゴリーをリスト形式で取得する。
+     *
+     * カテゴリーは色々な画面で使用するため、フィールドのlistでキャッシュ保持している。
+     * このメソッドは「カテゴリー一覧画面」（CategoryFragment）で呼ばれるが、子画面で
+     * 更新された内容も反映したかったため無条件でキャッシュ保持しているカテゴリー情報を最新化することにした。
+     * @return 登録されている全カテゴリーのリスト
      */
     public List<GoodsCategory> selectAll() {
         saveCategoryList();
@@ -52,8 +59,7 @@ public class GoodsCategoryDao extends AbstractDao {
 
     /**
      * 商品が1つ以上登録されているカテゴリーを取得する。
-     *
-     * @return
+     * @return 商品が1つ以上登録されているカテゴリーのリスト
      */
     public List<GoodsCategory> selectExceptUnRegisteredGoods() {
 
@@ -72,8 +78,12 @@ public class GoodsCategoryDao extends AbstractDao {
     }
 
     /**
-     * スピナーに設定するリスト取得用のメソッド
-     * @return
+     * Spinnerに設定するカテゴリーのリスト取得用メソッド
+     * カテゴリーのSpinnerは色々な画面で使用しているため、フィールドで持っているlistから取得する。
+     * カテゴリーの更新はカテゴリー一覧画面を経由してしかできない使用のため、古い情報を持ってくることはないはず。
+     * 作りはとても良くない。。
+     *
+     * @return 登録されている全カテゴリーのリスト
      */
     public List<GoodsCategory> selectForSpinner() {
         if(list == null) {
@@ -140,9 +150,10 @@ public class GoodsCategoryDao extends AbstractDao {
     }
 
     /**
-     * 商品情報の登録または更新画面にて、スピナーで選択したカテゴリー名のIDを取得するために使用。
-     * @param name
-     * @return
+     * カテゴリー名に対応したカテゴリーIDを取得する。
+     * 主にSpinnerで選択したカテゴリーをIDに変換するために使用。
+     * @param name カテゴリー名
+     * @return カテゴリーID
      */
     public int getCategoryId(String name) {
         if(mapUsedSpinner == null) {
@@ -181,8 +192,8 @@ public class GoodsCategoryDao extends AbstractDao {
 
     /**
      * update/insert/deleteの各処理を行った後、フィールドのlistとmapを更新する必要がある。
-     * しかし、都度フィールドを更新するコストが無駄なことと、そもそもlistとmapはカテゴリーが
-     * 更新できない商品画面でのみ使用する。
+     * しかし、都度フィールドを更新するのはコストが無駄かつDRYに反している。（保持している時点で反してはいるが・）
+     * そもそもlistとmapはカテゴリーが更新できない商品画面でのみ使用する。
      * 従って、それぞれのフィールドを使う時に再度オブジェクト化することとし、カテゴリーを更新した場合は
      * このメソッドでフィールドを初期化する。
      */

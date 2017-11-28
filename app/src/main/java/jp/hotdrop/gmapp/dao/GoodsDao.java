@@ -146,6 +146,9 @@ public class GoodsDao extends AbstractDao {
         execUpdate(sql, bind);
     }
 
+    /**
+     * 在庫チェックが完了していない全ての商品に対し、在庫チェックを行う。
+     */
     public void confirmChecked() {
         final String sql = "UPDATE t_goods SET checked = 0, checked_confirm_date = ?, update_date = ? " +
                 " WHERE checked = 1";
@@ -179,8 +182,8 @@ public class GoodsDao extends AbstractDao {
 
     /**
      * カーソルから各値を取得し商品情報を生成する。
-     * @param cursor
-     * @return
+     * @param cursor カーソル
+     * @return 生成した商品情報
      */
     private Goods createGoods(Cursor cursor) {
         Goods goods = new Goods();

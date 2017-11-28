@@ -10,6 +10,7 @@ import jp.hotdrop.gmapp.fragment.GoodsFragment;
 
 /**
  * ナビゲーションメニューの各ページを表す。
+ * enum芸でのPage実装は、droidkaigi2016のアプリを参考にさせていただいた。
  */
 public enum Page {
 
