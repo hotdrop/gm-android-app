@@ -68,30 +68,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
         return binding.getRoot();
     }
 
-    /**
-     * データベースから商品情報をすべて取得して画面表示のためのリストを生成する。
-     * @return
-     */
-    protected Subscription loadData() {
-        showLoadingView();
-        Observable<List<Goods>> cachedGoodsList = dao.selectAll();
-        return cachedGoodsList.flatMap(goodsList -> Observable.just(goodsList))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    this::onLoadDataSuccess,
-                    this::onLoadDataFailure
-                );
-    }
-
-    private void onLoadDataSuccess(List<Goods> goodsList) {
-        groupByCategoryGoods(goodsList);
-    }
-
-    private void onLoadDataFailure(Throwable throwable) {
-        Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -114,57 +90,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
             compositeSubscription.add(loadData());
             getActivity().getIntent().removeExtra(ARG_REFRESH_MODE);
         }
-    }
-
-    protected void groupByCategoryGoods(List<Goods> goodsList) {
-        // KEYの格納順にタブを表示したいのでLinkedHashMapを使う
-        Map<String, List<Goods>> goodsByCategory = new LinkedHashMap<>();
-        for(Goods goods : goodsList) {
-            String key = goods.getCategoryName();
-            if(goodsByCategory.containsKey(key)) {
-                goodsByCategory.get(key).add(goods);
-            } else {
-                List<Goods> list = new ArrayList<>();
-                list.add(goods);
-                goodsByCategory.put(key, list);
-            }
-        }
-
-        adapter = new GoodsPagerAdapter(getFragmentManager());
-
-        for(Map.Entry<String, List<Goods>> e : goodsByCategory.entrySet()) {
-            addFragment(e.getKey(), e.getValue());
-        }
-
-        binding.viewPager.setAdapter(adapter);
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
-        binding.fabAddButton.setOnClickListener(v -> activityNavigator.showGoodsRegister(GoodsFragment.this, tabName, REQ_CODE_REGISTER));
-        
-        if(isRefresh) {
-            // もともと選択していたタブを選択状態にする
-            binding.viewPager.setCurrentItem(adapter.getPagePosition(tabName));
-            isRefresh = false;
-        }
-
-        hideLoadingView();
-    }
-
-    protected void showLoadingView() {
-        binding.progressBarContainer.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideLoadingView() {
-        binding.progressBarContainer.setVisibility(View.GONE);
-    }
-
-    private void addFragment(String title, List<Goods> goodsList) {
-        GoodsTabFragment fragment = createTabFragment(goodsList);
-        adapter.add(title, fragment);
-    }
-
-    private GoodsTabFragment createTabFragment(List<Goods> goodsList) {
-        return GoodsTabFragment.newInstance(goodsList);
     }
 
     /**
@@ -205,6 +130,83 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
     public void onTop() {
         compositeSubscription.add(loadData());
     }
+
+    /**
+     * データベースから商品情報をすべて取得して画面表示のためのリストを生成する。
+     * @return
+     */
+    protected Subscription loadData() {
+        showLoadingView();
+        Observable<List<Goods>> cachedGoodsList = dao.selectAll();
+        return cachedGoodsList.flatMap(goodsList -> Observable.just(goodsList))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    this::onLoadDataSuccess,
+                    this::onLoadDataFailure
+                );
+    }
+
+    private void onLoadDataSuccess(List<Goods> goodsList) {
+        groupByCategoryGoods(goodsList);
+    }
+
+    private void onLoadDataFailure(Throwable throwable) {
+        Snackbar.make(binding.containerMain, "ロードに失敗しました。", Snackbar.LENGTH_LONG).show();
+    }
+
+    protected void groupByCategoryGoods(List<Goods> goodsList) {
+        // KEYの格納順にタブを表示したいのでLinkedHashMapを使う
+        Map<String, List<Goods>> goodsByCategory = new LinkedHashMap<>();
+        for(Goods goods : goodsList) {
+            String key = goods.getCategoryName();
+            if(goodsByCategory.containsKey(key)) {
+                goodsByCategory.get(key).add(goods);
+            } else {
+                List<Goods> list = new ArrayList<>();
+                list.add(goods);
+                goodsByCategory.put(key, list);
+            }
+        }
+
+        adapter = new GoodsPagerAdapter(getFragmentManager());
+
+        for(Map.Entry<String, List<Goods>> e : goodsByCategory.entrySet()) {
+            addFragment(e.getKey(), e.getValue());
+        }
+
+        binding.viewPager.setAdapter(adapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.tabLayout.setOnTabSelectedListener(new CustomViewPagerOnTabSelectedListener(binding.viewPager));
+        binding.fabAddButton.setOnClickListener(v -> activityNavigator.showGoodsRegister(GoodsFragment.this, tabName, REQ_CODE_REGISTER));
+
+        if(isRefresh) {
+            // もともと選択していたタブを選択状態にする
+            binding.viewPager.setCurrentItem(adapter.getPagePosition(tabName));
+            isRefresh = false;
+        }
+
+        hideLoadingView();
+    }
+
+    protected void showLoadingView() {
+        binding.progressBarContainer.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideLoadingView() {
+        binding.progressBarContainer.setVisibility(View.GONE);
+    }
+
+    private void addFragment(String title, List<Goods> goodsList) {
+        GoodsTabFragment fragment = createTabFragment(goodsList);
+        adapter.add(title, fragment);
+    }
+
+    private GoodsTabFragment createTabFragment(List<Goods> goodsList) {
+        return GoodsTabFragment.newInstance(goodsList);
+    }
+
+
 
     /**
      * 商品リスト変更リスナーのインタフェース

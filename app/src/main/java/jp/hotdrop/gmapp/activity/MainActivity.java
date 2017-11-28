@@ -46,11 +46,26 @@ public class MainActivity extends BaseActivity
 
         getComponent().inject(this);
 
-        subscription.add(brokerProvider.get().observe().subscribe(page -> {
-            toggleToolbarElevation(page.shouldToggleToolbar());
-            changePage(page.getTitleResId(), page.createFragment());
-            binding.navView.setCheckedItem(page.getMenuId());
-        }));
+        /*
+         * 補足
+         * このsubscriptionではナビゲーションメニューの各ページを取得。
+         * 1. CompositeSubscription: 複数のsubscriptionをまとめてunSubscribeするためのクラス
+         * 2. observe(): ここで返している値は
+         *    private final Subject<Page, Page> sj = new SerializedSubject<>(PublishSubject.create());
+         *    このsjがobserver()の戻り値となっている。
+         *    subject: subscriberとObservableの機能を併せ持ったもの。
+         *             subscriberのようにonNext onError onCompleteを始めObserverのようにsubscribeを持つ
+         *             onNextで最後の1つしか返ってこないような場合はこれを使うと便利らしい。
+         */
+        subscription.add( //フィールドのCompositeSubscriptionクラスにaddする。unSubscribeするためフィールドにもつ
+                brokerProvider.get() // フィールドに定義したMainContentStateBrokerProviderクラス（自作）が持つstaticな自作クラスを返す
+                    .observe() // staticな自作クラスでObservable<Page>を返す。これはPage専用のObserve
+                    .subscribe(page -> { // subscribeを登録する。登録するのはページで
+                            toggleToolbarElevation(page.shouldToggleToolbar());
+                            changePage(page.getTitleResId(), page.createFragment());
+                            binding.navView.setCheckedItem(page.getMenuId());
+                    })
+        );
 
         initView();
 
@@ -68,7 +83,7 @@ public class MainActivity extends BaseActivity
     /**
      * 現在の表示画面IDを保持する。
      * 長時間放置などでシステムに殺された場合にこれで復旧する。
-     * 復旧しているのはonRestoreInstanceStateではなくonCreateの中
+     * 復旧しているのはonCreateの中
      * @param outState
      */
     @Override
@@ -98,9 +113,10 @@ public class MainActivity extends BaseActivity
     }
 
     /**
-     * フラグメントの置換。生成ではなくリプレイスでフラグメントを実現している。
+     * フラグメントの置換
+     * 生成ではなくリプレイスでフラグメントを実現している。
      * リプレイスしたらcommitする前にバックスタックに追加する。
-     * ここでは無条件に追加しているため、メイン画面を作りまくった場合、戻るを大量に押さないとアプリが終了できない問題がある
+     * ここでは無条件に追加しているため、メイン画面を生成した分だけ[戻る]ボタンを押さないとアプリが終了できない・・
      * @param fragment
      */
     private void replaceFragment(Fragment fragment) {
@@ -110,7 +126,6 @@ public class MainActivity extends BaseActivity
         ft.addToBackStack(null);
         ft.commit();
     }
-
 
     @Override
     protected void onStart() {
