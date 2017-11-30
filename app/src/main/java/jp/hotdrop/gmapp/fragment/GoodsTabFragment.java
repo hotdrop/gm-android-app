@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import org.parceler.Parcels;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -36,8 +35,6 @@ public class GoodsTabFragment extends BaseFragment {
     private FragmentGoodsTabBinding binding;
     private List<Goods> goodsList;
 
-    private GoodsFragment.OnChangeGoodsListener onChangeGoodsListener = goodsList -> {/* no operation */};
-
     public static GoodsTabFragment newInstance(List<Goods> goodsList) {
         GoodsTabFragment fragment = new GoodsTabFragment();
         Bundle args = new Bundle();
@@ -56,9 +53,6 @@ public class GoodsTabFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         getComponent().inject(this);
-        if (context instanceof GoodsFragment.OnChangeGoodsListener) {
-            onChangeGoodsListener = (GoodsFragment.OnChangeGoodsListener)context;
-        }
     }
 
     @Override
@@ -92,7 +86,6 @@ public class GoodsTabFragment extends BaseFragment {
             switch(refreshMode) {
                 case REFRESH_ONE:
                     adapter.refresh(goods);
-                    onChangeGoodsListener.onChangeGoods(Collections.singletonList(goods));
                     break;
                 case REFRESH_ALL:
                     // 全リフレッシュはTabFragmentではできないため、Intentを設定して親に任せる。

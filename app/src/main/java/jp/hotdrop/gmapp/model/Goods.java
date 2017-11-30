@@ -140,10 +140,6 @@ public class Goods {
         this.updateDate = goods.getUpdateDate();
     }
 
-    public boolean isAmountEmpty() {
-        return amount == AMOUNT_EMPTY ? true : false;
-    }
-
     @Override
     public boolean equals(Object o) {
         return o instanceof Goods && ((Goods) o).getId().equals(this.id);

@@ -45,8 +45,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
     private boolean isRefresh = false;
     private String tabName = "";
 
-    private OnChangeGoodsListener onChangeGoodsListener = goods -> {/* no operation */};
-
     public static GoodsFragment newInstance() {
         GoodsFragment fragment = new GoodsFragment();
         return fragment;
@@ -69,9 +67,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
     public void onAttach(Context context) {
         super.onAttach(context);
         getComponent().inject(this);
-        if (context instanceof OnChangeGoodsListener) {
-            onChangeGoodsListener = (OnChangeGoodsListener) context;
-        }
     }
 
     /**
@@ -189,15 +184,6 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
 
     private GoodsTabFragment createTabFragment(List<Goods> goodsList) {
         return GoodsTabFragment.newInstance(goodsList);
-    }
-
-
-
-    /**
-     * 商品リスト変更リスナーのインタフェース
-     */
-    public interface OnChangeGoodsListener {
-        void onChangeGoods(List<Goods> goodsList);
     }
 
     /**

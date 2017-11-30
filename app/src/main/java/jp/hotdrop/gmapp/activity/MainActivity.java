@@ -82,8 +82,7 @@ public class MainActivity extends BaseActivity
 
     /**
      * 現在の表示画面IDを保持する。
-     * 長時間放置などでシステムに殺された場合にこれで復旧する。
-     * 復旧しているのはonCreateの中
+     * 長時間放置などでActivityが破棄された後、アプリに戻ってきた場合に前回表示していたページを表示する。
      * @param outState
      */
     @Override
@@ -91,6 +90,7 @@ public class MainActivity extends BaseActivity
         super.onSaveInstanceState(outState);
         Fragment current = getSupportFragmentManager().findFragmentById(R.id.content_view);
         if (current != null) {
+            // これだとPageで定義したメニューの各トップ画面しか復元できない
             outState.putInt(EXTRA_MENU, Page.forName(current).getMenuId());
         }
     }
@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity
      * フラグメントの置換
      * 生成ではなくリプレイスでフラグメントを実現している。
      * リプレイスしたらcommitする前にバックスタックに追加する。
-     * ここでは無条件に追加しているため、メイン画面を生成した分だけ[戻る]ボタンを押さないとアプリが終了できない・・
+     * Pageクラスで常にnewInstanceしているため、画面を生成した分だけ[戻る]ボタンを押さないとアプリが終了できない問題がある。
      * @param fragment
      */
     private void replaceFragment(Fragment fragment) {

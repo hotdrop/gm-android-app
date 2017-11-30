@@ -81,9 +81,5 @@ public enum Page {
         return titleResId;
     }
 
-    public String getPageName() {
-        return pageName;
-    }
-
     public abstract Fragment createFragment();
 }
