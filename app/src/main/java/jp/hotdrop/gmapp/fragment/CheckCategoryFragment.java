@@ -85,7 +85,7 @@ public class CheckCategoryFragment extends BaseFragment {
         confirmDialog = new AlertDialog.Builder(getContext());
         confirmDialog.setTitle("在庫の確定確認");
         confirmDialog.setMessage("商品の在庫チェックを確定します。よろしいですか？");
-        confirmDialog.setPositiveButton("OK", (dialog, which) -> { checkConfirm(); });
+        confirmDialog.setPositiveButton("OK", (dialog, which) -> checkConfirm());
         confirmDialog.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
     }
 

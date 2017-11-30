@@ -46,8 +46,7 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
     private String tabName = "";
 
     public static GoodsFragment newInstance() {
-        GoodsFragment fragment = new GoodsFragment();
-        return fragment;
+        return new GoodsFragment();
     }
 
     @Override
@@ -118,7 +117,7 @@ public class GoodsFragment extends BaseFragment implements StackedPageListener  
     protected Subscription loadData() {
         showLoadingView();
         Observable<List<Goods>> cachedGoodsList = dao.selectAll();
-        return cachedGoodsList.flatMap(goodsList -> Observable.just(goodsList))
+        return cachedGoodsList.flatMap(Observable::just)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

@@ -69,7 +69,7 @@ public class CheckGoodsUpdateFragment extends BaseFragment {
     }
 
     private void setStockNumSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, Goods.STOCK_NUM_LIST);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, Goods.STOCK_NUM_LIST);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerStock.setAdapter(adapter);

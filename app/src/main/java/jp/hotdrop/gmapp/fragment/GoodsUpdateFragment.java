@@ -110,7 +110,7 @@ public class GoodsUpdateFragment extends BaseFragment {
         deleteConfirmDlg = new AlertDialog.Builder(getContext());
         deleteConfirmDlg.setTitle("削除の確認");
         deleteConfirmDlg.setMessage("この商品を削除しますが本当によろしいですか？");
-        deleteConfirmDlg.setPositiveButton("OK", (dialog, which) -> { doDelete(); });
+        deleteConfirmDlg.setPositiveButton("OK", (dialog, which) -> doDelete());
         deleteConfirmDlg.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
     }
 

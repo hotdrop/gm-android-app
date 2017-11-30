@@ -10,11 +10,10 @@ import jp.hotdrop.gmapp.util.DateUtil;
 
 public abstract class AbstractDao {
 
-    private DatabaseHelper dbHelper;
     protected SQLiteDatabase db;
 
     public AbstractDao(Context context) {
-        dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
         db = dbHelper.getWritableDatabase();
     }
 

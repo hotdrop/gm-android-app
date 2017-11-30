@@ -20,8 +20,7 @@ public class CategoryRegisterActivity extends BaseActivity {
     }
 
     public static Intent createIntent(@NonNull Context context) {
-        Intent intent = new Intent(context, CategoryRegisterActivity.class);
-        return intent;
+        return new Intent(context, CategoryRegisterActivity.class);
     }
 
     @Override

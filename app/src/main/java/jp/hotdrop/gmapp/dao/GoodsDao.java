@@ -169,11 +169,8 @@ public class GoodsDao extends AbstractDao {
         String[] bind = {name};
 
         Cursor cursor = execSelect(sql, bind);
-        if (cursor.moveToNext()) {
-            return true;
-        }
+        return cursor.moveToNext();
 
-        return false;
     }
 
     public long getCount() {

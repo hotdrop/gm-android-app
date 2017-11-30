@@ -63,7 +63,7 @@ public class GoodsCategory {
     }
 
     public boolean hasGoods() {
-        return (goodsCount >= 1) ? true : false;
+        return (goodsCount >= 1);
     }
 
     @Override

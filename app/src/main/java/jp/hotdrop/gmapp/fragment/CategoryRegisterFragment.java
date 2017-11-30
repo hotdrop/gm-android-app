@@ -26,8 +26,7 @@ public class CategoryRegisterFragment extends BaseFragment {
     private FragmentCategoryRegisterBinding binding;
 
     public static CategoryRegisterFragment create() {
-        CategoryRegisterFragment fragment = new CategoryRegisterFragment();
-        return fragment;
+        return new CategoryRegisterFragment();
     }
 
     @Override
@@ -41,7 +40,7 @@ public class CategoryRegisterFragment extends BaseFragment {
         binding = FragmentCategoryRegisterBinding.inflate(inflater, container, false);
         setHasOptionsMenu(false);
 
-        binding.registerButton.setOnClickListener(v -> onClickRegister(v));
+        binding.registerButton.setOnClickListener(this::onClickRegister);
         binding.setCategory(goodsCategory);
         return binding.getRoot();
     }

@@ -55,7 +55,7 @@ public class GoodsRegisterFragment extends BaseFragment {
         setCategorySpinner();
         setStockNumSpinner();
 
-        binding.registerButton.setOnClickListener((View v) -> onClickRegister(v));
+        binding.registerButton.setOnClickListener(this::onClickRegister);
         binding.setGoods(goods);
 
         return binding.getRoot();

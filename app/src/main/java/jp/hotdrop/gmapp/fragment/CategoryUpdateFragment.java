@@ -52,7 +52,7 @@ public class CategoryUpdateFragment extends BaseFragment {
 
         setDeleteConfirmDlg();
 
-        binding.updateButton.setOnClickListener(v -> onClickUpdate(v));
+        binding.updateButton.setOnClickListener(this::onClickUpdate);
         binding.deleteButton.setOnClickListener(v -> deleteConfirmDlg.show());
         originCategoryName = goodsCategory.getName();
 
@@ -72,7 +72,7 @@ public class CategoryUpdateFragment extends BaseFragment {
         deleteConfirmDlg = new AlertDialog.Builder(getContext());
         deleteConfirmDlg.setTitle("削除の確認");
         deleteConfirmDlg.setMessage("このカテゴリーを削除しますが本当によろしいですか？");
-        deleteConfirmDlg.setPositiveButton("OK", (dialog, which) -> { doDelete(); });
+        deleteConfirmDlg.setPositiveButton("OK", (dialog, which) -> doDelete());
         deleteConfirmDlg.setNegativeButton("キャンセル", (dialog, which) -> {/* キャンセル時は何もしない */});
     }
 

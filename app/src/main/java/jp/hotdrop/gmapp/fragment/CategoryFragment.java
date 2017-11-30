@@ -211,7 +211,6 @@ public class CategoryFragment extends BaseFragment {
          */
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            return;
         }
 
         @Override
