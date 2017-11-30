@@ -83,7 +83,7 @@ public class GoodsRegisterFragment extends BaseFragment {
      * 在庫数のドロップダウンリストを作成する
      */
     private void setStockNumSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, goods.STOCK_NUM_LIST);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, Goods.STOCK_NUM_LIST);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerStock.setAdapter(adapter);

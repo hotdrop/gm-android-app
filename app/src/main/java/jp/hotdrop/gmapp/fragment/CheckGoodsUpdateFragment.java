@@ -55,7 +55,7 @@ public class CheckGoodsUpdateFragment extends BaseFragment {
 
         binding.updateButton.setOnClickListener(v -> onClickUpdate());
 
-        if(goods.getAmount() == goods.AMOUNT_EMPTY) {
+        if(goods.getAmount() == Goods.AMOUNT_EMPTY) {
             setViewAmountEmpty();
         }
 
@@ -69,7 +69,7 @@ public class CheckGoodsUpdateFragment extends BaseFragment {
     }
 
     private void setStockNumSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, goods.STOCK_NUM_LIST);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_dropdown_item_1line, Goods.STOCK_NUM_LIST);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         binding.spinnerStock.setAdapter(adapter);
@@ -92,19 +92,19 @@ public class CheckGoodsUpdateFragment extends BaseFragment {
     }
 
     private void onClickAmountIncrease() {
-        if(goods.getAmount() == goods.AMOUNT_FULL) {
+        if(goods.getAmount() == Goods.AMOUNT_FULL) {
             return;
         }
-        int amount = goods.getAmount() + goods.AMOUNT_INCREASE_DECREASE_UNIT;
+        int amount = goods.getAmount() + Goods.AMOUNT_INCREASE_DECREASE_UNIT;
         goods.setAmount(amount);
         DataBindingAttributeUtil.changeAmountImage(binding.imgAmount, amount);
     }
 
     private void onClickAmountDecrease() {
-        if(goods.getAmount() == goods.AMOUNT_EMPTY) {
+        if(goods.getAmount() == Goods.AMOUNT_EMPTY) {
             return;
         }
-        int amount = goods.getAmount() - goods.AMOUNT_INCREASE_DECREASE_UNIT;
+        int amount = goods.getAmount() - Goods.AMOUNT_INCREASE_DECREASE_UNIT;
         goods.setAmount(amount);
         DataBindingAttributeUtil.changeAmountImage(binding.imgAmount, amount);
     }
@@ -123,7 +123,7 @@ public class CheckGoodsUpdateFragment extends BaseFragment {
 
         // このボタンの表示条件は「stockNumが１以上」であるため−1しても問題ない
         goods.setStockNum(goods.getStockNum() - 1);
-        goods.setAmount(goods.AMOUNT_FULL);
+        goods.setAmount(Goods.AMOUNT_FULL);
 
         goodsDao.beginTran();
         goodsDao.replenishmentAmount(goods);
